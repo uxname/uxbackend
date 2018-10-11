@@ -7,9 +7,13 @@ async function getProducts(root, args, ctx) {
 }
 
 async function createProduct(root, {data}, ctx) {
-    await rolesHelper.assertWrongRole(['ADMIN'], ctx.token);
+    if (!ctx.user) {
+        throw new ApolloError('Permission denied, please log in', 403)
+    }
 
-    return productController.createProduct(data);
+    await rolesHelper.assertWrongRole(['ADMIN'], ctx.user.id);
+
+    return await productController.createProduct(data);
 }
 
 module.exports = {

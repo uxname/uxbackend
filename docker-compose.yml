@@ -25,7 +25,6 @@ services:
         - tm_marketplace
         volumes:
         - './config:/app/config'
-        - './kyc_ds:/app/kyc_ds'
     postgres:
         image: 'postgres:latest'
         environment:

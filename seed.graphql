@@ -1,0 +1,28 @@
+mutation {
+  createUser(
+    data: { username: "admin", roles: { set: [REGISTERED_USER, ADMIN] } }
+  ) {
+    id
+  }
+
+  createProduct(
+    data: {
+      title: "Test product title"
+      description: "Test product description"
+      categories: {
+        create: {
+          title: "Test category title"
+          description: "Test category description"
+          subcategories: {
+            create: {
+              title: "Test subcategory title"
+              description: "Test subcategory description"
+            }
+          }
+        }
+      }
+    }
+  ) {
+    id
+  }
+}
