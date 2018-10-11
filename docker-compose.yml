@@ -11,6 +11,8 @@ services:
         ports:
         - '4001:4000'
         environment:
+            PRISMA_ENDPOINT: $PRISMA_ENDPOINT
+            IS_DOCKER: "true"
             POSTGRES_USER: $POSTGRES_USER
             POSTGRES_PASSWORD: $POSTGRES_PASSWORD
             POSTGRES_DB: $POSTGRES_DB

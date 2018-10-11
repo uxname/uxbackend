@@ -1,7 +1,7 @@
 const log = require('./helper/logger').getLogger('app');
 const pkg = require('./package');
 
-log.info(`Starting ${pkg.name} - ${pkg.version} server...`);
+log.info(`Starting "${pkg.name} - ${pkg.version}" server...`);
 
 const config = require('./config/config');
 
