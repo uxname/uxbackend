@@ -1,0 +1,81 @@
+version: '2'
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: always
+        links:
+        - 'postgres:database'
+        - 'prisma:prisma'
+        ports:
+        - '4001:4000'
+        environment:
+            POSTGRES_USER: $POSTGRES_USER
+            POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+            POSTGRES_DB: $POSTGRES_DB
+            POSTGRES_PORT: $POSTGRES_PORT
+            POSTGRES_HOST: database
+        depends_on:
+        - postgres
+        - pgadmin
+        networks:
+        - tm_marketplace
+        volumes:
+        - './config:/app/config'
+        - './kyc_ds:/app/kyc_ds'
+    postgres:
+        image: 'postgres:latest'
+        environment:
+            POSTGRES_USER: $POSTGRES_USER
+            POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+            POSTGRES_DB: $POSTGRES_DB
+            PGDATA: /data/postgres
+        restart: always
+        #        ports:
+        #            - "5432:5432"
+        volumes:
+        - './data/postgres:/data/postgres'
+        networks:
+        - tm_marketplace
+    pgadmin:
+        image: fenglc/pgadmin4
+        links:
+        - 'postgres:postgres'
+        depends_on:
+        - postgres
+        volumes:
+        - './data/pgadmin:/root/.pgadmin'
+        restart: always
+        ports:
+        - '5052:5050'
+        networks:
+        - tm_marketplace
+        environment:
+            DEFAULT_USER: $PGADMIN_DEFAULT_USER
+            DEFAULT_PASSWORD: $PGADMIN_DEFAULT_PASSWORD
+
+    prisma:
+        image: prismagraphql/prisma:1.18
+        restart: always
+        networks:
+        - tm_marketplace
+        ports:
+        - "4488:4466"
+        depends_on:
+        - postgres
+        links:
+        - 'postgres:postgres'
+        environment:
+            PRISMA_CONFIG: |
+                port: 4466
+                databases:
+                    default:
+                        connector: postgres
+                        host: postgres
+                        port: $POSTGRES_PORT
+                        user: $POSTGRES_USER
+                        password: $POSTGRES_PASSWORD
+networks:
+    tm_marketplace:
+        driver: bridge

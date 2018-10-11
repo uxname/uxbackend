@@ -1,0 +1,36 @@
+{
+  "name": "ux_backend",
+  "version": "0.0.1",
+  "main": "app.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app.js",
+    "prisma-deploy": "prisma deploy -e .env.dev && prisma generate -e .env.dev",
+    "dev-clear": "sudo rm -rf ./data && docker-compose -f docker_compose_postgres_dev.yml rm -f",
+    "dev-start": "docker-compose -f docker_compose_postgres_dev.yml up -d",
+    "dev-stop": "docker-compose -f docker_compose_postgres_dev.yml stop",
+    "prod-build": "docker-compose build",
+    "prod-up": "docker-compose up -d",
+    "prod-start": "docker-compose start"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.0.4",
+    "argon2": "^0.19.3",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.1.0",
+    "ethereumjs-util": "^5.2.0",
+    "express": "^4.16.3",
+    "express-rate-limit": "^3.2.0",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "log4js": "^3.0.5",
+    "nodemailer": "^4.6.8",
+    "pg": "^7.4.3",
+    "prisma-client-lib": "^1.18.0",
+    "pug": "^2.0.3",
+    "validator": "^10.7.1"
+  },
+  "devDependencies": {
+    "prisma": "^1.18.0"
+  }
+}

@@ -1,0 +1,25 @@
+type Product {
+    id: ID! @unique
+    title: String!
+    description: String
+    categories: [Category!]! @relation(name: "ProductInCategoryRelation")
+}
+
+type Category {
+    id: ID! @unique
+    title: String!
+    description: String
+    subcategories: [Category!]!
+    products: [Product!]! @relation(name: "ProductInCategoryRelation")
+}
+
+type User {
+    id: ID! @unique
+    username: String!
+    roles: [UserRole!]!
+}
+
+enum UserRole {
+    REGISTERED_USER
+    ADMIN
+}

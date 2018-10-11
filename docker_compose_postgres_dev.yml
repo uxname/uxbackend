@@ -1,0 +1,53 @@
+version: '2'
+services:
+    postgres:
+        image: 'postgres:latest'
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            PGDATA: /data/postgres
+        ports:
+            - "5445:5432"
+        volumes:
+            - './data/postgres:/data/postgres'
+        networks:
+            - tm_marketplace
+    pgadmin:
+        image: fenglc/pgadmin4
+        links:
+            - 'postgres:postgres'
+        depends_on:
+            - postgres
+        volumes:
+            - './data/pgadmin:/root/.pgadmin'
+        ports:
+            - '5775:5050'
+        networks:
+            - tm_marketplace
+        environment:
+            DEFAULT_USER: admin@admin.com
+            DEFAULT_PASSWORD: admin
+    prisma:
+        image: prismagraphql/prisma:1.18
+        restart: on-failure
+        networks:
+        - tm_marketplace
+        ports:
+        - "4466:4466"
+        depends_on:
+        - postgres
+        links:
+        - 'postgres:postgres'
+        environment:
+            PRISMA_CONFIG: |
+                port: 4466
+                databases:
+                    default:
+                        connector: postgres
+                        host: postgres
+                        port: 5432
+                        user: postgres
+                        password: postgres
+networks:
+    tm_marketplace:
+        driver: bridge
