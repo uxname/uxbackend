@@ -11,7 +11,9 @@
     "dev-stop": "docker-compose -f docker_compose_postgres_dev.yml stop",
     "prod-build": "docker-compose build",
     "prod-up": "docker-compose up -d",
-    "prod-start": "docker-compose start"
+    "prod-start": "docker-compose start",
+    "prod-clear": "sudo rm -rf ./data && docker-compose rm -f",
+    "prod-stop": "docker-compose stop"
   },
   "dependencies": {
     "apollo-server-express": "^2.0.4",
