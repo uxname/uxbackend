@@ -8,7 +8,7 @@ const config = require('./config/config');
 if (process.env.IS_DOCKER !== 'true') {
     process.env.PRISMA_ENDPOINT = 'http://localhost:4466'
 }
-log.trace('Prisma endpoint:', process.env.PRISMA_ENDPOINT);
+log.debug('Prisma endpoint:', process.env.PRISMA_ENDPOINT);
 
 const ApolloServer = require('apollo-server-express').ApolloServer;
 const express = require('express');
