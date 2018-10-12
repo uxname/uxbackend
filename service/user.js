@@ -19,8 +19,6 @@ async function signUp(email, password) {
         throw new ApolloError('Email and password required', 400);
     }
 
-    log.error('email', email, 'password', password);
-
     if (!validator.isEmail(email)) {
         throw new ApolloError('Wrong email format', 400);
     }
