@@ -212,6 +212,8 @@ input CategoryWhereUniqueInput {
   id: ID
 }
 
+scalar DateTime
+
 scalar Long
 
 type Mutation {
@@ -430,8 +432,11 @@ type Subscription {
 
 type User {
   id: ID!
-  username: String!
-  roles: [UserRole!]!
+  email: String!
+  role: UserRole!
+  password_hash: String!
+  password_salt: String!
+  last_login_date: DateTime
 }
 
 type UserConnection {
@@ -441,12 +446,11 @@ type UserConnection {
 }
 
 input UserCreateInput {
-  username: String!
-  roles: UserCreaterolesInput
-}
-
-input UserCreaterolesInput {
-  set: [UserRole!]
+  email: String!
+  role: UserRole!
+  password_hash: String!
+  password_salt: String!
+  last_login_date: DateTime
 }
 
 type UserEdge {
@@ -457,8 +461,16 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
-  username_ASC
-  username_DESC
+  email_ASC
+  email_DESC
+  role_ASC
+  role_DESC
+  password_hash_ASC
+  password_hash_DESC
+  password_salt_ASC
+  password_salt_DESC
+  last_login_date_ASC
+  last_login_date_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -467,12 +479,16 @@ enum UserOrderByInput {
 
 type UserPreviousValues {
   id: ID!
-  username: String!
-  roles: [UserRole!]!
+  email: String!
+  role: UserRole!
+  password_hash: String!
+  password_salt: String!
+  last_login_date: DateTime
 }
 
 enum UserRole {
-  REGISTERED_USER
+  USER
+  MODERATOR
   ADMIN
 }
 
@@ -495,12 +511,11 @@ input UserSubscriptionWhereInput {
 }
 
 input UserUpdateInput {
-  username: String
-  roles: UserUpdaterolesInput
-}
-
-input UserUpdaterolesInput {
-  set: [UserRole!]
+  email: String
+  role: UserRole
+  password_hash: String
+  password_salt: String
+  last_login_date: DateTime
 }
 
 input UserWhereInput {
@@ -518,20 +533,60 @@ input UserWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  username: String
-  username_not: String
-  username_in: [String!]
-  username_not_in: [String!]
-  username_lt: String
-  username_lte: String
-  username_gt: String
-  username_gte: String
-  username_contains: String
-  username_not_contains: String
-  username_starts_with: String
-  username_not_starts_with: String
-  username_ends_with: String
-  username_not_ends_with: String
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  role: UserRole
+  role_not: UserRole
+  role_in: [UserRole!]
+  role_not_in: [UserRole!]
+  password_hash: String
+  password_hash_not: String
+  password_hash_in: [String!]
+  password_hash_not_in: [String!]
+  password_hash_lt: String
+  password_hash_lte: String
+  password_hash_gt: String
+  password_hash_gte: String
+  password_hash_contains: String
+  password_hash_not_contains: String
+  password_hash_starts_with: String
+  password_hash_not_starts_with: String
+  password_hash_ends_with: String
+  password_hash_not_ends_with: String
+  password_salt: String
+  password_salt_not: String
+  password_salt_in: [String!]
+  password_salt_not_in: [String!]
+  password_salt_lt: String
+  password_salt_lte: String
+  password_salt_gt: String
+  password_salt_gte: String
+  password_salt_contains: String
+  password_salt_not_contains: String
+  password_salt_starts_with: String
+  password_salt_not_starts_with: String
+  password_salt_ends_with: String
+  password_salt_not_ends_with: String
+  last_login_date: DateTime
+  last_login_date_not: DateTime
+  last_login_date_in: [DateTime!]
+  last_login_date_not_in: [DateTime!]
+  last_login_date_lt: DateTime
+  last_login_date_lte: DateTime
+  last_login_date_gt: DateTime
+  last_login_date_gte: DateTime
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
@@ -539,7 +594,8 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
-  username: String
+  email: String
+  password_salt: String
 }
 `
       }

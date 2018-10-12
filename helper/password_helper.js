@@ -1,5 +1,4 @@
 const log = require('../helper/logger').getLogger('crypto_helper');
-const config = require('../config/config');
 const argon2 = require('argon2');
 const crypto = require('crypto');
 

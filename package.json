@@ -1,15 +1,15 @@
 {
   "name": "ux_backend",
   "version": "0.0.1",
-  "main": "app.js",
+  "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "start": "node app.js",
+    "start": "node server.js",
     "prisma-deploy": "prisma deploy -e .env && prisma generate -e .env",
     "dev-clear": "sudo rm -rf ./data && docker-compose -f docker_compose_dev.yml rm -f",
     "dev-start": "docker-compose -f docker_compose_dev.yml up -d",
     "dev-stop": "docker-compose -f docker_compose_dev.yml stop",
-    "db-seed": "prisma seed -r -e .env",
+    "prisma-seed": "prisma seed -r -e .env",
     "prod-build": "docker-compose build",
     "prod-up": "docker-compose up -d",
     "prod-start": "docker-compose start",
@@ -23,7 +23,8 @@
     "express-rate-limit": "^3.2.0",
     "jsonwebtoken": "^8.3.0",
     "log4js": "^3.0.5",
-    "prisma-client-lib": "^1.18.0"
+    "prisma-client-lib": "^1.18.0",
+    "validator": "^10.8.0"
   },
   "devDependencies": {
     "prisma": "^1.18.0"

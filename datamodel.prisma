@@ -15,11 +15,18 @@ type Category {
 
 type User {
     id: ID! @unique
-    username: String! @unique
-    roles: [UserRole!]!
+    email: String! @unique
+    role: UserRole!
+
+    password_hash: String!
+    password_salt: String! @unique
+
+    last_login_date: DateTime
+
 }
 
 enum UserRole {
-    REGISTERED_USER
+    USER
+    MODERATOR
     ADMIN
 }

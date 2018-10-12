@@ -1,9 +1,9 @@
 const {ApolloError} = require('apollo-server-express');
 const rolesHelper = require('../helper/roles_helper');
-const productController = require('../controller/product');
+const productService = require('../service/product');
 
 async function getProducts(root, args, ctx) {
-    return productController.getProducts(args);
+    return productService.getProducts(args);
 }
 
 async function createProduct(root, {data}, ctx) {
@@ -13,7 +13,7 @@ async function createProduct(root, {data}, ctx) {
 
     await rolesHelper.assertWrongRole(['ADMIN'], ctx.user.id);
 
-    return await productController.createProduct(data);
+    return await productService.createProduct(data);
 }
 
 module.exports = {

@@ -1,6 +1,11 @@
 mutation {
   createUser(
-    data: { username: "admin", roles: { set: [REGISTERED_USER, ADMIN] } }
+    data: {
+      password_hash: "CC $argon2i$v=19$m=4096,t=3,p=1$DjdKgfEAOtW0JHV4vi3tIw$HZL3bFnzau/SflsVQS62PSDl0eoWtez48SK+MQ2cL7U" #passowrd = 123
+      password_salt: "123"
+      email: "admin@admin.com"
+      role: ADMIN
+    }
   ) {
     id
   }
