@@ -60,6 +60,9 @@ const config = {
         windowMs: 1000 * 60 * 15,
         max: 100000,
         message: '{ "error": "Too many requests" }'
+    },
+    mail_service: {
+        
     }
 };
 

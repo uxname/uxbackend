@@ -21,6 +21,8 @@ const token = require('./helper/token');
 
 const app = require('./app');
 
+const pg = require('./helper/db');
+
 expressServer.use(function (err, req, res, next) {
     if (err) {
         log.warn('Middleware error:', err);
@@ -61,6 +63,7 @@ const apolloServer = new ApolloServer({
         return {
             user: user,
             token: req.headers.token,
+            pgPool: pg.pgPool,
             middlewareError: req.middlewareError
         }
     },
@@ -75,7 +78,9 @@ const apolloServer = new ApolloServer({
 apolloServer.applyMiddleware({app: expressServer, path: config.graphql.endpoint_path});
 
 (async () => {
+    await pg.connect();
+
     expressServer.listen({port: config.port}, () => {
-        log.info(`🚀  Server ready at ${config.port} port`);
+        log.info(`🚀  Server "${pkg.name} - ${pkg.version}" ready at "${config.port}" port`);
     });
 })();
