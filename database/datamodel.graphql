@@ -16,7 +16,7 @@ type Category {
 type User {
     id: ID! @unique
     email: String! @unique
-    role: [UserRole!]!
+    roles: [UserRole!]!
 
     password_hash: String!
     password_salt: String! @unique
