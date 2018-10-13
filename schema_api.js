@@ -7,16 +7,22 @@ module.exports = {
 
             products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
         }
-        
+
         type Mutation {
-            sign_up(email: String!, password: String!): UserAuthResponse!
-            
+            sign_up(email: String!, password: String, activation_code: String, step: SignUpStep!): UserAuthResponse!
+
             createProduct(data: ProductCreateInput!): Product!
         }
 
         type UserAuthResponse {
             user: User!
             token: String!
+            status: String
+        }
+
+        enum SignUpStep {
+            GENERATE_ACTIVATION_CODE
+            CHECK_ACTIVATION_CODE
         }
 
 
@@ -252,7 +258,7 @@ module.exports = {
         scalar DateTime
 
         scalar Long
-        
+
         enum MutationType {
             CREATED
             UPDATED

@@ -22,7 +22,13 @@ type User {
     password_salt: String! @unique
 
     last_login_date: DateTime
+}
 
+type ActivationCode {
+    id: ID! @unique
+    email: String! @unique
+    valid_until: DateTime!
+    code: String!
 }
 
 enum UserRole {

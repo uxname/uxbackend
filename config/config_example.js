@@ -37,8 +37,8 @@ const config = {
         host: process.env.POSTGRES_HOST || "localhost",
         user: process.env.POSTGRES_USER || "postgres",
         password: process.env.POSTGRES_PASSWORD || "postgres",
-        database: process.env.POSTGRES_DB || "uxbackend",
-        port: process.env.POSTGRES_PORT || 5432,
+        database: process.env.POSTGRES_DB || "prisma",
+        port: process.env.POSTGRES_PORT || 5445,
         pool_settings: {
             max: 50,
             min: 4,
@@ -62,7 +62,13 @@ const config = {
         message: '{ "error": "Too many requests" }'
     },
     mail_service: {
-        
+        secure: false,// true for 465, false for other ports
+        subject: "Your activation code",
+        expiresInMs: 1000 * 60 * 60, //1h
+        smtp_host: 'smtp.ethereal.email',
+        smtp_port: 587,
+        username: 'zbrgubnaqs2hp2oy@ethereal.email',
+        password: 'JxQugxEYhWfeeGc7jM'
     }
 };
 

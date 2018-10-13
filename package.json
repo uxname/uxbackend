@@ -25,6 +25,7 @@
     "log4js": "^3.0.5",
     "nodemailer": "^4.6.8",
     "prisma-client-lib": "^1.18.0",
+    "pug": "^2.0.3",
     "validator": "^10.8.0"
   },
   "devDependencies": {

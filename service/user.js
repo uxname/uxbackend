@@ -4,6 +4,7 @@ const password_helper = require('../helper/password_helper');
 const token = require('../helper/token');
 const {ApolloError} = require('apollo-server-express');
 const validator = require('validator');
+const emailHelper = require('../helper/email_helper');
 
 function safeUser(userObject) {
     if (!userObject) return null;
@@ -14,32 +15,55 @@ function safeUser(userObject) {
     return newUser;
 }
 
-async function signUp(email, password) {
-    if (!email || !password) {
-        throw new ApolloError('Email and password required', 400);
+async function signUp(email, password, step, activation_code) {
+    if (!email) {
+        throw new ApolloError('Email is required', 400);
     }
 
     if (!validator.isEmail(email)) {
         throw new ApolloError('Wrong email format', 400);
     }
 
-    const salt = password_helper.getSecureRandomString();
+    if (step === 'GENERATE_ACTIVATION_CODE') {
+        const result = await emailHelper.generateActivationCode(email);
 
-    const password_hash = await password_helper.hashPassword(password, salt);
+        await emailHelper.sendActivationEmail(email, result.code);
+        return {
+            status: 'ok'
+        };
+    } else if (step === 'CHECK_ACTIVATION_CODE') {
+        const result = await emailHelper.verityActivationCode(email, activation_code);
+        if (!result) {
+            throw new ApolloError('Wrong activation code', 403);
+        } else {
+            if (!password) {
+                throw new ApolloError('Password is required', 400);
+            }
 
-    const newUser = await prisma.createUser({
-        email: email,
-        password_hash: password_hash,
-        password_salt: salt,
-        role: "USER"
-    });
+            const salt = password_helper.getSecureRandomString();
 
-    log.trace('User created: ', newUser.email);
+            const password_hash = await password_helper.hashPassword(password, salt);
 
-    return {
-        token: token.createToken(safeUser(newUser)),
-        user: newUser
-    };
+            try {
+                const newUser = await prisma.createUser({
+                    email: email,
+                    password_hash: password_hash,
+                    password_salt: salt,
+                    role: "USER"
+                });
+            } catch (e) {
+                log.trace(e);
+                throw new ApolloError(`User '${email}' already exists`, 409)
+            }
+
+            log.trace('User created: ', newUser.email);
+
+            return {
+                token: token.createToken(safeUser(newUser)),
+                user: newUser
+            };
+        }
+    }
 }
 
 async function signIn(email, password) {

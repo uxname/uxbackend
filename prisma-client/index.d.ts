@@ -11,6 +11,7 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
+  activationCode: (where?: ActivationCodeWhereInput) => Promise<boolean>;
   category: (where?: CategoryWhereInput) => Promise<boolean>;
   product: (where?: ProductWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
@@ -36,6 +37,29 @@ export interface Prisma {
    * Queries
    */
 
+  activationCode: (where: ActivationCodeWhereUniqueInput) => ActivationCode;
+  activationCodes: (
+    args?: {
+      where?: ActivationCodeWhereInput;
+      orderBy?: ActivationCodeOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<ActivationCodeNode>;
+  activationCodesConnection: (
+    args?: {
+      where?: ActivationCodeWhereInput;
+      orderBy?: ActivationCodeOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => ActivationCodeConnection;
   category: (where: CategoryWhereUniqueInput) => Category;
   categories: (
     args?: {
@@ -111,6 +135,27 @@ export interface Prisma {
    * Mutations
    */
 
+  createActivationCode: (data: ActivationCodeCreateInput) => ActivationCode;
+  updateActivationCode: (
+    args: {
+      data: ActivationCodeUpdateInput;
+      where: ActivationCodeWhereUniqueInput;
+    }
+  ) => ActivationCode;
+  updateManyActivationCodes: (
+    args: { data: ActivationCodeUpdateInput; where?: ActivationCodeWhereInput }
+  ) => BatchPayload;
+  upsertActivationCode: (
+    args: {
+      where: ActivationCodeWhereUniqueInput;
+      create: ActivationCodeCreateInput;
+      update: ActivationCodeUpdateInput;
+    }
+  ) => ActivationCode;
+  deleteActivationCode: (
+    where: ActivationCodeWhereUniqueInput
+  ) => ActivationCode;
+  deleteManyActivationCodes: (where?: ActivationCodeWhereInput) => BatchPayload;
   createCategory: (data: CategoryCreateInput) => Category;
   updateCategory: (
     args: { data: CategoryUpdateInput; where: CategoryWhereUniqueInput }
@@ -168,6 +213,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  activationCode: (
+    where?: ActivationCodeSubscriptionWhereInput
+  ) => ActivationCodeSubscriptionPayloadSubscription;
   category: (
     where?: CategorySubscriptionWhereInput
   ) => CategorySubscriptionPayloadSubscription;
@@ -194,6 +242,22 @@ export type CategoryOrderByInput =
   | "title_DESC"
   | "description_ASC"
   | "description_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+
+export type ActivationCodeOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "valid_until_ASC"
+  | "valid_until_DESC"
+  | "code_ASC"
+  | "code_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -231,16 +295,57 @@ export type UserOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+export type ProductWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
 
-export interface ProductCreateWithoutCategoriesInput {
-  title: String;
+export interface CategoryUpdateInput {
+  title?: String;
+  description?: String;
+  subcategories?: CategoryUpdateManyInput;
+  products?: ProductUpdateManyWithoutCategoriesInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  email?: String;
+  password_salt?: String;
+}>;
+
+export type ActivationCodeWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  email?: String;
+}>;
+
+export interface ProductUpdateWithoutCategoriesDataInput {
+  title?: String;
   description?: String;
 }
 
-export type CategoryWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
+export interface UserUpdateInput {
+  email?: String;
+  role?: UserRole;
+  password_hash?: String;
+  password_salt?: String;
+  last_login_date?: DateTimeInput;
+}
+
+export interface CategorySubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: CategoryWhereInput;
+  AND?: CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput;
+  OR?: CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput;
+  NOT?: CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput;
+}
+
+export interface CategoryUpsertWithWhereUniqueWithoutProductsInput {
+  where: CategoryWhereUniqueInput;
+  update: CategoryUpdateWithoutProductsDataInput;
+  create: CategoryCreateWithoutProductsInput;
+}
 
 export interface UserWhereInput {
   id?: ID_Input;
@@ -316,28 +421,9 @@ export interface UserWhereInput {
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
-export interface ProductUpdateWithWhereUniqueWithoutCategoriesInput {
-  where: ProductWhereUniqueInput;
-  data: ProductUpdateWithoutCategoriesDataInput;
-}
-
-export interface CategoryCreateManyWithoutProductsInput {
-  create?:
-    | CategoryCreateWithoutProductsInput[]
-    | CategoryCreateWithoutProductsInput;
-  connect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
-}
-
-export interface CategoryUpdateWithWhereUniqueNestedInput {
-  where: CategoryWhereUniqueInput;
-  data: CategoryUpdateDataInput;
-}
-
-export interface ProductCreateInput {
-  title: String;
-  description?: String;
-  categories?: CategoryCreateManyWithoutProductsInput;
-}
+export type CategoryWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
 
 export interface ProductSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
@@ -348,203 +434,6 @@ export interface ProductSubscriptionWhereInput {
   AND?: ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput;
   OR?: ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput;
   NOT?: ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput;
-}
-
-export interface CategoryUpsertWithWhereUniqueNestedInput {
-  where: CategoryWhereUniqueInput;
-  update: CategoryUpdateDataInput;
-  create: CategoryCreateInput;
-}
-
-export interface UserUpdateInput {
-  email?: String;
-  role?: UserRole;
-  password_hash?: String;
-  password_salt?: String;
-  last_login_date?: DateTimeInput;
-}
-
-export interface ProductUpsertWithWhereUniqueWithoutCategoriesInput {
-  where: ProductWhereUniqueInput;
-  update: ProductUpdateWithoutCategoriesDataInput;
-  create: ProductCreateWithoutCategoriesInput;
-}
-
-export interface CategoryUpsertWithWhereUniqueWithoutProductsInput {
-  where: CategoryWhereUniqueInput;
-  update: CategoryUpdateWithoutProductsDataInput;
-  create: CategoryCreateWithoutProductsInput;
-}
-
-export interface CategoryUpdateWithoutProductsDataInput {
-  title?: String;
-  description?: String;
-  subcategories?: CategoryUpdateManyInput;
-}
-
-export interface CategoryUpdateManyWithoutProductsInput {
-  create?:
-    | CategoryCreateWithoutProductsInput[]
-    | CategoryCreateWithoutProductsInput;
-  delete?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
-  connect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
-  disconnect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
-  update?:
-    | CategoryUpdateWithWhereUniqueWithoutProductsInput[]
-    | CategoryUpdateWithWhereUniqueWithoutProductsInput;
-  upsert?:
-    | CategoryUpsertWithWhereUniqueWithoutProductsInput[]
-    | CategoryUpsertWithWhereUniqueWithoutProductsInput;
-}
-
-export interface CategoryCreateInput {
-  title: String;
-  description?: String;
-  subcategories?: CategoryCreateManyInput;
-  products?: ProductCreateManyWithoutCategoriesInput;
-}
-
-export interface ProductUpdateInput {
-  title?: String;
-  description?: String;
-  categories?: CategoryUpdateManyWithoutProductsInput;
-}
-
-export interface CategoryCreateManyInput {
-  create?: CategoryCreateInput[] | CategoryCreateInput;
-  connect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
-}
-
-export interface CategoryCreateWithoutProductsInput {
-  title: String;
-  description?: String;
-  subcategories?: CategoryCreateManyInput;
-}
-
-export interface ProductCreateManyWithoutCategoriesInput {
-  create?:
-    | ProductCreateWithoutCategoriesInput[]
-    | ProductCreateWithoutCategoriesInput;
-  connect?: ProductWhereUniqueInput[] | ProductWhereUniqueInput;
-}
-
-export interface CategorySubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: CategoryWhereInput;
-  AND?: CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput;
-  OR?: CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput;
-  NOT?: CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput;
-}
-
-export interface ProductUpdateWithoutCategoriesDataInput {
-  title?: String;
-  description?: String;
-}
-
-export type ProductWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface CategoryUpdateInput {
-  title?: String;
-  description?: String;
-  subcategories?: CategoryUpdateManyInput;
-  products?: ProductUpdateManyWithoutCategoriesInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  email?: String;
-  password_salt?: String;
-}>;
-
-export interface ProductUpdateManyWithoutCategoriesInput {
-  create?:
-    | ProductCreateWithoutCategoriesInput[]
-    | ProductCreateWithoutCategoriesInput;
-  delete?: ProductWhereUniqueInput[] | ProductWhereUniqueInput;
-  connect?: ProductWhereUniqueInput[] | ProductWhereUniqueInput;
-  disconnect?: ProductWhereUniqueInput[] | ProductWhereUniqueInput;
-  update?:
-    | ProductUpdateWithWhereUniqueWithoutCategoriesInput[]
-    | ProductUpdateWithWhereUniqueWithoutCategoriesInput;
-  upsert?:
-    | ProductUpsertWithWhereUniqueWithoutCategoriesInput[]
-    | ProductUpsertWithWhereUniqueWithoutCategoriesInput;
-}
-
-export interface CategoryUpdateDataInput {
-  title?: String;
-  description?: String;
-  subcategories?: CategoryUpdateManyInput;
-  products?: ProductUpdateManyWithoutCategoriesInput;
-}
-
-export interface ProductWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
-  description?: String;
-  description_not?: String;
-  description_in?: String[] | String;
-  description_not_in?: String[] | String;
-  description_lt?: String;
-  description_lte?: String;
-  description_gt?: String;
-  description_gte?: String;
-  description_contains?: String;
-  description_not_contains?: String;
-  description_starts_with?: String;
-  description_not_starts_with?: String;
-  description_ends_with?: String;
-  description_not_ends_with?: String;
-  categories_every?: CategoryWhereInput;
-  categories_some?: CategoryWhereInput;
-  categories_none?: CategoryWhereInput;
-  AND?: ProductWhereInput[] | ProductWhereInput;
-  OR?: ProductWhereInput[] | ProductWhereInput;
-  NOT?: ProductWhereInput[] | ProductWhereInput;
-}
-
-export interface CategoryUpdateManyInput {
-  create?: CategoryCreateInput[] | CategoryCreateInput;
-  update?:
-    | CategoryUpdateWithWhereUniqueNestedInput[]
-    | CategoryUpdateWithWhereUniqueNestedInput;
-  upsert?:
-    | CategoryUpsertWithWhereUniqueNestedInput[]
-    | CategoryUpsertWithWhereUniqueNestedInput;
-  delete?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
-  connect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
-  disconnect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
 }
 
 export interface CategoryWhereInput {
@@ -601,17 +490,69 @@ export interface CategoryWhereInput {
   NOT?: CategoryWhereInput[] | CategoryWhereInput;
 }
 
-export interface CategoryUpdateWithWhereUniqueWithoutProductsInput {
-  where: CategoryWhereUniqueInput;
-  data: CategoryUpdateWithoutProductsDataInput;
+export interface ProductUpdateWithWhereUniqueWithoutCategoriesInput {
+  where: ProductWhereUniqueInput;
+  data: ProductUpdateWithoutCategoriesDataInput;
 }
 
-export interface UserCreateInput {
-  email: String;
-  role: UserRole;
-  password_hash: String;
-  password_salt: String;
-  last_login_date?: DateTimeInput;
+export interface ActivationCodeSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: ActivationCodeWhereInput;
+  AND?:
+    | ActivationCodeSubscriptionWhereInput[]
+    | ActivationCodeSubscriptionWhereInput;
+  OR?:
+    | ActivationCodeSubscriptionWhereInput[]
+    | ActivationCodeSubscriptionWhereInput;
+  NOT?:
+    | ActivationCodeSubscriptionWhereInput[]
+    | ActivationCodeSubscriptionWhereInput;
+}
+
+export interface ProductUpdateManyWithoutCategoriesInput {
+  create?:
+    | ProductCreateWithoutCategoriesInput[]
+    | ProductCreateWithoutCategoriesInput;
+  delete?: ProductWhereUniqueInput[] | ProductWhereUniqueInput;
+  connect?: ProductWhereUniqueInput[] | ProductWhereUniqueInput;
+  disconnect?: ProductWhereUniqueInput[] | ProductWhereUniqueInput;
+  update?:
+    | ProductUpdateWithWhereUniqueWithoutCategoriesInput[]
+    | ProductUpdateWithWhereUniqueWithoutCategoriesInput;
+  upsert?:
+    | ProductUpsertWithWhereUniqueWithoutCategoriesInput[]
+    | ProductUpsertWithWhereUniqueWithoutCategoriesInput;
+}
+
+export interface CategoryUpdateManyWithoutProductsInput {
+  create?:
+    | CategoryCreateWithoutProductsInput[]
+    | CategoryCreateWithoutProductsInput;
+  delete?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
+  connect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
+  disconnect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
+  update?:
+    | CategoryUpdateWithWhereUniqueWithoutProductsInput[]
+    | CategoryUpdateWithWhereUniqueWithoutProductsInput;
+  upsert?:
+    | CategoryUpsertWithWhereUniqueWithoutProductsInput[]
+    | CategoryUpsertWithWhereUniqueWithoutProductsInput;
+}
+
+export interface CategoryUpdateDataInput {
+  title?: String;
+  description?: String;
+  subcategories?: CategoryUpdateManyInput;
+  products?: ProductUpdateManyWithoutCategoriesInput;
+}
+
+export interface CategoryCreateWithoutProductsInput {
+  title: String;
+  description?: String;
+  subcategories?: CategoryCreateManyInput;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -625,8 +566,251 @@ export interface UserSubscriptionWhereInput {
   NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
 }
 
+export interface CategoryUpsertWithWhereUniqueNestedInput {
+  where: CategoryWhereUniqueInput;
+  update: CategoryUpdateDataInput;
+  create: CategoryCreateInput;
+}
+
+export interface ActivationCodeCreateInput {
+  email: String;
+  valid_until: DateTimeInput;
+  code: String;
+}
+
+export interface UserCreateInput {
+  email: String;
+  role: UserRole;
+  password_hash: String;
+  password_salt: String;
+  last_login_date?: DateTimeInput;
+}
+
+export interface ActivationCodeUpdateInput {
+  email?: String;
+  valid_until?: DateTimeInput;
+  code?: String;
+}
+
+export interface CategoryUpdateWithWhereUniqueWithoutProductsInput {
+  where: CategoryWhereUniqueInput;
+  data: CategoryUpdateWithoutProductsDataInput;
+}
+
+export interface CategoryUpdateWithWhereUniqueNestedInput {
+  where: CategoryWhereUniqueInput;
+  data: CategoryUpdateDataInput;
+}
+
+export interface ActivationCodeWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  valid_until?: DateTimeInput;
+  valid_until_not?: DateTimeInput;
+  valid_until_in?: DateTimeInput[] | DateTimeInput;
+  valid_until_not_in?: DateTimeInput[] | DateTimeInput;
+  valid_until_lt?: DateTimeInput;
+  valid_until_lte?: DateTimeInput;
+  valid_until_gt?: DateTimeInput;
+  valid_until_gte?: DateTimeInput;
+  code?: String;
+  code_not?: String;
+  code_in?: String[] | String;
+  code_not_in?: String[] | String;
+  code_lt?: String;
+  code_lte?: String;
+  code_gt?: String;
+  code_gte?: String;
+  code_contains?: String;
+  code_not_contains?: String;
+  code_starts_with?: String;
+  code_not_starts_with?: String;
+  code_ends_with?: String;
+  code_not_ends_with?: String;
+  AND?: ActivationCodeWhereInput[] | ActivationCodeWhereInput;
+  OR?: ActivationCodeWhereInput[] | ActivationCodeWhereInput;
+  NOT?: ActivationCodeWhereInput[] | ActivationCodeWhereInput;
+}
+
+export interface CategoryUpdateManyInput {
+  create?: CategoryCreateInput[] | CategoryCreateInput;
+  update?:
+    | CategoryUpdateWithWhereUniqueNestedInput[]
+    | CategoryUpdateWithWhereUniqueNestedInput;
+  upsert?:
+    | CategoryUpsertWithWhereUniqueNestedInput[]
+    | CategoryUpsertWithWhereUniqueNestedInput;
+  delete?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
+  connect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
+  disconnect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
+}
+
+export interface CategoryCreateManyWithoutProductsInput {
+  create?:
+    | CategoryCreateWithoutProductsInput[]
+    | CategoryCreateWithoutProductsInput;
+  connect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
+}
+
+export interface ProductCreateWithoutCategoriesInput {
+  title: String;
+  description?: String;
+}
+
+export interface ProductCreateManyWithoutCategoriesInput {
+  create?:
+    | ProductCreateWithoutCategoriesInput[]
+    | ProductCreateWithoutCategoriesInput;
+  connect?: ProductWhereUniqueInput[] | ProductWhereUniqueInput;
+}
+
+export interface CategoryCreateManyInput {
+  create?: CategoryCreateInput[] | CategoryCreateInput;
+  connect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
+}
+
+export interface CategoryCreateInput {
+  title: String;
+  description?: String;
+  subcategories?: CategoryCreateManyInput;
+  products?: ProductCreateManyWithoutCategoriesInput;
+}
+
+export interface ProductCreateInput {
+  title: String;
+  description?: String;
+  categories?: CategoryCreateManyWithoutProductsInput;
+}
+
+export interface ProductUpdateInput {
+  title?: String;
+  description?: String;
+  categories?: CategoryUpdateManyWithoutProductsInput;
+}
+
+export interface ProductWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  categories_every?: CategoryWhereInput;
+  categories_some?: CategoryWhereInput;
+  categories_none?: CategoryWhereInput;
+  AND?: ProductWhereInput[] | ProductWhereInput;
+  OR?: ProductWhereInput[] | ProductWhereInput;
+  NOT?: ProductWhereInput[] | ProductWhereInput;
+}
+
+export interface CategoryUpdateWithoutProductsDataInput {
+  title?: String;
+  description?: String;
+  subcategories?: CategoryUpdateManyInput;
+}
+
+export interface ProductUpsertWithWhereUniqueWithoutCategoriesInput {
+  where: ProductWhereUniqueInput;
+  update: ProductUpdateWithoutCategoriesDataInput;
+  create: ProductCreateWithoutCategoriesInput;
+}
+
 export interface NodeNode {
   id: ID_Output;
+}
+
+export interface BatchPayloadNode {
+  count: Long;
+}
+
+export interface BatchPayload extends Promise<BatchPayloadNode>, Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayloadNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface ActivationCodeEdgeNode {
+  cursor: String;
+}
+
+export interface ActivationCodeEdge
+  extends Promise<ActivationCodeEdgeNode>,
+    Fragmentable {
+  node: <T = ActivationCode>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ActivationCodeEdgeSubscription
+  extends Promise<AsyncIterator<ActivationCodeEdgeNode>>,
+    Fragmentable {
+  node: <T = ActivationCodeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserPreviousValuesNode {
@@ -660,72 +844,68 @@ export interface UserPreviousValuesSubscription
   last_login_date: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface ProductEdgeNode {
-  cursor: String;
-}
-
-export interface ProductEdge extends Promise<ProductEdgeNode>, Fragmentable {
-  node: <T = Product>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ProductEdgeSubscription
-  extends Promise<AsyncIterator<ProductEdgeNode>>,
-    Fragmentable {
-  node: <T = ProductSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CategoryConnectionNode {}
-
-export interface CategoryConnection
-  extends Promise<CategoryConnectionNode>,
-    Fragmentable {
-  pageInfo: <T = PageInfo>() => T;
-  edges: <T = FragmentableArray<CategoryEdgeNode>>() => T;
-  aggregate: <T = AggregateCategory>() => T;
-}
-
-export interface CategoryConnectionSubscription
-  extends Promise<AsyncIterator<CategoryConnectionNode>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CategoryEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCategorySubscription>() => T;
-}
-
-export interface ProductConnectionNode {}
-
-export interface ProductConnection
-  extends Promise<ProductConnectionNode>,
-    Fragmentable {
-  pageInfo: <T = PageInfo>() => T;
-  edges: <T = FragmentableArray<ProductEdgeNode>>() => T;
-  aggregate: <T = AggregateProduct>() => T;
-}
-
-export interface ProductConnectionSubscription
-  extends Promise<AsyncIterator<ProductConnectionNode>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ProductEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateProductSubscription>() => T;
-}
-
-export interface AggregateCategoryNode {
+export interface AggregateActivationCodeNode {
   count: Int;
 }
 
-export interface AggregateCategory
-  extends Promise<AggregateCategoryNode>,
+export interface AggregateActivationCode
+  extends Promise<AggregateActivationCodeNode>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateCategorySubscription
-  extends Promise<AsyncIterator<AggregateCategoryNode>>,
+export interface AggregateActivationCodeSubscription
+  extends Promise<AsyncIterator<AggregateActivationCodeNode>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ActivationCodeNode {
+  id: ID_Output;
+  email: String;
+  valid_until: DateTimeOutput;
+  code: String;
+}
+
+export interface ActivationCode
+  extends Promise<ActivationCodeNode>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  valid_until: () => Promise<DateTimeOutput>;
+  code: () => Promise<String>;
+}
+
+export interface ActivationCodeSubscription
+  extends Promise<AsyncIterator<ActivationCodeNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  valid_until: () => Promise<AsyncIterator<DateTimeOutput>>;
+  code: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserSubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface UserSubscriptionPayload
+  extends Promise<UserSubscriptionPayloadNode>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = User>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValues>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayloadNode>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
 export interface AggregateUserNode {
@@ -744,75 +924,122 @@ export interface AggregateUserSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface BatchPayloadNode {
-  count: Long;
-}
-
-export interface BatchPayload extends Promise<BatchPayloadNode>, Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayloadNode>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface CategoryEdgeNode {
+export interface UserEdgeNode {
   cursor: String;
 }
 
-export interface CategoryEdge extends Promise<CategoryEdgeNode>, Fragmentable {
-  node: <T = Category>() => T;
+export interface UserEdge extends Promise<UserEdgeNode>, Fragmentable {
+  node: <T = User>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface CategoryEdgeSubscription
-  extends Promise<AsyncIterator<CategoryEdgeNode>>,
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdgeNode>>,
     Fragmentable {
-  node: <T = CategorySubscription>() => T;
+  node: <T = UserSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface UserConnectionNode {}
+export interface UserNode {
+  id: ID_Output;
+  email: String;
+  role: UserRole;
+  password_hash: String;
+  password_salt: String;
+  last_login_date?: DateTimeOutput;
+}
 
-export interface UserConnection
-  extends Promise<UserConnectionNode>,
+export interface User extends Promise<UserNode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  role: () => Promise<UserRole>;
+  password_hash: () => Promise<String>;
+  password_salt: () => Promise<String>;
+  last_login_date: () => Promise<DateTimeOutput>;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<UserNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  role: () => Promise<AsyncIterator<UserRole>>;
+  password_hash: () => Promise<AsyncIterator<String>>;
+  password_salt: () => Promise<AsyncIterator<String>>;
+  last_login_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PageInfoNode {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfo extends Promise<PageInfoNode>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfoNode>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ProductEdgeNode {
+  cursor: String;
+}
+
+export interface ProductEdge extends Promise<ProductEdgeNode>, Fragmentable {
+  node: <T = Product>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ProductEdgeSubscription
+  extends Promise<AsyncIterator<ProductEdgeNode>>,
+    Fragmentable {
+  node: <T = ProductSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ActivationCodeConnectionNode {}
+
+export interface ActivationCodeConnection
+  extends Promise<ActivationCodeConnectionNode>,
     Fragmentable {
   pageInfo: <T = PageInfo>() => T;
-  edges: <T = FragmentableArray<UserEdgeNode>>() => T;
-  aggregate: <T = AggregateUser>() => T;
+  edges: <T = FragmentableArray<ActivationCodeEdgeNode>>() => T;
+  aggregate: <T = AggregateActivationCode>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnectionNode>>,
+export interface ActivationCodeConnectionSubscription
+  extends Promise<AsyncIterator<ActivationCodeConnectionNode>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ActivationCodeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateActivationCodeSubscription>() => T;
 }
 
-export interface ProductSubscriptionPayloadNode {
-  mutation: MutationType;
-  updatedFields?: String[];
+export interface AggregateCategoryNode {
+  count: Int;
 }
 
-export interface ProductSubscriptionPayload
-  extends Promise<ProductSubscriptionPayloadNode>,
+export interface AggregateCategory
+  extends Promise<AggregateCategoryNode>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = Product>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = ProductPreviousValues>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface ProductSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<ProductSubscriptionPayloadNode>>,
+export interface AggregateCategorySubscription
+  extends Promise<AsyncIterator<AggregateCategoryNode>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = ProductSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = ProductPreviousValuesSubscription>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface ProductPreviousValuesNode {
@@ -837,65 +1064,45 @@ export interface ProductPreviousValuesSubscription
   description: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateProductNode {
-  count: Int;
-}
+export interface CategoryConnectionNode {}
 
-export interface AggregateProduct
-  extends Promise<AggregateProductNode>,
+export interface CategoryConnection
+  extends Promise<CategoryConnectionNode>,
     Fragmentable {
-  count: () => Promise<Int>;
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = FragmentableArray<CategoryEdgeNode>>() => T;
+  aggregate: <T = AggregateCategory>() => T;
 }
 
-export interface AggregateProductSubscription
-  extends Promise<AsyncIterator<AggregateProductNode>>,
+export interface CategoryConnectionSubscription
+  extends Promise<AsyncIterator<CategoryConnectionNode>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CategoryEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCategorySubscription>() => T;
 }
 
-export interface CategoryPreviousValuesNode {
-  id: ID_Output;
-  title: String;
-  description?: String;
-}
-
-export interface CategoryPreviousValues
-  extends Promise<CategoryPreviousValuesNode>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-}
-
-export interface CategoryPreviousValuesSubscription
-  extends Promise<AsyncIterator<CategoryPreviousValuesNode>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  title: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CategorySubscriptionPayloadNode {
+export interface ActivationCodeSubscriptionPayloadNode {
   mutation: MutationType;
   updatedFields?: String[];
 }
 
-export interface CategorySubscriptionPayload
-  extends Promise<CategorySubscriptionPayloadNode>,
+export interface ActivationCodeSubscriptionPayload
+  extends Promise<ActivationCodeSubscriptionPayloadNode>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = Category>() => T;
+  node: <T = ActivationCode>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = CategoryPreviousValues>() => T;
+  previousValues: <T = ActivationCodePreviousValues>() => T;
 }
 
-export interface CategorySubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<CategorySubscriptionPayloadNode>>,
+export interface ActivationCodeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ActivationCodeSubscriptionPayloadNode>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = CategorySubscription>() => T;
+  node: <T = ActivationCodeSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = CategoryPreviousValuesSubscription>() => T;
+  previousValues: <T = ActivationCodePreviousValuesSubscription>() => T;
 }
 
 export interface CategoryNode {
@@ -962,72 +1169,149 @@ export interface CategorySubscription
   ) => T;
 }
 
-export interface PageInfoNode {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
+export interface AggregateProductNode {
+  count: Int;
 }
 
-export interface PageInfo extends Promise<PageInfoNode>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfoNode>>,
+export interface AggregateProduct
+  extends Promise<AggregateProductNode>,
     Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<Int>;
 }
 
-export interface UserEdgeNode {
-  cursor: String;
-}
-
-export interface UserEdge extends Promise<UserEdgeNode>, Fragmentable {
-  node: <T = User>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdgeNode>>,
+export interface AggregateProductSubscription
+  extends Promise<AsyncIterator<AggregateProductNode>>,
     Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface UserNode {
+export interface CategoryPreviousValuesNode {
+  id: ID_Output;
+  title: String;
+  description?: String;
+}
+
+export interface CategoryPreviousValues
+  extends Promise<CategoryPreviousValuesNode>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+}
+
+export interface CategoryPreviousValuesSubscription
+  extends Promise<AsyncIterator<CategoryPreviousValuesNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CategorySubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface CategorySubscriptionPayload
+  extends Promise<CategorySubscriptionPayloadNode>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = Category>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CategoryPreviousValues>() => T;
+}
+
+export interface CategorySubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CategorySubscriptionPayloadNode>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CategorySubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CategoryPreviousValuesSubscription>() => T;
+}
+
+export interface ProductSubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface ProductSubscriptionPayload
+  extends Promise<ProductSubscriptionPayloadNode>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = Product>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ProductPreviousValues>() => T;
+}
+
+export interface ProductSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ProductSubscriptionPayloadNode>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ProductSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ProductPreviousValuesSubscription>() => T;
+}
+
+export interface ActivationCodePreviousValuesNode {
   id: ID_Output;
   email: String;
-  role: UserRole;
-  password_hash: String;
-  password_salt: String;
-  last_login_date?: DateTimeOutput;
+  valid_until: DateTimeOutput;
+  code: String;
 }
 
-export interface User extends Promise<UserNode>, Fragmentable {
+export interface ActivationCodePreviousValues
+  extends Promise<ActivationCodePreviousValuesNode>,
+    Fragmentable {
   id: () => Promise<ID_Output>;
   email: () => Promise<String>;
-  role: () => Promise<UserRole>;
-  password_hash: () => Promise<String>;
-  password_salt: () => Promise<String>;
-  last_login_date: () => Promise<DateTimeOutput>;
+  valid_until: () => Promise<DateTimeOutput>;
+  code: () => Promise<String>;
 }
 
-export interface UserSubscription
-  extends Promise<AsyncIterator<UserNode>>,
+export interface ActivationCodePreviousValuesSubscription
+  extends Promise<AsyncIterator<ActivationCodePreviousValuesNode>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   email: () => Promise<AsyncIterator<String>>;
-  role: () => Promise<AsyncIterator<UserRole>>;
-  password_hash: () => Promise<AsyncIterator<String>>;
-  password_salt: () => Promise<AsyncIterator<String>>;
-  last_login_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  valid_until: () => Promise<AsyncIterator<DateTimeOutput>>;
+  code: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ProductConnectionNode {}
+
+export interface ProductConnection
+  extends Promise<ProductConnectionNode>,
+    Fragmentable {
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = FragmentableArray<ProductEdgeNode>>() => T;
+  aggregate: <T = AggregateProduct>() => T;
+}
+
+export interface ProductConnectionSubscription
+  extends Promise<AsyncIterator<ProductConnectionNode>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ProductEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateProductSubscription>() => T;
+}
+
+export interface UserConnectionNode {}
+
+export interface UserConnection
+  extends Promise<UserConnectionNode>,
+    Fragmentable {
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = FragmentableArray<UserEdgeNode>>() => T;
+  aggregate: <T = AggregateUser>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnectionNode>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
 export interface ProductNode {
@@ -1072,33 +1356,28 @@ export interface ProductSubscription
   ) => T;
 }
 
-export interface UserSubscriptionPayloadNode {
-  mutation: MutationType;
-  updatedFields?: String[];
+export interface CategoryEdgeNode {
+  cursor: String;
 }
 
-export interface UserSubscriptionPayload
-  extends Promise<UserSubscriptionPayloadNode>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = User>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValues>() => T;
+export interface CategoryEdge extends Promise<CategoryEdgeNode>, Fragmentable {
+  node: <T = Category>() => T;
+  cursor: () => Promise<String>;
 }
 
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayloadNode>>,
+export interface CategoryEdgeSubscription
+  extends Promise<AsyncIterator<CategoryEdgeNode>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
+  node: <T = CategorySubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+The `Boolean` scalar type represents `true` or `false`.
 */
-export type Int = number;
+export type Boolean = boolean;
+
+export type Long = string;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -1106,12 +1385,15 @@ The `ID` scalar type represents a unique identifier, often used to refetch an ob
 export type ID_Input = string | number;
 export type ID_Output = string;
 
-export type Long = string;
-
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
 export type String = string;
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+*/
+export type Int = number;
 
 /*
 DateTime scalar input type, allowing Date
@@ -1122,11 +1404,6 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
 
 /**
  * Type Defs

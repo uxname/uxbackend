@@ -1,5 +1,140 @@
 module.exports = {
-        typeDefs: /* GraphQL */ `type AggregateCategory {
+        typeDefs: /* GraphQL */ `type ActivationCode {
+  id: ID!
+  email: String!
+  valid_until: DateTime!
+  code: String!
+}
+
+type ActivationCodeConnection {
+  pageInfo: PageInfo!
+  edges: [ActivationCodeEdge]!
+  aggregate: AggregateActivationCode!
+}
+
+input ActivationCodeCreateInput {
+  email: String!
+  valid_until: DateTime!
+  code: String!
+}
+
+type ActivationCodeEdge {
+  node: ActivationCode!
+  cursor: String!
+}
+
+enum ActivationCodeOrderByInput {
+  id_ASC
+  id_DESC
+  email_ASC
+  email_DESC
+  valid_until_ASC
+  valid_until_DESC
+  code_ASC
+  code_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type ActivationCodePreviousValues {
+  id: ID!
+  email: String!
+  valid_until: DateTime!
+  code: String!
+}
+
+type ActivationCodeSubscriptionPayload {
+  mutation: MutationType!
+  node: ActivationCode
+  updatedFields: [String!]
+  previousValues: ActivationCodePreviousValues
+}
+
+input ActivationCodeSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ActivationCodeWhereInput
+  AND: [ActivationCodeSubscriptionWhereInput!]
+  OR: [ActivationCodeSubscriptionWhereInput!]
+  NOT: [ActivationCodeSubscriptionWhereInput!]
+}
+
+input ActivationCodeUpdateInput {
+  email: String
+  valid_until: DateTime
+  code: String
+}
+
+input ActivationCodeWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  valid_until: DateTime
+  valid_until_not: DateTime
+  valid_until_in: [DateTime!]
+  valid_until_not_in: [DateTime!]
+  valid_until_lt: DateTime
+  valid_until_lte: DateTime
+  valid_until_gt: DateTime
+  valid_until_gte: DateTime
+  code: String
+  code_not: String
+  code_in: [String!]
+  code_not_in: [String!]
+  code_lt: String
+  code_lte: String
+  code_gt: String
+  code_gte: String
+  code_contains: String
+  code_not_contains: String
+  code_starts_with: String
+  code_not_starts_with: String
+  code_ends_with: String
+  code_not_ends_with: String
+  AND: [ActivationCodeWhereInput!]
+  OR: [ActivationCodeWhereInput!]
+  NOT: [ActivationCodeWhereInput!]
+}
+
+input ActivationCodeWhereUniqueInput {
+  id: ID
+  email: String
+}
+
+type AggregateActivationCode {
+  count: Int!
+}
+
+type AggregateCategory {
   count: Int!
 }
 
@@ -217,6 +352,12 @@ scalar DateTime
 scalar Long
 
 type Mutation {
+  createActivationCode(data: ActivationCodeCreateInput!): ActivationCode!
+  updateActivationCode(data: ActivationCodeUpdateInput!, where: ActivationCodeWhereUniqueInput!): ActivationCode
+  updateManyActivationCodes(data: ActivationCodeUpdateInput!, where: ActivationCodeWhereInput): BatchPayload!
+  upsertActivationCode(where: ActivationCodeWhereUniqueInput!, create: ActivationCodeCreateInput!, update: ActivationCodeUpdateInput!): ActivationCode!
+  deleteActivationCode(where: ActivationCodeWhereUniqueInput!): ActivationCode
+  deleteManyActivationCodes(where: ActivationCodeWhereInput): BatchPayload!
   createCategory(data: CategoryCreateInput!): Category!
   updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
   updateManyCategories(data: CategoryUpdateInput!, where: CategoryWhereInput): BatchPayload!
@@ -412,6 +553,9 @@ input ProductWhereUniqueInput {
 }
 
 type Query {
+  activationCode(where: ActivationCodeWhereUniqueInput!): ActivationCode
+  activationCodes(where: ActivationCodeWhereInput, orderBy: ActivationCodeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ActivationCode]!
+  activationCodesConnection(where: ActivationCodeWhereInput, orderBy: ActivationCodeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ActivationCodeConnection!
   category(where: CategoryWhereUniqueInput!): Category
   categories(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category]!
   categoriesConnection(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CategoryConnection!
@@ -425,6 +569,7 @@ type Query {
 }
 
 type Subscription {
+  activationCode(where: ActivationCodeSubscriptionWhereInput): ActivationCodeSubscriptionPayload
   category(where: CategorySubscriptionWhereInput): CategorySubscriptionPayload
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload

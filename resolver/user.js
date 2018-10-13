@@ -1,8 +1,8 @@
 const {ApolloError} = require('apollo-server-express');
 const userService = require('../service/user');
 
-async function signUp(root, {email, password}) {
-    return userService.signUp(email, password);
+async function signUp(root, {email, password, step, activation_code}) {
+    return userService.signUp(email, password, step, activation_code);
 }
 
 async function signIn(root, {email, password}) {
