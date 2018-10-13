@@ -1,13 +1,10 @@
 const log = require('../helper/logger').getLogger('role_asserter');
 const {ApolloError} = require('apollo-server-express');
-const token = require('../helper/token');
 const prisma = require('../helper/prisma_helper').prisma;
 
 async function userHasRole(rolesForCheck, userId) {
-    const foundUser = await prisma.query.user({
-        where: {
-            id: userId
-        }
+    const foundUser = await prisma.user({
+        id: userId
     });
 
     if (!foundUser || !foundUser.roles || foundUser.roles.length <= 0) {
