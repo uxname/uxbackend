@@ -1,0 +1,8 @@
+projects:
+    app:
+        schemaPath: database/datamodel.graphql
+
+    database:
+        schemaPath: generated/prisma.graphql
+        extensions:
+            prisma: prisma.yml

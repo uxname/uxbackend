@@ -1,5 +1,5 @@
 const log = require('../helper/logger').getLogger('user_service');
-const prisma = require('../prisma-client').prisma;
+const prisma = require('../helper/prisma_helper').prisma;
 const password_helper = require('../helper/password_helper');
 const token = require('../helper/token');
 const {ApolloError} = require('apollo-server-express');
@@ -45,11 +45,13 @@ async function signUp(email, password, step, activation_code) {
             const password_hash = await password_helper.hashPassword(password, salt);
 
             try {
-                const newUser = await prisma.createUser({
-                    email: email,
-                    password_hash: password_hash,
-                    password_salt: salt,
-                    role: "USER"
+                const newUser = await prisma.mutation.createUser({
+                    data: {
+                        email: email,
+                        password_hash: password_hash,
+                        password_salt: salt,
+                        role: "USER"
+                    }
                 });
             } catch (e) {
                 log.trace(e);
@@ -75,8 +77,10 @@ async function signIn(email, password) {
         throw new ApolloError('Wrong email format', 400);
     }
 
-    const user = await prisma.user({
-        email: email
+    const user = await prisma.query.user({
+        where: {
+            email: email
+        }
     });
 
     log.trace('Login attempt: ', user.email);
@@ -86,7 +90,7 @@ async function signIn(email, password) {
     if (!result) {
         throw new ApolloError('Wrong password', 403)
     } else {
-        await prisma.updateUser({
+        const res = await prisma.mutation.updateUser({
             where: {
                 id: user.id
             },
@@ -94,6 +98,7 @@ async function signIn(email, password) {
                 last_login_date: new Date().toISOString()
             }
         });
+
         return {
             token: token.createToken(safeUser(user)),
             user: safeUser(user)

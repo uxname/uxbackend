@@ -14,7 +14,7 @@ const ApolloServer = require('apollo-server-express').ApolloServer;
 const express = require('express');
 const expressServer = express();
 
-const schema = require('./schema_api').typeDefs;
+const {importSchema} = require('graphql-import');
 
 const rateLimit = require("express-rate-limit");
 const token = require('./helper/token');
@@ -22,6 +22,10 @@ const token = require('./helper/token');
 const app = require('./app');
 
 const pg = require('./helper/db');
+
+process.on('unhandledRejection', error => {
+    log.warn('unhandledRejection', error);
+});
 
 expressServer.use(function (err, req, res, next) {
     if (err) {
@@ -47,7 +51,7 @@ expressServer.use(limiter);
 
 // todo remove mocks in production
 const apolloServer = new ApolloServer({
-    typeDefs: schema,
+    typeDefs: importSchema('schema.graphql'),
     resolvers: app.resolvers,
     mocks: app.mocks,
     mockEntireSchema: false,

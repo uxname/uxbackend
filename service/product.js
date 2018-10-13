@@ -1,11 +1,11 @@
-const prisma = require('../prisma-client').prisma;
+const prisma = require('../helper/prisma_helper').prisma;
 
-function getProducts(args) {
-    return prisma.products(args)
+async function getProducts(args) {
+    return await prisma.query.products(null);
 }
 
 function createProduct(data) {
-    return prisma.createProduct(data);
+    return prisma.mutation.createProduct(data);
 }
 
 module.exports = {

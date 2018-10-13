@@ -1,6 +1,7 @@
 const log = require('./helper/logger').getLogger('app');
 const productsResolver = require('./resolver/product');
 const userResolver = require('./resolver/user');
+const prisma = require('./helper/prisma_helper').prisma;
 
 const resolvers = {
     Query: {
@@ -28,11 +29,12 @@ module.exports = {
 };
 
 //todo remove me
-const prisma = require('./prisma-client').prisma;
 const token = require('./helper/token');
 (async () => {
-    const user = await prisma.user({
-        email: 'admin@admin.com'
+    const user = await prisma.query.user({
+        where: {
+            email: 'admin@admin.com'
+        }
     });
 
     log.debug("Admin user's token:\n", `{"token":"${token.createToken(user)}"}`);
