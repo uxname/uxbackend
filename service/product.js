@@ -4,8 +4,8 @@ async function getProducts(root, args, ctx, info) {
     return await prisma.query.products(args, info);
 }
 
-function createProduct(data) {
-    return prisma.mutation.createProduct(data);
+async function createProduct(root, args, ctx, info) {
+    return await prisma.mutation.createProduct(args, info);
 }
 
 module.exports = {

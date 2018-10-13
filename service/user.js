@@ -44,12 +44,17 @@ async function signUp(email, password, step, activation_code) {
 
             const password_hash = await password_helper.hashPassword(password, salt);
 
+            let newUser = null;
             try {
-                await prisma.createUser({
-                    email: email,
-                    password_hash: password_hash,
-                    password_salt: salt,
-                    role: "USER"
+                newUser = await prisma.mutation.createUser({
+                    data: {
+                        email: email,
+                        password_hash: password_hash,
+                        password_salt: salt,
+                        roles: {
+                            set: ["USER"]
+                        }
+                    }
                 });
             } catch (e) {
                 log.trace(e);
@@ -75,8 +80,10 @@ async function signIn(email, password) {
         throw new ApolloError('Wrong email format', 400);
     }
 
-    const user = await prisma.user({
-        email: email
+    const user = await prisma.query.user({
+        where: {
+            email: email
+        }
     });
 
     log.trace('Login attempt: ', user.email);
@@ -86,7 +93,7 @@ async function signIn(email, password) {
     if (!result) {
         throw new ApolloError('Wrong password', 403)
     } else {
-        const res = await prisma.updateUser({
+        const res = await prisma.mutation.updateUser({
             where: {
                 id: user.id
             },

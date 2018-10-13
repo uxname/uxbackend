@@ -3,9 +3,11 @@ const {ApolloError} = require('apollo-server-express');
 const prisma = require('../helper/prisma_helper').prisma;
 
 async function userHasRole(rolesForCheck, userId) {
-    const foundUser = await prisma.user({
-        id: userId
-    });
+    const foundUser = await prisma.query.user({
+        where: {
+            id: userId
+        }
+    }, '{id, roles}');
 
     if (!foundUser || !foundUser.roles || foundUser.roles.length <= 0) {
         log.info("Check user role, user or user's roles not found");
