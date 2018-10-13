@@ -11,7 +11,7 @@ services:
         volumes:
             - './data/postgres:/data/postgres'
         networks:
-            - tm_marketplace
+            - ux_backend_network
     pgadmin:
         image: fenglc/pgadmin4
         links:
@@ -23,7 +23,7 @@ services:
         ports:
             - '5775:5050'
         networks:
-            - tm_marketplace
+            - ux_backend_network
         environment:
             DEFAULT_USER: admin@admin.com
             DEFAULT_PASSWORD: admin
@@ -31,7 +31,7 @@ services:
         image: prismagraphql/prisma:1.18
         restart: on-failure
         networks:
-        - tm_marketplace
+        - ux_backend_network
         ports:
         - "4466:4466"
         depends_on:
@@ -48,6 +48,7 @@ services:
                         port: 5432
                         user: postgres
                         password: postgres
+                        connectionLimit: 15
 networks:
-    tm_marketplace:
+    ux_backend_network:
         driver: bridge

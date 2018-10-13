@@ -2,8 +2,8 @@ const {ApolloError} = require('apollo-server-express');
 const rolesHelper = require('../helper/roles_helper');
 const productService = require('../service/product');
 
-async function getProducts(root, args, ctx) {
-    return productService.getProducts(args);
+async function getProducts(root, args, ctx, info) {
+    return productService.getProducts(root, args, ctx, info);
 }
 
 async function createProduct(root, {data}, ctx) {

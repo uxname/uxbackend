@@ -1,7 +1,7 @@
 const prisma = require('../helper/prisma_helper').prisma;
 
-async function getProducts(args) {
-    return await prisma.query.products(null);
+async function getProducts(root, args, ctx, info) {
+    return await prisma.query.products(args, info);
 }
 
 function createProduct(data) {
