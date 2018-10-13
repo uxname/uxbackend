@@ -7,23 +7,23 @@ services:
             POSTGRES_PASSWORD: postgres
             PGDATA: /data/postgres
         ports:
-            - "5445:5432"
+        - "5445:5432"
         volumes:
-            - './data/postgres:/data/postgres'
+        - './data/postgres:/data/postgres'
         networks:
-            - tm_marketplace
+        - tm_marketplace
     pgadmin:
         image: fenglc/pgadmin4
         links:
-            - 'postgres:postgres'
+        - 'postgres:postgres'
         depends_on:
-            - postgres
+        - postgres
         volumes:
-            - './data/pgadmin:/root/.pgadmin'
+        - './data/pgadmin:/root/.pgadmin'
         ports:
-            - '5775:5050'
+        - '5775:5050'
         networks:
-            - tm_marketplace
+        - tm_marketplace
         environment:
             DEFAULT_USER: admin@admin.com
             DEFAULT_PASSWORD: admin
@@ -48,6 +48,7 @@ services:
                         port: 5432
                         user: postgres
                         password: postgres
+                        connectionLimit: 15
 networks:
     tm_marketplace:
         driver: bridge
