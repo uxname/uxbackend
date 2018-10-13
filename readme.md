@@ -5,3 +5,6 @@ Docker + GraphQL + Prisma boilerplate.
 git clone ...
 
 todo
+#Contributions
+**Join the project - glad any pull request, you can contact me:
+Telegram: `@uxname`**
