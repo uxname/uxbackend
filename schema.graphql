@@ -22,3 +22,11 @@ enum SignUpStep {
     GENERATE_ACTIVATION_CODE
     CHECK_ACTIVATION_CODE
 }
+
+# Replace withoud password_hash and password_salt fields
+type User {
+    id: ID!
+    email: String!
+    roles: [UserRole!]!
+    last_login_date: DateTime
+}
