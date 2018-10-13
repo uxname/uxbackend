@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
-    "prisma-deploy": "cd database && prisma deploy -e ../.env",
+    "prisma-deploy": "cd database && prisma deploy -e ../.env && prisma generate -e ../.env",
+    "prisma-deploy-f": "cd database && prisma deploy -f -e ../.env && prisma generate -e ../.env",
     "dev-clear": "sudo rm -rf ./data && docker-compose -f docker_compose_dev.yml rm -f",
     "dev-start": "docker-compose -f docker_compose_dev.yml up -d",
     "dev-stop": "docker-compose -f docker_compose_dev.yml stop",
@@ -25,7 +26,6 @@
     "jsonwebtoken": "^8.3.0",
     "log4js": "^3.0.5",
     "nodemailer": "^4.6.8",
-    "prisma-binding": "^2.1.6",
     "prisma-client-lib": "^1.18.0",
     "pug": "^2.0.3",
     "validator": "^10.8.0"

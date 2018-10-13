@@ -1,13 +1,5 @@
-const {Prisma} = require('prisma-binding');
-const {forwardTo} = require('prisma-binding');
-
-const prisma = new Prisma({
-    // debug: true,
-    typeDefs: 'generated/prisma.graphql',
-    endpoint: process.env.PRISMA_ENDPOINT
-});
+const prisma = require('../generated/prisma-client').prisma;
 
 module.exports = {
-    prisma: prisma,
-    forwardTo: forwardTo
+    prisma: prisma
 };

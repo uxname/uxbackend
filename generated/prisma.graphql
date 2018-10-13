@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sat Oct 13 2018 15:46:38 GMT+0300 (Moscow Standard Time)
+# timestamp: Sat Oct 13 2018 18:42:40 GMT+0300 (Moscow Standard Time)
 
 type ActivationCode implements Node {
   id: ID!
@@ -950,7 +950,7 @@ type Subscription {
 type User implements Node {
   id: ID!
   email: String!
-  role: UserRole!
+  roles: [UserRole!]!
   password_hash: String!
   password_salt: String!
   last_login_date: DateTime
@@ -968,10 +968,14 @@ type UserConnection {
 
 input UserCreateInput {
   email: String!
-  role: UserRole!
   password_hash: String!
   password_salt: String!
   last_login_date: DateTime
+  roles: UserCreaterolesInput
+}
+
+input UserCreaterolesInput {
+  set: [UserRole!]
 }
 
 """An edge in a connection."""
@@ -988,8 +992,6 @@ enum UserOrderByInput {
   id_DESC
   email_ASC
   email_DESC
-  role_ASC
-  role_DESC
   password_hash_ASC
   password_hash_DESC
   password_salt_ASC
@@ -1005,7 +1007,7 @@ enum UserOrderByInput {
 type UserPreviousValues {
   id: ID!
   email: String!
-  role: UserRole!
+  roles: [UserRole!]!
   password_hash: String!
   password_salt: String!
   last_login_date: DateTime
@@ -1058,10 +1060,14 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   email: String
-  role: UserRole
   password_hash: String
   password_salt: String
   last_login_date: DateTime
+  roles: UserUpdaterolesInput
+}
+
+input UserUpdaterolesInput {
+  set: [UserRole!]
 }
 
 input UserWhereInput {
@@ -1153,16 +1159,6 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   email_not_ends_with: String
-  role: UserRole
-
-  """All values that are not equal to given value."""
-  role_not: UserRole
-
-  """All values that are contained in given list."""
-  role_in: [UserRole!]
-
-  """All values that are not contained in given list."""
-  role_not_in: [UserRole!]
   password_hash: String
 
   """All values that are not equal to given value."""
