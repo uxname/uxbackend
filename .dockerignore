@@ -137,4 +137,5 @@ fabric.properties
 
 data
 docker-compose.yml
+docker_compose_dev.yml
 Dockerfile
