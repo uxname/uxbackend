@@ -4,7 +4,25 @@ type Query {
     sign_in(email: String!, password: String!): UserAuthResponse!
 
     products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
+
+    systemInfo: SystemInfo
 }
+
+type SystemInfo {
+    title: String
+    version: String
+    uptime: String
+    node_mem_usage: [String]
+    platform: String
+    os_type: String
+    cpu_count: String
+    os_total_mem: String
+    os_free_mem: String
+    user_count: String
+    other_info: JSON
+}
+
+scalar JSON
 
 type Mutation {
     sign_up(email: String!, password: String, activation_code: String, step: SignUpStep!): UserAuthResponse!

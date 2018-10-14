@@ -27,6 +27,7 @@
     "graphql-yoga": "^1.16.2",
     "jsonwebtoken": "^8.3.0",
     "log4js": "^3.0.5",
+    "moment": "^2.22.2",
     "nodemailer": "^4.6.8",
     "prisma-binding": "^2.1.6",
     "prisma-client-lib": "^1.18.0",

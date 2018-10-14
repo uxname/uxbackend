@@ -4,9 +4,11 @@ const userResolver = require('./resolver/user');
 const prisma = require('./helper/prisma_helper').prisma;
 const roleHelper = require('./helper/roles_helper');
 const {rule, shield, and, or, not} = require('graphql-shield');
+const systemResolver = require('./resolver/system_resolver');
 
 const resolvers = {
     Query: {
+        systemInfo: systemResolver.systemInfo,
         sign_in: userResolver.signIn,
         products: productsResolver.getProducts
     },
