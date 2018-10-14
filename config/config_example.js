@@ -47,14 +47,8 @@ const config = {
     },
     graphql: {
         endpoint_path: "/api",
-        tracing: true,
-        playground: {
-            settings: {
-                "editor.cursorShape": "line",
-                "editor.theme": "light",
-                "tracing.hideTracingResponse": false
-            }
-        }
+        playground: "/api", // string or false
+        tracing: true
     },
     ddos_protection: {
         windowMs: 1000 * 60 * 15,

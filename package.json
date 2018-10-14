@@ -24,6 +24,7 @@
     "express": "^4.16.3",
     "express-rate-limit": "^3.2.0",
     "graphql-import": "^0.7.1",
+    "graphql-yoga": "^1.16.2",
     "jsonwebtoken": "^8.3.0",
     "log4js": "^3.0.5",
     "nodemailer": "^4.6.8",

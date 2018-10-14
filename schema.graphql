@@ -13,8 +13,8 @@ type Mutation {
 }
 
 type UserAuthResponse {
-    user: User!
-    token: String!
+    user: User
+    token: String
     status: String
 }
 

@@ -55,7 +55,7 @@ async function signUp(email, password, step, activation_code) {
                             set: ["USER"]
                         }
                     }
-                });
+                }, `{ id email roles password_hash password_salt last_login_date }`);
             } catch (e) {
                 log.trace(e);
                 throw new ApolloError(`User '${email}' already exists`, 409)
@@ -84,7 +84,7 @@ async function signIn(email, password) {
         where: {
             email: email
         }
-    });
+    }, `{ id email roles password_hash password_salt last_login_date }`);
 
     log.trace('Login attempt: ', user.email);
 
