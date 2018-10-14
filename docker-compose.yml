@@ -22,7 +22,7 @@ services:
         - postgres
         - pgadmin
         networks:
-        - tm_marketplace
+        - uxbackend_network
         volumes:
         - './config:/app/config'
     postgres:
@@ -38,7 +38,7 @@ services:
         volumes:
         - './data/postgres:/data/postgres'
         networks:
-        - tm_marketplace
+        - uxbackend_network
     pgadmin:
         image: fenglc/pgadmin4
         links:
@@ -51,7 +51,7 @@ services:
         ports:
         - '5052:5050'
         networks:
-        - tm_marketplace
+        - uxbackend_network
         environment:
             DEFAULT_USER: $PGADMIN_DEFAULT_USER
             DEFAULT_PASSWORD: $PGADMIN_DEFAULT_PASSWORD
@@ -60,7 +60,7 @@ services:
         image: prismagraphql/prisma:1.18
         restart: always
         networks:
-        - tm_marketplace
+        - uxbackend_network
         ports:
         - "4488:4466"
         depends_on:
@@ -79,5 +79,5 @@ services:
                         password: $POSTGRES_PASSWORD
                         connectionLimit: 15
 networks:
-    tm_marketplace:
+    uxbackend_network:
         driver: bridge
