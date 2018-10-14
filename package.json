@@ -5,18 +5,19 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
-    "prisma-deploy": "cd database && prisma deploy -e ../.env",
-    "prisma-deploy-f": "cd database && prisma deploy -f -e ../.env",
-    "prisma-reset": "cd database && prisma reset -e ../.env",
+    "dev-prisma-deploy": "cd database && prisma deploy -e ../.env",
+    "dev-prisma-deploy-f": "cd database && prisma deploy -f -e ../.env",
+    "dev-prisma-reset": "cd database && prisma reset -e ../.env",
     "dev-clear": "sudo rm -rf ./data && docker-compose -f docker_compose_dev.yml rm -f",
     "dev-start": "docker-compose -f docker_compose_dev.yml up -d",
     "dev-stop": "docker-compose -f docker_compose_dev.yml stop",
-    "prisma-seed": "cd database && prisma seed -r -e ../.env",
+    "dev-prisma-seed": "cd database && prisma seed -r -e ../.env",
     "prod-build": "docker-compose build",
     "prod-up": "docker-compose up -d",
     "prod-start": "docker-compose start",
     "prod-clear": "sudo rm -rf ./data && docker-compose rm -f",
-    "prod-stop": "docker-compose stop"
+    "prod-stop": "docker-compose stop",
+    "prod-bash": "docker-compose exec app bash"
   },
   "dependencies": {
     "argon2": "^0.19.3",
