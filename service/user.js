@@ -2,7 +2,7 @@ const log = require('../helper/logger').getLogger('user_service');
 const prisma = require('../helper/prisma_helper').prisma;
 const password_helper = require('../helper/password_helper');
 const token = require('../helper/token');
-const {ApolloError} = require('apollo-server-express');
+const GraphqlError = require('../helper/GraphqlError');
 const validator = require('validator');
 const emailHelper = require('../helper/email_helper');
 
@@ -17,11 +17,11 @@ function safeUser(userObject) {
 
 async function signUp(email, password, step, activation_code) {
     if (!email) {
-        throw new ApolloError('Email is required', 400);
+        throw new GraphqlError('Email is required', 400);
     }
 
     if (!validator.isEmail(email)) {
-        throw new ApolloError('Wrong email format', 400);
+        throw new GraphqlError('Wrong email format', 400);
     }
 
     if (step === 'GENERATE_ACTIVATION_CODE') {
@@ -34,10 +34,10 @@ async function signUp(email, password, step, activation_code) {
     } else if (step === 'CHECK_ACTIVATION_CODE') {
         const result = await emailHelper.verityActivationCode(email, activation_code);
         if (!result) {
-            throw new ApolloError('Wrong activation code', 403);
+            throw new GraphqlError('Wrong activation code', 403);
         } else {
             if (!password) {
-                throw new ApolloError('Password is required', 400);
+                throw new GraphqlError('Password is required', 400);
             }
 
             const salt = password_helper.getSecureRandomString();
@@ -58,7 +58,7 @@ async function signUp(email, password, step, activation_code) {
                 }, `{ id email roles password_hash password_salt last_login_date }`);
             } catch (e) {
                 log.trace(e);
-                throw new ApolloError(`User '${email}' already exists`, 409)
+                throw new GraphqlError(`User '${email}' already exists`, 409)
             }
 
             log.trace('User created: ', newUser.email);
@@ -73,11 +73,11 @@ async function signUp(email, password, step, activation_code) {
 
 async function signIn(email, password) {
     if (!email || !password) {
-        throw new ApolloError('Email and password required', 400);
+        throw new GraphqlError('Email and password required', 400);
     }
 
     if (!validator.isEmail(email)) {
-        throw new ApolloError('Wrong email format', 400);
+        throw new GraphqlError('Wrong email format', 400);
     }
 
     const user = await prisma.query.user({
@@ -91,7 +91,7 @@ async function signIn(email, password) {
     const result = await password_helper.verifyHashPassword(user.password_hash, password, user.password_salt);
 
     if (!result) {
-        throw new ApolloError('Wrong password', 403)
+        throw new GraphqlError('Wrong password', 403)
     } else {
         const res = await prisma.mutation.updateUser({
             where: {

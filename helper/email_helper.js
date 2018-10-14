@@ -5,7 +5,7 @@ const config = require('../config/config');
 const pug = require('pug');
 const compiledLetter = pug.compileFile('./template/email_confirm_letter.pug');
 const prisma = require('../helper/prisma_helper').prisma;
-const {ApolloError} = require('apollo-server-express');
+const GraphqlError = require('../helper/GraphqlError');
 const crypto = require('crypto');
 
 let transporter = nodemailer.createTransport({
@@ -19,8 +19,8 @@ let transporter = nodemailer.createTransport({
 });
 
 function generateNewCode() {
-    const MAX = 999999;
-    const MIN = 111111;
+    const MAX = config.mail_service.activation_code.max_value;
+    const MIN = config.mail_service.activation_code.min_value;
 
     function csprng(min, max) {
         const range = max - min;
@@ -111,9 +111,9 @@ async function verityActivationCode(email, code) {
         }
     });
 
-    if (!result) throw new ApolloError('Activation code was not generated', 404);
+    if (!result) throw new GraphqlError('Activation code was not generated', 404);
 
-    if (new Date(result.valid_until) < new Date()) throw new ApolloError('Activation code expired', 410);
+    if (new Date(result.valid_until) < new Date()) throw new GraphqlError('Activation code expired', 410);
 
     if (code === result.code) {
         await prisma.mutation.deleteActivationCode({

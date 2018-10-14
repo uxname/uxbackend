@@ -1,6 +1,6 @@
 const config = {
     token_secret: "123",
-    token_expiresIn: 30 * 24 * 60 * 60, //30 days in seconds
+    token_expiresIn: 30 * 24 * 60 * 60, // 30 days in seconds
     logger_config: {
         appenders: {
             out: {
@@ -56,7 +56,11 @@ const config = {
         message: '{ "error": "Too many requests" }'
     },
     mail_service: {
-        secure: false,// true for 465, false for other ports
+        secure: false, // true for 465, false for other ports
+        activation_code: {
+            min_value: 111111,
+            max_value: 999999
+        },
         subject: "Your activation code",
         expiresInMs: 1000 * 60 * 60, //1h
         smtp_host: 'smtp.ethereal.email',

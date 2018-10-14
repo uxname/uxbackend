@@ -28,6 +28,7 @@ process.on('unhandledRejection', error => {
 const graphqlServer = new GraphQLServer({
     typeDefs: importSchema('schema.graphql'),
     resolvers: app.resolvers,
+    middlewares: [app.permissions],
     context: async ({request}) => {
         let user = null;
         try {
@@ -63,7 +64,7 @@ graphqlServer.express.use(limiter);
         playground: config.graphql.playground,
         port: config.port,
         formatError: error => {
-            log.warn('GraphQL error -> stacktrace:', error);
+            log.info('GraphQL error -> stacktrace:', error);
             return error;
         }
     });

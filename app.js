@@ -2,6 +2,8 @@ const log = require('./helper/logger').getLogger('app');
 const productsResolver = require('./resolver/product');
 const userResolver = require('./resolver/user');
 const prisma = require('./helper/prisma_helper').prisma;
+const roleHelper = require('./helper/roles_helper');
+const {rule, shield, and, or, not} = require('graphql-shield');
 
 const resolvers = {
     Query: {
@@ -14,18 +16,37 @@ const resolvers = {
     }
 };
 
-const mocks = {
-    Int: () => Math.round(0.5 + Math.random() * 1000),
-    Float: () => 0.5 + Math.random() * 1000,
-    String: () => 'String placeholder. Random = ' + (Math.round(0.5 + Math.random() * 1000)).toString(),
-    Date: () => (new Date(Math.random() * new Date().getTime())).toString(),
-    DateTime: () => (new Date(Math.random() * new Date().getTime())).toString(),
-    UUID: () => (0.5 + Math.random() * 1000).toString()
-};
+const isAdmin = rule()(async (parent, args, ctx, info) => {
+    if (!ctx.user || !ctx.user.id) {
+        log.error('isAdmin false, ctx:', ctx);
+        return false;
+    }
+    return await roleHelper.userHasRoles(['ADMIN'], ctx.user.id);
+});
+
+const isAuthenticated = rule()(async (parent, args, ctx, info) => {
+    if (!ctx.user || !ctx.user.id) {
+        log.error('isAuthenticated false, ctx:', ctx);
+        return false;
+    }
+    return await prisma.exists.User({
+        id: ctx.user.id
+    });
+});
+
+
+const permissions = shield({
+    Query: {
+        products: isAuthenticated
+    },
+    Product: {
+        title: isAdmin
+    }
+});
 
 module.exports = {
     resolvers: resolvers,
-    mocks: mocks,
+    permissions: permissions
 };
 
 //todo remove me
@@ -37,7 +58,7 @@ const token = require('./helper/token');
         }
     });
 
-    log.debug("Admin user's token:\n", `{"token":"${token.createToken(user)}"}`);
+    log.error("REMOVE ME. Admin user's token:\n", `{"token":"${token.createToken(user)}"}`);
 })();
 
 

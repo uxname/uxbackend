@@ -1,8 +1,8 @@
 const log = require('../helper/logger').getLogger('role_asserter');
-const {ApolloError} = require('apollo-server-express');
+const GraphqlError = require('../helper/GraphqlError');
 const prisma = require('../helper/prisma_helper').prisma;
 
-async function userHasRole(rolesForCheck, userId) {
+async function userHasRoles(rolesForCheck, userId) {
     const foundUser = await prisma.query.user({
         where: {
             id: userId
@@ -24,18 +24,17 @@ async function userHasRole(rolesForCheck, userId) {
         })
     });
 
-
     return result;
 }
 
-async function assertWrongRole(rolesForCheck, userId) {
-    const result = await userHasRole(rolesForCheck, userId);
+async function assertWrongRoles(rolesForCheck, userId) {
+    const result = await userHasRoles(rolesForCheck, userId);
     if (!result) {
-        throw new ApolloError('Permission denied', 403);
+        throw new GraphqlError('Permission denied', 403);
     }
 }
 
 module.exports = {
-    assertWrongRole: assertWrongRole,
-    userHasRole: userHasRole
+    assertWrongRoles: assertWrongRoles,
+    userHasRoles: userHasRoles
 };
