@@ -51,16 +51,16 @@ module.exports = {
     permissions: permissions
 };
 
-//todo remove me
-const token = require('./helper/token');
-(async () => {
-    const user = await prisma.query.user({
-        where: {
-            email: 'admin@admin.com'
-        }
-    });
-
-    log.error("REMOVE ME. Admin user's token:\n", `{"token":"${token.createToken(user)}"}`);
-})();
-
+// todo remove me
+// const token = require('./helper/token');
+// (async () => {
+//     const user = await prisma.query.user({
+//         where: {
+//             email: 'admin@admin.com'
+//         }
+//     });
+//
+//     log.error("REMOVE ME. Admin user's token:\n", `{"token":"${token.createToken(user)}"}`);
+// })();
+//
 

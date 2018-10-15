@@ -4,7 +4,7 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js",
+    "start": "npm run dev-prisma-deploy && node server.js",
     "dev-prisma-deploy": "cd database && prisma deploy -e ../.env",
     "dev-prisma-deploy-f": "cd database && prisma deploy -f -e ../.env",
     "dev-prisma-reset": "cd database && prisma reset -e ../.env",
