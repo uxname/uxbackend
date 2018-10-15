@@ -67,6 +67,9 @@ const config = {
         smtp_port: 587,
         username: 'zbrgubnaqs2hp2oy@ethereal.email',
         password: 'JxQugxEYhWfeeGc7jM'
+    },
+    uploads: {
+        max_user_avatar_size_in_bytes: 250 * 1024 // 250 KB
     }
 };
 
