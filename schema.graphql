@@ -46,5 +46,6 @@ type User {
     id: ID!
     email: String!
     roles: [UserRole!]!
+    avatar: String
     last_login_date: DateTime
 }
