@@ -9,8 +9,14 @@ const upload = multer({
 
 //todo add check for file max size
 
-//todo add check for upload error (ex.: file is undefined). Add check for userId is specified
 router.post('/avatar', upload.single('avatar'), async function (req, res) {
+    if (!req.file) {
+        res.status(401).json({
+            result: 'Avatar in body parameter "avatar" is required'
+        });
+        return;
+    }
+
     let user;
     try {
         user = await token.validateToken(req.body.token);
