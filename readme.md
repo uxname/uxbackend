@@ -1,4 +1,5 @@
 ![](./docs/assets/logo.png)
+
 Docker + GraphQL + Prisma boilerplate.
 
 # Dev launch
