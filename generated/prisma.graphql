@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sat Oct 13 2018 18:42:40 GMT+0300 (Moscow Standard Time)
+# timestamp: Mon Oct 15 2018 23:58:21 GMT+0300 (Moscow Standard Time)
 
 type ActivationCode implements Node {
   id: ID!
@@ -953,6 +953,7 @@ type User implements Node {
   roles: [UserRole!]!
   password_hash: String!
   password_salt: String!
+  avatar: String
   last_login_date: DateTime
 }
 
@@ -970,6 +971,7 @@ input UserCreateInput {
   email: String!
   password_hash: String!
   password_salt: String!
+  avatar: String
   last_login_date: DateTime
   roles: UserCreaterolesInput
 }
@@ -996,6 +998,8 @@ enum UserOrderByInput {
   password_hash_DESC
   password_salt_ASC
   password_salt_DESC
+  avatar_ASC
+  avatar_DESC
   last_login_date_ASC
   last_login_date_DESC
   updatedAt_ASC
@@ -1010,6 +1014,7 @@ type UserPreviousValues {
   roles: [UserRole!]!
   password_hash: String!
   password_salt: String!
+  avatar: String
   last_login_date: DateTime
 }
 
@@ -1062,6 +1067,7 @@ input UserUpdateInput {
   email: String
   password_hash: String
   password_salt: String
+  avatar: String
   last_login_date: DateTime
   roles: UserUpdaterolesInput
 }
@@ -1239,6 +1245,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   password_salt_not_ends_with: String
+  avatar: String
+
+  """All values that are not equal to given value."""
+  avatar_not: String
+
+  """All values that are contained in given list."""
+  avatar_in: [String!]
+
+  """All values that are not contained in given list."""
+  avatar_not_in: [String!]
+
+  """All values less than the given value."""
+  avatar_lt: String
+
+  """All values less than or equal the given value."""
+  avatar_lte: String
+
+  """All values greater than the given value."""
+  avatar_gt: String
+
+  """All values greater than or equal the given value."""
+  avatar_gte: String
+
+  """All values containing the given string."""
+  avatar_contains: String
+
+  """All values not containing the given string."""
+  avatar_not_contains: String
+
+  """All values starting with the given string."""
+  avatar_starts_with: String
+
+  """All values not starting with the given string."""
+  avatar_not_starts_with: String
+
+  """All values ending with the given string."""
+  avatar_ends_with: String
+
+  """All values not ending with the given string."""
+  avatar_not_ends_with: String
   last_login_date: DateTime
 
   """All values that are not equal to given value."""

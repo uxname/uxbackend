@@ -21,6 +21,8 @@ type User {
     password_hash: String!
     password_salt: String! @unique
 
+    avatar: String
+
     last_login_date: DateTime
 }
 

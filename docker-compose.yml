@@ -25,6 +25,7 @@ services:
         - uxbackend_network
         volumes:
         - './config:/app/config'
+        - './uploads:/app/uploads'
     postgres:
         image: 'postgres:latest'
         environment:

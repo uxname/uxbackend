@@ -55,6 +55,15 @@ const limiter = rateLimit({
 
 graphqlServer.express.use(limiter);
 
+var routers = require(__dirname + '/router');
+
+if (routers && routers.length > 0) {
+    routers.forEach(function (router) {
+        if (router.router && router.path) graphqlServer.express.use(router.path, router.router);
+    });
+}
+
+
 (async () => {
     await pg.connect();
 
