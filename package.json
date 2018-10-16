@@ -39,6 +39,6 @@
     "validator": "^10.8.0"
   },
   "devDependencies": {
-    "prisma": "^1.18.0"
+    "prisma": "^1.18.1"
   }
 }
