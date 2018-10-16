@@ -109,7 +109,32 @@ async function signIn(email, password) {
     }
 }
 
+async function change_password(userId, oldPassword, newPassword) {
+    const user = await prisma.query.user({
+        where: {
+            id: userId
+        }
+    }, '{ id password_hash password_salt }');
+
+    const isPasswordCorrect = await password_helper.verifyHashPassword(user.password_hash, oldPassword, user.password_salt);
+    if (!isPasswordCorrect) {
+        throw new GraphqlError('Wrong password', 401)
+    }
+
+    const newPasswordHash = await password_helper.hashPassword(newPassword, user.password_salt);
+    const result = await prisma.mutation.updateUser({
+        where: {id: userId},
+        data: {password_hash: newPasswordHash}
+    }, '{ id email roles avatar last_login_date }');
+
+    return {
+        user: safeUser(result),
+        status: 'ok'
+    }
+}
+
 module.exports = {
     signUp: signUp,
+    change_password: change_password,
     signIn: signIn
 };

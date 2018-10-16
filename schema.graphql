@@ -8,6 +8,13 @@ type Query {
     systemInfo: SystemInfo
 }
 
+type Mutation {
+    sign_up(email: String!, password: String, activation_code: String, step: SignUpStep!): UserAuthResponse!
+    change_password(old_password: String!, new_password: String!): UserAuthResponse!
+
+    createProduct(data: ProductCreateInput!): Product!
+}
+
 type SystemInfo {
     title: String
     version: String
@@ -23,12 +30,6 @@ type SystemInfo {
 }
 
 scalar JSON
-
-type Mutation {
-    sign_up(email: String!, password: String, activation_code: String, step: SignUpStep!): UserAuthResponse!
-
-    createProduct(data: ProductCreateInput!): Product!
-}
 
 type UserAuthResponse {
     user: User

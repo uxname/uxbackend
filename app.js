@@ -14,6 +14,7 @@ const resolvers = {
     },
     Mutation: {
         sign_up: userResolver.signUp,
+        change_password: userResolver.change_password,
         createProduct: productsResolver.createProduct
     }
 };
@@ -40,6 +41,9 @@ const isAuthenticated = rule()(async (parent, args, ctx, info) => {
 const permissions = shield({
     Query: {
         products: isAuthenticated
+    },
+    Mutation: {
+        change_password: isAuthenticated
     },
     Product: {
         title: isAdmin
