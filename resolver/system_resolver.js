@@ -20,7 +20,7 @@ async function systemInfo() {
         node_mem_usage.push(`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`);
     }
 
-    const user_count = (await prisma.query.usersConnection(null, '{ aggregate { count } }')).aggregate.count;
+    const user_count = (await prisma.usersConnection().$fragment('{ aggregate { count } }')).aggregate.count;
 
     const uptime = moment.duration(process.uptime() * 1000);
 

@@ -3,11 +3,9 @@ const GraphqlError = require('../helper/GraphqlError');
 const prisma = require('../helper/prisma_helper').prisma;
 
 async function userHasRoles(rolesForCheck, userId) {
-    const foundUser = await prisma.query.user({
-        where: {
-            id: userId
-        }
-    }, '{id, roles}');
+    const foundUser = await prisma.user({
+        id: userId
+    }).$fragment('{id, roles}');
 
     if (!foundUser || !foundUser.roles || foundUser.roles.length <= 0) {
         log.info("Check user role, user or user's roles not found");

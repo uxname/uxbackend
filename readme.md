@@ -28,7 +28,7 @@ module.exports = require('./config_example');
  database/**datamodel.graphql**            | **File**      | Database structure in GraphQL schema format  
  database/**prisma.yml**                   | **File**      | Config for Prisma  
  database/**seed.graphql**                 | **File**      | Initial data for empty database (ex.: first user - admin, test products in catalog, etc...)   
- generated/**prisma.graphql**              | **File**      | Auto-generated GraphQL schema for database for [prisma-binding](https://github.com/prisma/prisma-binding), this file automatically imported into public GraphQL API
+ generated/**prisma-client**               | **Directory** | Auto-generated GraphQL [client](https://www.prisma.io/docs/prisma-client) for database
  **helper**                                | **Directory** | Any tools and helper classes
  **resolver**                              | **Directory** | GraphQL resolvers (modules, that implements public GraphQL API)
  **router**                                | **Directory** | REST API routers (modules, that implements public REST API)
@@ -36,7 +36,6 @@ module.exports = require('./config_example');
  **template**                              | **Directory** | Template files for email and other things 
  **.env_example**                          | **File**      | Example of `.env` file, contains environments variables for Docker container 
  **.dockerignore**                         | **File**      | Docker ignore file (describes which files should not get inside Docker container)  
- **.graphqlconfig.yml**                    | **File**      | Config for generating `generated/prisma.graphql` schema via Prisma's post-deploy hook (`graphql get-schema`)  
  **docker-compose.yml**                    | **File**      | Docker compose file for production launch  
  **docker_compose_dev.yml**                | **File**      | Docker compose file for development launch  
  **Dockerfile**                            | **File**      | [Dockerfile](https://docs.docker.com/engine/reference/builder)  

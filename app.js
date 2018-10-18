@@ -1,5 +1,6 @@
 const log = require('./helper/logger').getLogger('app');
-const productsResolver = require('./resolver/product');
+const productResolver = require('./resolver/product');
+const categoryResolver = require('./resolver/category');
 const userResolver = require('./resolver/user');
 const prisma = require('./helper/prisma_helper').prisma;
 const roleHelper = require('./helper/roles_helper');
@@ -10,12 +11,18 @@ const resolvers = {
     Query: {
         systemInfo: systemResolver.systemInfo,
         sign_in: userResolver.signIn,
-        products: productsResolver.getProducts
+        products: productResolver.getProducts
+    },
+    Product: {
+        categories: productResolver.getProductCategories
+    },
+    Category: {
+        subcategories: categoryResolver.getSubcategories
     },
     Mutation: {
         sign_up: userResolver.signUp,
         change_password: userResolver.change_password,
-        createProduct: productsResolver.createProduct
+        createProduct: productResolver.createProduct
     }
 };
 
@@ -32,7 +39,7 @@ const isAuthenticated = rule()(async (parent, args, ctx, info) => {
         log.error('isAuthenticated false, ctx:', ctx);
         return false;
     }
-    return await prisma.exists.User({
+    return await prisma.$exists.user({
         id: ctx.user.id
     });
 });

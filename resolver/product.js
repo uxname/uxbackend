@@ -1,3 +1,4 @@
+const prisma = require('../helper/prisma_helper').prisma;
 const GraphqlError = require('../helper/GraphqlError');
 const rolesHelper = require('../helper/roles_helper');
 const productService = require('../service/product');
@@ -16,7 +17,14 @@ async function createProduct(root, args, ctx, info) {
     return await productService.createProduct(root, args, ctx, info);
 }
 
+async function getProductCategories(root, args, ctx, info) {
+    return prisma.product({
+        id: root.id
+    }).categories(args)
+}
+
 module.exports = {
     getProducts: getProducts,
-    createProduct: createProduct
+    createProduct: createProduct,
+    getProductCategories: getProductCategories
 };

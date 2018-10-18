@@ -35,9 +35,9 @@ router.post('/avatar', upload.single('avatar'), async function (req, res) {
     log.trace('Change user avatar request', {user_id: user.id});
 
     try {
-        const result = await prisma.mutation.updateUser({
-            data: {avatar: req.file.filename},
-            where: {id: userId}
+        const result = await prisma.updateUser({
+            where: {id: userId},
+            data: {avatar: req.file.filename}
         });
 
         //todo add: delete old file

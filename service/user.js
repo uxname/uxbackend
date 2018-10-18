@@ -46,16 +46,14 @@ async function signUp(email, password, step, activation_code) {
 
             let newUser = null;
             try {
-                newUser = await prisma.mutation.createUser({
-                    data: {
-                        email: email,
-                        password_hash: password_hash,
-                        password_salt: salt,
-                        roles: {
-                            set: ["USER"]
-                        }
+                newUser = await prisma.createUser({
+                    email: email,
+                    password_hash: password_hash,
+                    password_salt: salt,
+                    roles: {
+                        set: ["USER"]
                     }
-                }, `{ id email roles password_hash password_salt last_login_date }`);
+                }).$fragment(`{ id email roles password_hash password_salt last_login_date }`);
             } catch (e) {
                 log.trace(e);
                 throw new GraphqlError(`User '${email}' already exists`, 409)
@@ -80,10 +78,8 @@ async function signIn(email, password) {
         throw new GraphqlError('Wrong email format', 400);
     }
 
-    const user = await prisma.query.user({
-        where: {
-            email: email
-        }
+    const user = await prisma.user({
+        email: email
     }, `{ id email roles password_hash password_salt last_login_date }`);
 
     log.trace('Login attempt: ', user.email);
@@ -93,7 +89,7 @@ async function signIn(email, password) {
     if (!result) {
         throw new GraphqlError('Wrong password', 403)
     } else {
-        const res = await prisma.mutation.updateUser({
+        const res = await prisma.updateUser({
             where: {
                 id: user.id
             },
@@ -110,11 +106,9 @@ async function signIn(email, password) {
 }
 
 async function change_password(userId, oldPassword, newPassword) {
-    const user = await prisma.query.user({
-        where: {
-            id: userId
-        }
-    }, '{ id password_hash password_salt }');
+    const user = await prisma.user({
+        id: userId
+    }).$fragment('{ id password_hash password_salt }');
 
     const isPasswordCorrect = await password_helper.verifyHashPassword(user.password_hash, oldPassword, user.password_salt);
     if (!isPasswordCorrect) {
@@ -122,10 +116,10 @@ async function change_password(userId, oldPassword, newPassword) {
     }
 
     const newPasswordHash = await password_helper.hashPassword(newPassword, user.password_salt);
-    const result = await prisma.mutation.updateUser({
+    const result = await prisma.updateUser({
         where: {id: userId},
         data: {password_hash: newPasswordHash}
-    }, '{ id email roles avatar last_login_date }');
+    }).$fragment('{ id email roles avatar last_login_date }');
 
     return {
         user: safeUser(result),

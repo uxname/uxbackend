@@ -64,7 +64,7 @@ async function generateActivationCode(email) {
     const date = new Date();
     date.setMilliseconds(new Date().getMilliseconds() + config.mail_service.expiresInMs);
 
-    return await prisma.mutation.upsertActivationCode({
+    return await prisma.upsertActivationCode({
         where: {
             email: email
         },
@@ -105,10 +105,8 @@ async function sendActivationEmail(email, code) {
 }
 
 async function verityActivationCode(email, code) {
-    const result = await prisma.query.activationCode({
-        where: {
-            email: email
-        }
+    const result = await prisma.activationCode({
+        email: email
     });
 
     if (!result) throw new GraphqlError('Activation code was not generated', 404);
@@ -116,10 +114,8 @@ async function verityActivationCode(email, code) {
     if (new Date(result.valid_until) < new Date()) throw new GraphqlError('Activation code expired', 410);
 
     if (code === result.code) {
-        await prisma.mutation.deleteActivationCode({
-            where: {
-                email: email
-            }
+        await prisma.deleteActivationCode({
+            email: email
         });
 
         return true

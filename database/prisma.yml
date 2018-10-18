@@ -2,12 +2,9 @@ endpoint: ${env:PRISMA_ENDPOINT}
 datamodel: datamodel.graphql
 seed:
     import: seed.graphql
-hooks:
-    post-deploy:
-    - graphql get-schema --project database
-#generate:
-#-   generator: javascript-client
-#    output: ../generated/prisma-client/
+generate:
+-   generator: javascript-client
+    output: ../generated/prisma-client/
 
 # If specified, the `secret` must be used to generate a JWT which is attached
 # to the `Authorization` header of HTTP requests made against the Prisma API.
