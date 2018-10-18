@@ -7,6 +7,7 @@ function getAgenda(expressServer = null, protectAccessMiddleware = null) {
     const agenda = new Agenda();
     agenda.database(`${config.mongodb.host}:${config.mongodb.port}/${config.job_scheduler.database_name}`);
     agenda.processEvery(config.job_scheduler.process_every);
+    agenda.defaultLockLifetime(config.job_scheduler.timeout_in_ms);
 
     if (config.job_scheduler.enable_web_interface && expressServer) {
         expressServer.use(config.job_scheduler.web_interface_path, protectAccessMiddleware, Agendash(agenda));

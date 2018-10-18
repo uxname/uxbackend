@@ -52,6 +52,7 @@ const config = {
     job_scheduler: {
         database_name: 'agenda',
         process_every: '10 seconds',
+        timeout_in_ms: 3 * 60 * 1000,
         enable_web_interface: true,
         web_interface_path: '/jobs_dashboard'
     },
