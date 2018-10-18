@@ -7,23 +7,35 @@ services:
             POSTGRES_PASSWORD: postgres
             PGDATA: /data/postgres
         ports:
-            - "5445:5432"
+        - "5445:5432"
         volumes:
-            - './data/postgres:/data/postgres'
+        - './data/postgres:/data/postgres'
         networks:
-            - ux_backend_network
+        - ux_backend_network
+    mongodb:
+        image: 'mongo:latest'
+        environment:
+        - MONGO_DATA_DIR=/data/db
+        - MONGO_LOG_DIR=/dev/null
+        volumes:
+        - './data/mongodb:/data/db'
+        ports:
+        - '27017:27017'
+        networks:
+        - ux_backend_network
+        command: 'mongod --smallfiles --logpath=/dev/null'
     pgadmin:
         image: fenglc/pgadmin4
         links:
-            - 'postgres:postgres'
+        - 'postgres:postgres'
         depends_on:
-            - postgres
+        - postgres
         volumes:
-            - './data/pgadmin:/root/.pgadmin'
+        - './data/pgadmin:/root/.pgadmin'
         ports:
-            - '5775:5050'
+        - '5775:5050'
         networks:
-            - ux_backend_network
+        - ux_backend_network
         environment:
             DEFAULT_USER: admin@admin.com
             DEFAULT_PASSWORD: admin

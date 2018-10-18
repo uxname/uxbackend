@@ -22,6 +22,8 @@
     "prod-stop": "docker-compose stop"
   },
   "dependencies": {
+    "agenda": "^2.0.2",
+    "agendash": "^0.4.0",
     "argon2": "^0.19.3",
     "express": "^4.16.3",
     "express-rate-limit": "^3.2.0",

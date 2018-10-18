@@ -4,10 +4,11 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        restart: always
+        #restart: always
         links:
         - 'postgres:database'
         - 'prisma:prisma'
+        - 'mongodb:mongodb'
         ports:
         - '4001:4000'
         environment:
@@ -21,11 +22,25 @@ services:
         depends_on:
         - postgres
         - pgadmin
+        - mongodb
         networks:
         - uxbackend_network
         volumes:
         - './config:/app/config'
         - './uploads:/app/uploads'
+    mongodb:
+        image: 'mongo:latest'
+        #        restart: always
+        environment:
+        - MONGO_DATA_DIR=/data/db
+        - MONGO_LOG_DIR=/dev/null
+        networks:
+        - uxbackend_network
+        volumes:
+        - './data/mongodb:/data/db'
+#        ports:
+#        - '27017:27017'
+        command: 'mongod --smallfiles --logpath=/dev/null'
     postgres:
         image: 'postgres:latest'
         environment:
@@ -62,8 +77,8 @@ services:
         restart: always
         networks:
         - uxbackend_network
-        ports:
-        - "4488:4466"
+#        ports:
+#        - "4488:4466"
         depends_on:
         - postgres
         links:

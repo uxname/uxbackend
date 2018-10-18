@@ -45,6 +45,16 @@ const config = {
             idleTimeoutMillis: 1000
         }
     },
+    mongodb: {
+        host: process.env.MONGODB_HOST || "localhost",
+        port: process.env.MONGODB_PORT || 27017
+    },
+    job_scheduler: {
+        database_name: 'agenda',
+        process_every: '10 seconds',
+        enable_web_interface: true,
+        web_interface_path: '/jobs_dashboard'
+    },
     graphql: {
         endpoint_path: "/api",
         playground: "/api", // string or false
