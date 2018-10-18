@@ -72,15 +72,6 @@ if (routers && routers.length > 0) {
     });
 }
 
-async function gracefulExit() {
-    log.debug('Graceful exit...');
-    await agenda.stop();
-    process.exit(0);
-}
-
-process.on('SIGTERM', gracefulExit);
-process.on('SIGINT', gracefulExit);
-
 (async () => {
     await pg.connect();
 

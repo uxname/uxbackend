@@ -1,3 +1,4 @@
+const log = require('../helper/logger').getLogger('job_scheduler');
 const Agenda = require('agenda');
 const Agendash = require('agendash');
 const config = require('../config/config');
@@ -11,8 +12,21 @@ function getAgenda(expressServer = null, protectAccessMiddleware = null) {
         expressServer.use(config.job_scheduler.web_interface_path, protectAccessMiddleware, Agendash(agenda));
     }
 
+    addGracefulExitHandler(agenda);
     return agenda;
 }
+
+async function addGracefulExitHandler(agenda) {
+    async function gracefulExit() {
+        log.debug('Graceful agenda exit...');
+        await agenda.stop();
+        process.exit(0);
+    }
+
+    process.on('SIGTERM', gracefulExit);
+    process.on('SIGINT', gracefulExit);
+}
+
 
 module.exports = {
     getAgenda: getAgenda
