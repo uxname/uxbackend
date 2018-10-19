@@ -13,6 +13,7 @@ const token = require('./helper/token');
 const app = require('./app');
 const pg = require('./helper/db');
 const job_scheduler = require('./helper/job_scheduler');
+const {default: costAnalysis} = require('graphql-cost-analysis');
 
 process.on('unhandledRejection', error => {
     log.warn('unhandledRejection', error);
@@ -97,6 +98,16 @@ if (routers && routers.length > 0) {
         endpoint: config.graphql.endpoint_path,
         playground: config.graphql.playground,
         port: config.port,
+        validationRules: (req) => [
+            costAnalysis({
+                variables: req.query.variables,
+                maximumCost: config.graphql.maximumCost,
+                defaultCost: config.graphql.defaultCost,
+                onComplete(cost) {
+                    log.trace(`Cost analysis score: ${cost}`)
+                },
+            })
+        ],
         formatError: error => {
             log.info('GraphQL error -> stacktrace:', error);
             return error;

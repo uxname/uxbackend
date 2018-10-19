@@ -59,7 +59,9 @@ const config = {
     graphql: {
         endpoint_path: "/api",
         playground: "/api", // string or false
-        tracing: true
+        tracing: true,
+        maximumCost: 100,
+        defaultCost: 1,
     },
     ddos_protection: {
         windowMs: 1000 * 60 * 15,
