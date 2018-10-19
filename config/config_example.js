@@ -84,6 +84,7 @@ const config = {
     },
     maintenance_mode: {
         maintenance_mode_enabled: true,
+        message: 'Sorry, we are down for maintenance',
         allowed_hosts: [
             '127.1.0.1',
             '::1',

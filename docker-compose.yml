@@ -19,6 +19,7 @@ services:
             POSTGRES_DB: $POSTGRES_DB
             POSTGRES_PORT: $POSTGRES_PORT
             POSTGRES_HOST: database
+            NODE_ENV: production
         depends_on:
         - postgres
         - pgadmin
@@ -38,8 +39,8 @@ services:
         - uxbackend_network
         volumes:
         - './data/mongodb:/data/db'
-#        ports:
-#        - '27017:27017'
+        #ports:
+        #- '27017:27017'
         command: 'mongod --smallfiles --logpath=/dev/null'
     postgres:
         image: 'postgres:latest'
@@ -49,8 +50,8 @@ services:
             POSTGRES_DB: $POSTGRES_DB
             PGDATA: /data/postgres
         restart: always
-        #        ports:
-        #            - "5432:5432"
+        #ports:
+        #- "5432:5432"
         volumes:
         - './data/postgres:/data/postgres'
         networks:
@@ -64,8 +65,8 @@ services:
         volumes:
         - './data/pgadmin:/root/.pgadmin'
         restart: always
-        ports:
-        - '5052:5050'
+        #ports:
+        #- '5052:5050'
         networks:
         - uxbackend_network
         environment:
@@ -77,8 +78,8 @@ services:
         restart: always
         networks:
         - uxbackend_network
-#        ports:
-#        - "4488:4466"
+        #ports:
+        #- "4488:4466"
         depends_on:
         - postgres
         links:

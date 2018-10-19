@@ -59,7 +59,7 @@ graphqlServer.express.use((req, res, next) => {
         next();
     } else {
         res.status(503).json({
-            status: 'Sorry we are down for maintenance'
+            status: config.maintenance_mode.message
         });
     }
 });
