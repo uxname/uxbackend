@@ -5,8 +5,13 @@ const agenda = require('../helper/job_scheduler').getAgenda();
 (async () => {
     await agenda.start();
 
-    agenda.define('product_created', (job, done) => {
+    agenda.define('product_created', async (job, done) => {
         log.info('Job -> product created:', job.attrs.data);
+        function sleep(millis) {
+            return new Promise(resolve => setTimeout(resolve, millis));
+        }
+        await sleep(15000);
+        log.info('Sleep finished, job done');
         done();
     });
 })();
