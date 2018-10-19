@@ -27,6 +27,8 @@ module.exports = require('./config_example');
  config/**config_example.js**              | **File**      | Example of `config/config.js`  
  database/**datamodel.graphql**            | **File**      | Database structure in GraphQL schema format  
  database/**prisma.yml**                   | **File**      | Config for Prisma  
+ docs/**swagger.yml**                      | **File**      | [Swagger](https://swagger.io) config  
+ docs/**redoc-static.html**                | **File**      | Auto-generated REST API documentation by [ReDoc-cli](https://github.com/Rebilly/ReDoc/blob/master/cli/README.md)  
  database/**seed.graphql**                 | **File**      | Initial data for empty database (ex.: first user - admin, test products in catalog, etc...)   
  generated/**prisma-client**               | **Directory** | Auto-generated GraphQL [client](https://www.prisma.io/docs/prisma-client) for database
  **helper**                                | **Directory** | Any tools and helper classes

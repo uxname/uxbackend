@@ -1,0 +1,35 @@
+swagger: '2.0'
+info:
+    version: '1.0'
+    title: Uxbackend API
+paths:
+    '/user/avatar':
+        post:
+            description: Update user's avatar
+            parameters:
+            -   name: token
+                in: formData
+                type: string
+                required: true
+                description: JWT token
+            -   name: avatar
+                in: formData
+                type: file
+                required: true
+                description: Image file
+            tags:
+            - User
+            responses:
+                '200':
+                    description: Returns the successful change
+                    schema:
+                        type: object
+                        properties:
+                            result:
+                                type: string
+                                example: 'ok'
+                '404':
+                    description: User not found
+                '401':
+                    description: Not enough parameters (avatar/token)
+

@@ -6,13 +6,14 @@
   "scripts": {
     "start": "cd database && npx prisma deploy && cd .. && node server.js",
     "dev-start-app": "npm run dev-prisma-deploy && node server.js",
-    "dev-prisma-deploy": "cd database && prisma deploy -e ../.env && prisma generate -e ../.env",
-    "dev-prisma-deploy-f": "cd database && prisma deploy -f -e ../.env && prisma generate -e ../.env",
+    "dev-prisma-deploy": "npm run dev-generate-docs && cd database && prisma deploy -e ../.env && prisma generate -e ../.env",
+    "dev-prisma-deploy-f": "npm run dev-generate-docs && cd database && prisma deploy -f -e ../.env && prisma generate -e ../.env",
     "dev-prisma-reset": "cd database && prisma reset -e ../.env",
     "dev-prisma-seed": "cd database && prisma seed -r -e ../.env",
     "dev-clear": "sudo rm -rf ./data ./uploads && docker-compose -f docker_compose_dev.yml rm -f",
     "dev-start": "docker-compose -f docker_compose_dev.yml up -d",
     "dev-stop": "docker-compose -f docker_compose_dev.yml stop",
+    "dev-generate-docs": "cd ./docs && npx redoc-cli bundle swagger.yml && cd ..",
     "prod-build": "docker-compose build",
     "prod-up": "docker-compose up -d",
     "prod-start": "docker-compose start",
@@ -44,6 +45,7 @@
     "graphql": "^14.0.2"
   },
   "devDependencies": {
-    "prisma": "^1.18.1"
+    "prisma": "^1.18.1",
+    "redoc-cli": "^0.6.4"
   }
 }
