@@ -45,6 +45,27 @@ module.exports = require('./config_example');
  **server.js**                             | **File**      | Describes basic server launch functions
  **app.js**                                | **File**      | Describes public api structure and partially business logic (ex.: data access permissions)   
 
+# NPM scripts
+
+ Command                | Environment     | Description
+ -----------------------|-----------------|--------------
+ start                  | **Production**  | Start server (for Docker)
+ dev-start-app          | Development     | Start server for dev.
+ dev-prisma-deploy      | Development     | Deploy database structure to Prisma and generate API documentation 
+ dev-prisma-deploy-f    | Development     | Execute `dev-prisma-deploy` command but with `force` flag
+ dev-prisma-reset       | Development     | Drop database
+ dev-prisma-seed        | Development     | Put initial data to database (from `seed.graphql`) 
+ dev-clear              | Development     | Delete all data (All storage folders, Docker containers)
+ dev-start              | Development     | Start Docker development environment containers 
+ dev-stop               | Development     | Stop Docker development environment containers
+ dev-generate-docs      | Development     | Generate API docs
+ prod-build             | **Production**  | Build Docker container of app 
+ prod-up                | **Production**  | Update & start Docker container of app
+ prod-start             | **Production**  | Start Docker container of app
+ prod-full-restart      | **Production**  | Stop Docker container, rebuild/update it and start again
+ prod-clear             | **Production**  | Delete all data (All storage folders, Docker containers)
+ prod-logs              | **Production**  | Show logs output of app's container
+ prod-stop              | **Production**  | Stop Docker app container of app
 
 # Contributions
 **Join the project - glad any pull request, you can contact me:
