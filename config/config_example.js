@@ -81,6 +81,14 @@ const config = {
     },
     uploads: {
         max_user_avatar_size_in_bytes: 250 * 1024 // 250 KB
+    },
+    maintenance_mode: {
+        maintenance_mode_enabled: true,
+        allowed_hosts: [
+            '127.1.0.1',
+            '::1',
+            '::ffff:127.0.0.1'
+        ]
     }
 };
 

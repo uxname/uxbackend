@@ -46,6 +46,23 @@ const limiter = rateLimit({
     message: config.ddos_protection.message || '{ "error": "Too many requests" }'
 });
 
+// Maintenance mode handler
+graphqlServer.express.use((req, res, next) => {
+    if (!config.maintenance_mode.maintenance_mode_enabled) {
+        next();
+        return;
+    }
+    const ip = req.connection.remoteAddress;
+
+    if (config.maintenance_mode.allowed_hosts.indexOf(ip) >= 0) {
+        log.info(`Maintenance mode enabled. Got request from: "${ip}"`);
+        next();
+    } else {
+        res.status(503).json({
+            status: 'Sorry we are down for maintenance'
+        });
+    }
+});
 graphqlServer.express.use(limiter);
 
 const roles_helper = require('./helper/roles_helper');
