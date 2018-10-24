@@ -31,7 +31,7 @@ services:
         - './uploads:/app/uploads'
     mongodb:
         image: 'mongo:latest'
-        #        restart: always
+        #restart: always
         environment:
         - MONGO_DATA_DIR=/data/db
         - MONGO_LOG_DIR=/dev/null
@@ -49,7 +49,7 @@ services:
             POSTGRES_PASSWORD: $POSTGRES_PASSWORD
             POSTGRES_DB: $POSTGRES_DB
             PGDATA: /data/postgres
-        restart: always
+        #restart: always
         #ports:
         #- "5432:5432"
         volumes:
@@ -64,7 +64,7 @@ services:
         - postgres
         volumes:
         - './data/pgadmin:/root/.pgadmin'
-        restart: always
+        #restart: always
         #ports:
         #- '5052:5050'
         networks:
@@ -75,7 +75,7 @@ services:
 
     prisma:
         image: prismagraphql/prisma:1.18
-        restart: always
+        #restart: always
         networks:
         - uxbackend_network
         #ports:
