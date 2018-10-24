@@ -62,6 +62,7 @@ const config = {
         tracing: true,
         maximumCost: 100,
         defaultCost: 1,
+        mocks: false,
     },
     ddos_protection: {
         windowMs: 1000 * 60 * 15,

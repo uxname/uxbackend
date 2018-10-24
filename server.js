@@ -20,6 +20,7 @@ process.on('unhandledRejection', error => {
 });
 
 const graphqlServer = new GraphQLServer({
+    mocks: config.graphql.mocks,
     typeDefs: importSchema('schema.graphql'),
     resolvers: app.resolvers,
     middlewares: [app.permissions],
