@@ -1,3 +1,5 @@
+"use strict";
+
 const log = require('./helper/logger').getLogger('app');
 const productResolver = require('./resolver/product');
 const categoryResolver = require('./resolver/category');

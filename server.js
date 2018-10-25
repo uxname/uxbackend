@@ -1,3 +1,5 @@
+"use strict";
+
 const log = require('./helper/logger').getLogger('server');
 const pkg = require('./package');
 log.info(`Starting "${pkg.name} - ${pkg.version}" server...`);
