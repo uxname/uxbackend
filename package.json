@@ -26,6 +26,7 @@
     "agenda": "^2.0.2",
     "agendash": "^0.4.0",
     "argon2": "^0.19.3",
+    "dataloader": "^1.4.0",
     "express": "^4.16.3",
     "express-rate-limit": "^3.2.0",
     "graphql-cost-analysis": "^1.0.2",

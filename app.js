@@ -7,8 +7,25 @@ const roleHelper = require('./helper/roles_helper');
 const {rule, shield, and, or, not} = require('graphql-shield');
 const systemResolver = require('./resolver/system_resolver');
 
+const DataLoader = require('dataloader');
+
+const cachedResponseLoader = new DataLoader(keys => new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve([
+            keys + ' -> ' + Math.random().toString(10) //first element of result array will contain first key and random value
+        ])
+    }, 2000); // Manual delay
+}));
+
 const resolvers = {
     Query: {
+        cachedResponse: (root, {id}) => {
+            return cachedResponseLoader.load(id);
+        },
+        clearCachedResponse: (root, {id}) => {
+            cachedResponseLoader.clear(id);
+            return true;
+        },
         systemInfo: systemResolver.systemInfo,
         sign_in: userResolver.signIn,
         products: productResolver.getProducts

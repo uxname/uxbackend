@@ -1,6 +1,11 @@
 #import * from './helper/helper.graphql'
 
 type Query {
+    "Get cached value (first request will not be cached)"
+    cachedResponse(id: Int!): String
+    "Clar cached value"
+    clearCachedResponse(id: Int!): Boolean
+
     sign_in(email: String!, password: String!): UserAuthResponse!
 
     products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]! @cost(complexity: 3)
