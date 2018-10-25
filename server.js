@@ -111,6 +111,7 @@ if (routers && routers.length > 0) {
         tracing: config.graphql.tracing,
         endpoint: config.graphql.endpoint_path,
         playground: config.graphql.playground,
+        cacheControl: true,
         port: config.port,
         validationRules: (req) => [
             costAnalysis({

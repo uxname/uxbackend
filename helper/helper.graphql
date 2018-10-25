@@ -1,0 +1,21 @@
+directive @cost(
+    complexity: Int
+    useMultipliers: Boolean
+    multipliers: [String!]
+) on FIELD_DEFINITION
+
+directive @cacheControl(
+    maxAge: Int,
+    scope: CacheControlScope
+) on OBJECT | FIELD | FIELD_DEFINITION
+
+enum CacheControlScope {
+    PUBLIC
+    PRIVATE
+}
+
+scalar JSON
+
+scalar DateTime
+
+scalar Long

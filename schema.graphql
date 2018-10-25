@@ -1,15 +1,11 @@
-directive @cost(
-    complexity: Int
-    useMultipliers: Boolean
-    multipliers: [String!]
-) on FIELD_DEFINITION
+#import * from './helper/helper.graphql'
 
 type Query {
     sign_in(email: String!, password: String!): UserAuthResponse!
 
     products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]! @cost(complexity: 3)
 
-    systemInfo: SystemInfo @cost(complexity: 10)
+    systemInfo: SystemInfo @cost(complexity: 10) @cacheControl(maxAge: 5)
 }
 
 type Mutation {
@@ -32,8 +28,6 @@ type SystemInfo {
     user_count: String
     other_info: JSON
 }
-
-scalar JSON
 
 type UserAuthResponse {
     user: User
@@ -403,10 +397,6 @@ input CategoryWhereInput {
 input CategoryWhereUniqueInput {
     id: ID
 }
-
-scalar DateTime
-
-scalar Long
 
 enum MutationType {
     CREATED
