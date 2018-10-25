@@ -48,6 +48,19 @@ const limiter = rateLimit({
     message: config.ddos_protection.message || '{ "error": "Too many requests" }'
 });
 
+// Log ip
+graphqlServer.express.use((req, res, next) => {
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+    let log_string = 'Request IP: [' + ip.toString() + ']';
+    if (req.headers['x-forwarded-for']) {
+        log_string += ' (from header "x-forwarded-for")';
+    }
+    log.trace(log_string);
+
+    next();
+});
+
 // Maintenance mode handler
 graphqlServer.express.use((req, res, next) => {
     if (!config.maintenance_mode.maintenance_mode_enabled) {
@@ -57,7 +70,7 @@ graphqlServer.express.use((req, res, next) => {
     const ip = req.connection.remoteAddress;
 
     if (config.maintenance_mode.allowed_hosts.indexOf(ip) >= 0) {
-        log.info(`Maintenance mode enabled. Got request from: "${ip}"`);
+        log.info(`Maintenance mode enabled. Got request from: [${ip}]`);
         next();
     } else {
         res.status(503).json({
