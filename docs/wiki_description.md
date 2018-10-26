@@ -30,7 +30,6 @@
 
  Command                | Environment     | Description
  -----------------------|-----------------|--------------
- **start**              | **Production**  | Start server (for Docker)
  **dev-start-app**      | Development     | Start server for dev.
  **dev-prisma-deploy**  | Development     | Deploy database structure to Prisma and generate API documentation 
  **dev-prisma-deploy-f**| Development     | Execute `dev-prisma-deploy` command but with `force` flag
@@ -40,6 +39,7 @@
  **dev-start**          | Development     | Start Docker development environment containers 
  **dev-stop**           | Development     | Stop Docker development environment containers
  **dev-generate-docs**  | Development     | Generate API docs
+ **start**              | **Production**  | Start server (for Docker)
  **prod-build**         | **Production**  | Build Docker container of app 
  **prod-up**            | **Production**  | Update & start Docker container of app
  **prod-start**         | **Production**  | Start Docker container of app
