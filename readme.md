@@ -67,6 +67,9 @@ module.exports = require('./config_example');
  **prod-logs**          | **Production**  | Show logs output of app's container
  **prod-stop**          | **Production**  | Stop Docker app container of app
 
+# Wiki
+Wiki pages available [here](docs/wiki_index.md)
+
 # Contributions
 **Join the project - glad any pull request, you can contact me:
 Telegram: `@uxname`**
