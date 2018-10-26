@@ -1,7 +1,7 @@
 # Dependencies description
 
 * **agenda** - Job manager
-* **agendash** - Web interface for Agenda
+* **agendash** - Web interface for Agenda, by default available at `/jobs_dashboard` endpoint
 * **argon2** - Hashing algorithm
 * **dataloader** - Server-side in-memory data cache implementation
 * **express-rate-limit** - Basic rate-limiting middleware for Express. Use to limit repeated requests to public APIs and/or endpoints such as password reset.
