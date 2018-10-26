@@ -13,8 +13,8 @@ const DataLoader = require('dataloader');
 
 const cachedResponseLoader = new DataLoader(keys => new Promise((resolve, reject) => {
     setTimeout(() => {
-        resolve([
-            keys + ' -> ' + Math.random().toString(10) //first element of result array will contain first key and random value
+        resolve([ //first element of result array will contain all keys and random value
+            keys + ' -> ' + Math.random().toString(10)
         ])
     }, 2000); // Manual delay
 }));
