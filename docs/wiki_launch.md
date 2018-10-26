@@ -1,3 +1,6 @@
+[Go to wiki main page](wiki_index.md)
+***
+
 # Development launch
 1. `git clone ...`
 2. `yarn install`

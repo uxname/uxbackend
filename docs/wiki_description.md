@@ -1,3 +1,6 @@
+[Go to wiki main page](wiki_index.md)
+***
+
 # Project structure
 
  Object                                    | Type          | Description  
