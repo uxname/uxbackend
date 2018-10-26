@@ -72,7 +72,7 @@ graphqlServer.express.use((req, res, next) => {
     const ip = req.connection.remoteAddress;
 
     if (config.maintenance_mode.allowed_hosts.indexOf(ip) >= 0) {
-        log.info(`Maintenance mode enabled. Got request from: [${ip}]`);
+        log.info(`Maintenance mode enabled. Disable it in config. Got request from: [${ip}]`);
         next();
     } else {
         res.status(503).json({
