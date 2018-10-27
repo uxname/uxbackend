@@ -19,7 +19,7 @@ log4js.configure(config.logger_config);
  */
 
 function getLogger(name) {
-    return log4js.getLogger(pkg.name + '.' + name)
+    return log4js.getLogger(`[${pkg.name}] [${name}]`)
 }
 
 module.exports.getLogger = getLogger;
