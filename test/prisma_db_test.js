@@ -1,5 +1,7 @@
 const assert = require('assert');
-process.env.PRISMA_ENDPOINT = 'http://localhost:4466';
+if (process.env.IS_DOCKER !== 'true') {
+    process.env.PRISMA_ENDPOINT = 'http://localhost:4466'
+}
 const prisma = require('../helper/prisma_helper').prisma;
 
 describe('Prisma db test', async () => {
