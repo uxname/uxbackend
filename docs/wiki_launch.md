@@ -4,13 +4,9 @@
 # Development launch
 1. `git clone ...`
 2. `yarn install`
-3. Create `./config/config.js` file with config or copy `./config/config_example.js` or create placeholder like:
-```js
-module.exports = require('./config_example');
-```
-4. Copy `.env_example` to `.env` file
-5. `yarn dev-start`
-6. `yarn dev-start-app`
+3. Copy `.env_example` to `.env` file
+4. `yarn dev-start`
+5. `yarn dev-start-app`
 
 # Production launch
 1. `git clone ...`
