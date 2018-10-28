@@ -20,7 +20,7 @@
  **.env_example**                          | **File**      | Example of `.env` file, contains environments variables for Docker container 
  **.dockerignore**                         | **File**      | Docker ignore file (describes which files should not get inside Docker container)  
  **docker-compose.yml**                    | **File**      | Docker compose file for production launch  
- **docker_compose_dev.yml**                | **File**      | Docker compose file for development launch  
+ **docker-compose-dev.yml**                | **File**      | Docker compose file for development launch  
  **Dockerfile**                            | **File**      | [Dockerfile](https://docs.docker.com/engine/reference/builder)  
  src/**schema.graphql**                    | **File**      | GraphQL schema for public API  
  src/**server.js**                         | **File**      | Describes basic server launch functions
