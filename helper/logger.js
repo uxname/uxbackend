@@ -4,6 +4,22 @@ const pkg = require('../package');
 
 log4js.configure(config.logger_config);
 
+
+/**
+ * Add warning on using default console object
+ */
+function addWarnings() {
+    const log = log4js.getLogger('[console]');
+
+    ['trace', 'debug', 'log', 'info', 'warn', 'error'].forEach(function (method) {
+        console[method] = function () {
+            log.warn('Console output is deprecated, please use Logger instead. [console.' + method + ']', arguments);
+        };
+    });
+}
+
+addWarnings();
+
 /**
  * Returns log4js object.
  * @example
@@ -17,7 +33,6 @@ log4js.configure(config.logger_config);
  *
  * @type {Logger}
  */
-
 function getLogger(name) {
     return log4js.getLogger(`[${pkg.name}] [${name}]`)
 }
