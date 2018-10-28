@@ -10,7 +10,7 @@
     "dev-prisma-deploy-f": "npm run dev-generate-docs && cd database && prisma deploy -f -e ../.env && prisma generate -e ../.env",
     "dev-prisma-reset": "cd database && prisma reset -e ../.env",
     "dev-prisma-seed": "cd database && prisma seed -r -e ../.env",
-    "dev-clear": "sudo rm -rf ./data ./uploads && docker-compose -f docker_compose_dev.yml rm -f",
+    "dev-clear": "sudo rm -rf ./data ./uploads ./logs && docker-compose -f docker_compose_dev.yml rm -f",
     "dev-start": "docker-compose -f docker_compose_dev.yml up -d",
     "dev-stop": "docker-compose -f docker_compose_dev.yml stop",
     "dev-generate-docs": "cd ./docs && npx redoc-cli bundle swagger.yml && cd ..",
@@ -18,7 +18,7 @@
     "prod-up": "docker-compose up -d",
     "prod-start": "docker-compose start",
     "prod-full-restart": "npm run prod-stop && npm run prod-clear && npm run prod-build && npm run prod-up",
-    "prod-clear": "sudo rm -rf ./data ./uploads && docker-compose rm -f",
+    "prod-clear": "sudo rm -rf ./data ./uploads ./logs && docker-compose rm -f",
     "prod-logs": "docker-compose logs -f",
     "prod-stop": "docker-compose stop",
     "test": "mocha"
