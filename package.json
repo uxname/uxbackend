@@ -20,7 +20,8 @@
     "prod-full-restart": "npm run prod-stop && npm run prod-clear && npm run prod-build && npm run prod-up",
     "prod-clear": "sudo rm -rf ./data ./uploads && docker-compose rm -f",
     "prod-logs": "docker-compose logs -f",
-    "prod-stop": "docker-compose stop"
+    "prod-stop": "docker-compose stop",
+    "test": "mocha"
   },
   "dependencies": {
     "agenda": "^2.0.2",
@@ -35,6 +36,7 @@
     "graphql-yoga": "^1.16.2",
     "jsonwebtoken": "^8.3.0",
     "log4js": "^3.0.5",
+    "mocha": "^5.2.0",
     "moment": "^2.22.2",
     "multer": "^1.4.1",
     "nodemailer": "^4.6.8",
