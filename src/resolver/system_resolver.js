@@ -1,5 +1,5 @@
 const log = require('../helper/logger').getLogger('system_resolver');
-const pkgjson = require('../package.json');
+const pkgjson = require('../../package.json');
 const config = require('../config/config');
 const os = require('os');
 const moment = require('moment');

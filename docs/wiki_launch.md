@@ -8,13 +8,13 @@
 ```js
 module.exports = require('./config_example');
 ```
-4. Copy `.env_example` to `.env` file 
+4. Copy `.env_example` to `.env` file
 5. `yarn dev-start`
 6. `yarn dev-start-app`
 
 # Production launch
 1. `git clone ...`
-2. Create `./config/config.js` file with config
-3. Change `PRISMA_ENDPOINT` variable in `.env` file to `http://prisma:4466`
-4. `yarn prod-build`
+2. `yarn prod-build`
+3. `yarn prod-init`
+4. Edit `config.js` and `.env` files
 5. `yarn prod-up`

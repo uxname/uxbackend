@@ -6,7 +6,7 @@
 Wiki pages available [here](docs/wiki_index.md)
 
 # Contributions
-**Join the project - glad any pull requests.** 
+**Join the project - glad any pull requests, issues or any feedback**
 
-**Сontacts:**
+# Сontacts
  * Telegram: `@uxname`

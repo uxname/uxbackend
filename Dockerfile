@@ -10,7 +10,7 @@ FROM dependencies AS modules
 WORKDIR /app
 
 COPY ./package*.json ./
-RUN npm install
+RUN npm install --loglevel=error
 
 FROM modules AS app
 
@@ -20,4 +20,4 @@ COPY . .
 
 EXPOSE 4000
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "prod-start-app"]

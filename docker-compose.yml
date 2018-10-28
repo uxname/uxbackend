@@ -4,7 +4,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        #restart: always
+        restart: always
         links:
         - 'postgres:database'
         - 'prisma:prisma'
@@ -13,26 +13,28 @@ services:
         - '4001:4000'
         environment:
             PRISMA_ENDPOINT: $PRISMA_ENDPOINT
-            IS_DOCKER: "true"
             POSTGRES_USER: $POSTGRES_USER
             POSTGRES_PASSWORD: $POSTGRES_PASSWORD
             POSTGRES_DB: $POSTGRES_DB
             POSTGRES_PORT: $POSTGRES_PORT
             POSTGRES_HOST: database
+            MONGODB_HOST: $MONGODB_HOST
+            MONGODB_PORT: $MONGODB_PORT
             NODE_ENV: production
         depends_on:
         - postgres
         - pgadmin
         - mongodb
+        - prisma
         networks:
         - uxbackend_network
         volumes:
-        - './config:/app/config'
-        - './uploads:/app/uploads'
-        - './logs:/app/logs'
+        - './data/config:/app/src/config'
+        - './data/uploads:/app/uploads'
+        - './data/logs:/app/logs'
     mongodb:
         image: 'mongo:latest'
-        #restart: always
+        restart: always
         environment:
         - MONGO_DATA_DIR=/data/db
         - MONGO_LOG_DIR=/dev/null
@@ -50,7 +52,7 @@ services:
             POSTGRES_PASSWORD: $POSTGRES_PASSWORD
             POSTGRES_DB: $POSTGRES_DB
             PGDATA: /data/postgres
-        #restart: always
+        restart: always
         #ports:
         #- "5432:5432"
         volumes:
@@ -65,7 +67,7 @@ services:
         - postgres
         volumes:
         - './data/pgadmin:/root/.pgadmin'
-        #restart: always
+        restart: always
         #ports:
         #- '5052:5050'
         networks:
@@ -76,7 +78,7 @@ services:
 
     prisma:
         image: prismagraphql/prisma:1.18
-        #restart: always
+        restart: always
         networks:
         - uxbackend_network
         #ports:

@@ -1,6 +1,6 @@
 const log4js = require('log4js');
 const config = require('../config/config');
-const pkg = require('../package');
+const pkg = require('../../package');
 
 log4js.configure(config.logger_config);
 

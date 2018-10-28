@@ -135,9 +135,11 @@ fabric.properties
 # Editor-based Rest Client
 .idea/httpRequests
 
-data
+/data/
 docker-compose.yml
 docker_compose_dev.yml
 Dockerfile
+
+/config/
 
 uploads/

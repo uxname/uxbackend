@@ -1,6 +1,6 @@
-const log = require('../helper/logger').getLogger('role_asserter');
-const GraphqlError = require('../helper/GraphqlError');
-const prisma = require('../helper/prisma_helper').prisma;
+const log = require('./logger').getLogger('role_asserter');
+const GraphqlError = require('./GraphqlError');
+const prisma = require('./prisma_helper').prisma;
 
 async function userHasRoles(rolesForCheck, userId) {
     const foundUser = await prisma.user({

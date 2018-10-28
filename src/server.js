@@ -1,10 +1,10 @@
 "use strict";
 
 const log = require('./helper/logger').getLogger('server');
-const pkg = require('./package');
+const pkg = require('../package');
 log.info(`\n\n\nStarting server: [${pkg.name} - ${pkg.version}]...`);
 const config = require('./config/config');
-if (process.env.IS_DOCKER !== 'true') {
+if (process.env.NODE_ENV !== 'production') {
     process.env.PRISMA_ENDPOINT = 'http://localhost:4466'
 }
 log.debug(`Prisma endpoint: [ ${process.env.PRISMA_ENDPOINT} ]`);
@@ -23,7 +23,7 @@ process.on('unhandledRejection', error => {
 
 const graphqlServer = new GraphQLServer({
     mocks: config.graphql.mocks,
-    typeDefs: importSchema('schema.graphql'),
+    typeDefs: importSchema(__dirname + '/../src/schema.graphql'),
     resolvers: app.resolvers,
     middlewares: [app.permissions],
     context: async ({request}) => {
@@ -47,7 +47,7 @@ const graphqlServer = new GraphQLServer({
 const limiter = rateLimit({
     windowMs: config.ddos_protection.windowMs || 1000,
     max: config.ddos_protection.max || 1000000, // limit each IP to 'max' requests per windowMs
-    message: config.ddos_protection.message || '{ "error": "Too many requests" }'
+    message: config.ddos_protection.message || '{ "message": "Too many requests" }'
 });
 
 // Log ip

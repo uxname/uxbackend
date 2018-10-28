@@ -14,14 +14,14 @@ const config = {
                 compress: true
             },
             telegramAlert: {
-                type: './helper/log4js_telegram_appender',
+                type: __dirname + '/../helper/log4js_telegram_appender',
                 silentAlertLevel: 'error',
                 audioAlertLevel: 'error',
                 bottoken: '123',
                 botchatid: 0 // Use @myidbot bot to get dialog id
             },
             telegramAlertDebug: {
-                type: './helper/log4js_telegram_appender',
+                type: __dirname + '/../helper/log4js_telegram_appender',
                 silentAlertLevel: 'info',
                 audioAlertLevel: 'error',
                 bottoken: '123',

@@ -1,4 +1,4 @@
-const log = require('../helper/logger').getLogger('db');
+const log = require('./logger').getLogger('db');
 const pg = require('pg');
 const config = require('../config/config');
 

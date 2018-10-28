@@ -1,4 +1,4 @@
-const log = require('../helper/logger').getLogger('job_scheduler');
+const log = require('./logger').getLogger('job_scheduler');
 const Agenda = require('agenda');
 const Agendash = require('agendash');
 const config = require('../config/config');

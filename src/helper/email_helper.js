@@ -1,11 +1,11 @@
 'use strict';
-const log = require('../helper/logger').getLogger('email_helper');
+const log = require('./logger').getLogger('email_helper');
 const nodemailer = require('nodemailer');
 const config = require('../config/config');
 const pug = require('pug');
-const compiledLetter = pug.compileFile('./template/email_confirm_letter.pug');
-const prisma = require('../helper/prisma_helper').prisma;
-const GraphqlError = require('../helper/GraphqlError');
+const compiledLetter = pug.compileFile(__dirname + '/../template/email_confirm_letter.pug');
+const prisma = require('./prisma_helper').prisma;
+const GraphqlError = require('./GraphqlError');
 const crypto = require('crypto');
 
 let transporter = nodemailer.createTransport({

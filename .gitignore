@@ -119,6 +119,6 @@ typings/
 
 data
 
-config/config.js
+/config/
 
 uploads/

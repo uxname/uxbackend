@@ -1,5 +1,5 @@
 const assert = require('assert');
-if (process.env.IS_DOCKER !== 'true') {
+if (process.env.NODE_ENV !== 'production') {
     process.env.PRISMA_ENDPOINT = 'http://localhost:4466'
 }
 const prisma = require('../helper/prisma_helper').prisma;
