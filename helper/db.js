@@ -17,7 +17,14 @@ async function connect() {
     log.debug('Connection to database...');
     const result = await pgPool.connect();
     const res = await pgPool.query('SELECT datname FROM pg_database');
-    log.debug('Connected -> Databases:\n', res.rows);
+    let databases = '';
+    res.rows.forEach((item, index) => {
+        databases += "'" + item.datname + "'";
+        if (index < res.rows.length - 1) {
+            databases += ', ';
+        }
+    });
+    log.debug(`Connected, databases: [${databases}]`);
     return result;
 }
 
