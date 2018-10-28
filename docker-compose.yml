@@ -29,6 +29,7 @@ services:
         volumes:
         - './config:/app/config'
         - './uploads:/app/uploads'
+        - './logs:/app/logs'
     mongodb:
         image: 'mongo:latest'
         #restart: always

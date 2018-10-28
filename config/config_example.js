@@ -6,6 +6,13 @@ const config = {
             out: {
                 type: "stdout"
             },
+            fileOut: {
+                type: 'file',
+                filename: './logs/logs.log',
+                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 10,
+                compress: true
+            },
             telegramAlert: {
                 type: './helper/log4js_telegram_appender',
                 silentAlertLevel: 'error',
@@ -25,6 +32,7 @@ const config = {
             default: {
                 appenders: [
                     'out',
+                    'fileOut',
                     'telegramAlert',
                     'telegramAlertDebug'
                 ],
