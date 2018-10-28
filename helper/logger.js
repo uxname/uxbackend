@@ -12,8 +12,8 @@ function addWarnings() {
     const log = log4js.getLogger('[console]');
 
     ['trace', 'debug', 'log', 'info', 'warn', 'error'].forEach(function (method) {
-        console[method] = function () {
-            log.warn('Console output is deprecated, please use Logger instead. [console.' + method + ']', arguments);
+        console[method] = function (...args) {
+            log.warn('Console output is deprecated, please use Logger instead. [console.' + method + ']:', args);
         };
     });
 }
