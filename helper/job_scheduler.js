@@ -5,7 +5,9 @@ const config = require('../config/config');
 
 function getAgenda(expressServer = null, protectAccessMiddleware = null) {
     const agenda = new Agenda();
-    agenda.database(`${config.mongodb.host}:${config.mongodb.port}/${config.job_scheduler.database_name}`);
+    agenda.database(`${config.mongodb.host}:${config.mongodb.port}/${config.job_scheduler.database_name}`, null, {
+        useNewUrlParser: true
+    });
     agenda.processEvery(config.job_scheduler.process_every);
     agenda.defaultLockLifetime(config.job_scheduler.timeout_in_ms);
 

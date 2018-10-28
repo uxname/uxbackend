@@ -42,6 +42,11 @@ const resolvers = {
         sign_up: userResolver.signUp,
         change_password: userResolver.change_password,
         createProduct: productResolver.createProduct
+    },
+    Node: { // to remove warning "Type "Node" is missing a "__resolveType" resolver. Pass false into "resolverValidationOptions.requireResolversForResolveType" to disable this warning."
+        __resolveType() {
+            return null;
+        }
     }
 };
 

@@ -2,12 +2,12 @@
 
 const log = require('./helper/logger').getLogger('server');
 const pkg = require('./package');
-log.info(`Starting "${pkg.name} - ${pkg.version}" server...`);
+log.info(`\n\n\nStarting server: [${pkg.name} - ${pkg.version}]...`);
 const config = require('./config/config');
 if (process.env.IS_DOCKER !== 'true') {
     process.env.PRISMA_ENDPOINT = 'http://localhost:4466'
 }
-log.debug('Prisma endpoint:', process.env.PRISMA_ENDPOINT);
+log.debug(`Prisma endpoint: [ ${process.env.PRISMA_ENDPOINT} ]`);
 const {GraphQLServer} = require('graphql-yoga');
 const {importSchema} = require('graphql-import');
 const rateLimit = require("express-rate-limit");
@@ -135,5 +135,5 @@ if (routers && routers.length > 0) {
     await agenda.start();
     log.debug('Job scheduler started successful');
 
-    log.info(`🚀  Server "${pkg.name} - ${pkg.version}" ready at "${config.port}" port`);
+    log.info(`Server [ "${pkg.name} - ${pkg.version}" ] started successful (${config.port} port)`);
 })();
