@@ -77,7 +77,7 @@ services:
             DEFAULT_PASSWORD: $PGADMIN_DEFAULT_PASSWORD
 
     prisma:
-        image: prismagraphql/prisma:1.18
+        image: prismagraphql/prisma:1.19
         restart: always
         networks:
         - uxbackend_network
