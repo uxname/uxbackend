@@ -16,6 +16,7 @@ const app = require('./app');
 const pg = require('./helper/db');
 const job_scheduler = require('./helper/job_scheduler');
 const {default: costAnalysis} = require('graphql-cost-analysis');
+const GraphqlRequestLogger = require('./helper/GraphqlRequestLogger');
 
 process.on('unhandledRejection', error => {
     log.warn('unhandledRejection', error);
@@ -27,6 +28,8 @@ const graphqlServer = new GraphQLServer({
     resolvers: app.resolvers,
     middlewares: [app.permissions],
     context: async ({request}) => {
+        GraphqlRequestLogger.log(request);
+
         let user = null;
         try {
             user = await token.validateToken(request.headers.token);
