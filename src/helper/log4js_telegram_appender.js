@@ -24,7 +24,7 @@ function stdoutAppender(layout, levels, config) {
             //console.log(`===== silentAlertLevel is less than loggingEvent level.`);
             if (audioLevel.isLessThanOrEqualTo(loggingEvent.level.levelStr)) {
                 //console.log(`===== log telegram with sound`);
-                
+
                 Object.assign(params.qs, {
                     text: layout(loggingEvent),
                     disable_notification: false
@@ -78,7 +78,8 @@ function configure(config, layouts, findAppender, levels) {
         const header = `<b>${loggingEvent.categoryName}: ${loggingEvent.level}</b>\n`;
         const timestamp = `[${loggingEvent.startTime.toISOString()}]\n`;
         const body = loggingEvent.data.map(d => {
-            return d.toString();
+            if (d)
+                return d.toString();
         }).join("\n");
         return header + timestamp + body;
     };
