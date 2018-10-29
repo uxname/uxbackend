@@ -22,7 +22,7 @@ const config = {
             },
             telegramAlertDebug: {
                 type: __dirname + '/../helper/log4js_telegram_appender',
-                silentAlertLevel: 'info',
+                silentAlertLevel: 'debug',
                 audioAlertLevel: 'error',
                 bottoken: '123',
                 botchatid: 0 // Use @myidbot bot to get dialog id

@@ -13,7 +13,7 @@ function stdoutAppender(layout, levels, config) {
         uri: "https://api.telegram.org/bot" + config.bottoken + "/sendMessage",
         qs: {
             chat_id: config.botchatid,
-            parse_mode: "html"
+            parse_mode: "markdown"
         }
     };
     // This is the appender function itself
@@ -75,12 +75,13 @@ function configure(config, layouts, findAppender, levels) {
 
     // the default custom layout for this appender, not using the layouts module
     const layout = function (loggingEvent) {
-        const header = `<b>${loggingEvent.categoryName}: ${loggingEvent.level}</b>\n`;
-        const timestamp = `[${loggingEvent.startTime.toISOString()}]\n`;
-        const body = loggingEvent.data.map(d => {
+        const header = `${loggingEvent.categoryName}: *${loggingEvent.level}*\n`;
+        const timestamp = `*[${loggingEvent.startTime.toISOString().replace(/T/, ' ').replace(/\..+/, '')}]*\n`;
+        const body = '```\n' + loggingEvent.data.map(d => {
             if (d)
                 return d.toString();
-        }).join("\n");
+        }).join("\n") + '\n```';
+        // console.log({header, timestamp, body});
         return header + timestamp + body;
     };
 
