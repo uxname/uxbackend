@@ -24,7 +24,7 @@ process.on('unhandledRejection', error => {
 
 const graphqlServer = new GraphQLServer({
     mocks: config.graphql.mocks,
-    typeDefs: importSchema(__dirname + '/../src/schema.graphql'),
+    typeDefs: importSchema(__dirname + '/../src/schema/schema.graphql'),
     resolvers: app.resolvers,
     middlewares: [app.permissions],
     context: async ({request}) => {

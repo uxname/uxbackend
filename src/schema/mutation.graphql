@@ -1,0 +1,6 @@
+type Mutation {
+    sign_up(email: String!, password: String, activation_code: String, step: SignUpStep!): UserAuthResponse!
+    change_password(old_password: String!, new_password: String!): UserAuthResponse!
+
+    createProduct(data: ProductCreateInput!): Product!
+}

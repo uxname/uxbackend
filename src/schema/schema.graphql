@@ -1,24 +1,8 @@
-#import * from './helper/helper.graphql'
+#import * from './helper.graphql'
 
-type Query {
-    "Get cached value (first request will not be cached)"
-    cachedResponse(id: Int!): String
-    "Clar cached value"
-    clearCachedResponse(id: Int!): Boolean
+#import Query from './query.graphql'
 
-    sign_in(email: String!, password: String!): UserAuthResponse!
-
-    products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]! @cost(complexity: 3)
-
-    systemInfo: SystemInfo @cost(complexity: 10) @cacheControl(maxAge: 5)
-}
-
-type Mutation {
-    sign_up(email: String!, password: String, activation_code: String, step: SignUpStep!): UserAuthResponse!
-    change_password(old_password: String!, new_password: String!): UserAuthResponse!
-
-    createProduct(data: ProductCreateInput!): Product!
-}
+#import Mutation from './mutation.graphql'
 
 type SystemInfo {
     title: String

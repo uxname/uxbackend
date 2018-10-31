@@ -22,7 +22,7 @@
  **docker-compose.yml**                    | **File**      | Docker compose file for production launch  
  **docker-compose-dev.yml**                | **File**      | Docker compose file for development launch  
  **Dockerfile**                            | **File**      | [Dockerfile](https://docs.docker.com/engine/reference/builder)  
- src/**schema.graphql**                    | **File**      | GraphQL schema for public API  
+ src/schema/**schema.graphql**             | **File**      | GraphQL schema for public API  
  src/**server.js**                         | **File**      | Describes basic server launch functions
  src/**app.js**                            | **File**      | Describes public api structure and partially business logic (ex.: data access permissions)   
  **data**                                  | **Directory** | Docker volumes storage   
