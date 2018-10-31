@@ -104,7 +104,10 @@ const agenda = job_scheduler.getAgenda(graphqlServer.express,
         }
     });
 
-var routers = require(__dirname + '/router');
+graphqlServer.express.get('/', (req, res) => {
+    res.redirect(config.graphql.endpoint_path);
+});
+const routers = require(__dirname + '/router');
 
 if (routers && routers.length > 0) {
     routers.forEach(function (router) {

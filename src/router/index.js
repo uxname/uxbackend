@@ -7,8 +7,10 @@ fs.readdirSync(__dirname)
         return (file.indexOf(".") !== 0) && (file !== "index.js") && (file !== "node_modules");
     })
     .forEach(function (file) {
-        const router = require(path.join(__dirname, file));
-        routers.push(router);
+        if (fs.lstatSync(__dirname + '/' + file).isFile()) {
+            const router = require(path.join(__dirname, file));
+            routers.push(router);
+        }
     });
 
 module.exports = routers;
