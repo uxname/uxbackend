@@ -80,6 +80,8 @@ function configure(config, layouts, findAppender, levels) {
         const body = '```\n' + loggingEvent.data.map(d => {
             if (d)
                 return d.toString();
+            else
+                return 'undefined (or null)';
         }).join("\n") + '\n```';
         // console.log({header, timestamp, body});
         return header + timestamp + body;
