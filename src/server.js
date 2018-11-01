@@ -105,7 +105,9 @@ const agenda = job_scheduler.getAgenda(graphqlServer.express,
     });
 
 graphqlServer.express.get('/', (req, res) => {
-    res.redirect(config.graphql.endpoint_path);
+    res.status(404).json({
+        message: 'Welcome'
+    });
 });
 const routers = require(__dirname + '/router');
 
@@ -135,14 +137,14 @@ if (routers && routers.length > 0) {
             })
         ],
         formatError: error => {
-            log.info('GraphQL error -> stacktrace:', error);
+            log.debug('GraphQL error -> stacktrace:', error);
             return error;
         }
     });
-    log.debug('GraphQL server started successful');
+    log.info('GraphQL server started successful');
 
     await agenda.start();
-    log.debug('Job scheduler started successful');
+    log.info('Job scheduler started successful');
 
     log.info(`Server [ "${pkg.name} - ${pkg.version}" ] started successful (${config.port} port)`);
 })();

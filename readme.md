@@ -10,3 +10,4 @@ Wiki pages available [here](docs/wiki_index.md)
 
 # Сontacts
  * Telegram: `@uxname`
+ * Email: `uxname@gmail.com`
