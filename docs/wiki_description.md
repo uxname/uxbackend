@@ -19,6 +19,7 @@
 * All application settings are stored in the `config.js` file, the folder with this file is mounted to the host system from the Docker container.
 * To protect the server from DDoS attacks, the `express-rate-limit` library is used, and to limit the size of the requested data in the GraphQL API,` graphql-cost-analysis`.
 * To separate access rights to the GraphQL API, the `graphql-shield` library is used.
+* `Dataloader` is used to cache requests on server side. Also GraphQL server's option `cacheControl` is used to help control cache in client side.
 * The project uses the logging architecture:
   * **Trace** - output everything in a row.
   * **Debug** - logging of the moments of calling "large" operations. Start / stop flow, user request, etc.
