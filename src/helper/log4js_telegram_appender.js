@@ -33,10 +33,11 @@ function stdoutAppender(layout, levels, config) {
                     if (error) {
                         console.log("Error sending to telegram:");
                         console.log(error);
-                    } /* else {
-                        console.log("Message sent to telegram:");
-                        console.log(body);
-                    }*/
+                    }
+                    /* else {
+                                           console.log("Message sent to telegram:");
+                                           console.log(body);
+                                       }*/
                 });
             } else {
                 //console.log(`===== log telegram quietly`);
@@ -48,15 +49,17 @@ function stdoutAppender(layout, levels, config) {
                     if (error) {
                         console.log("Error sending to telegram:");
                         console.log(error);
-                    } /* else {
-                        console.log("Message sent to telegram:");
-                        console.log(body);
-                    } */
+                    }
+                    /* else {
+                                           console.log("Message sent to telegram:");
+                                           console.log(body);
+                                       } */
                 });
             }
-        } /* else {
-            console.log(`===== silentAlertLevel is greater than or equal to loggingEvent level.\n===== don't log telegram`);
-        } */
+        }
+        /* else {
+                   console.log(`===== silentAlertLevel is greater than or equal to loggingEvent level.\n===== don't log telegram`);
+               } */
 
         //process.stdout.write(`test: ${layout(loggingEvent)}\n`);
     };
@@ -80,10 +83,14 @@ function configure(config, layouts, findAppender, levels) {
         const body = '```\n' + loggingEvent.data.map(d => {
             if (d)
                 return d.toString();
-            else
-                return 'undefined (or null)';
+            else if (d === null) {
+                return 'null';
+            } else if (d === undefined) {
+                return 'undefined';
+            } else {
+                return 'undefined, or null, or other, please check logs in stdout';
+            }
         }).join("\n") + '\n```';
-        // console.log({header, timestamp, body});
         return header + timestamp + body;
     };
 
