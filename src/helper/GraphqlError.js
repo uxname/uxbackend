@@ -1,11 +1,11 @@
-module.exports = class GraphqlError extends Error {
+const BaseGraphQLError = require('graphql').GraphQLError;
 
-    constructor(message, code) {
-        super();
-
-        this.message = JSON.stringify({
+module.exports = class GraphQLError extends BaseGraphQLError {
+    constructor(message, code, data) {
+        super({
             message: message || 'Unknown error',
-            code: code || -1
+            code: code || -1,
+            data: data
         });
     }
 };
