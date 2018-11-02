@@ -2,7 +2,7 @@ const log = require('../helper/logger').getLogger('user_service');
 const prisma = require('../helper/prisma_helper').prisma;
 const password_helper = require('../helper/password_helper');
 const token = require('../helper/token');
-const GraphqlError = require('../helper/GraphqlError');
+const GQLError = require('../helper/GQLError');
 const validator = require('validator');
 const emailHelper = require('../helper/email_helper');
 
@@ -17,11 +17,11 @@ function safeUser(userObject) {
 
 async function signUp(email, password, step, activation_code) {
     if (!email) {
-        throw new GraphqlError('Email is required', 400);
+        throw new GQLError('Email is required', 400);
     }
 
     if (!validator.isEmail(email)) {
-        throw new GraphqlError('Wrong email format', 400);
+        throw new GQLError('Wrong email format', 400);
     }
 
     if (step === 'GENERATE_ACTIVATION_CODE') {
@@ -34,10 +34,10 @@ async function signUp(email, password, step, activation_code) {
     } else if (step === 'CHECK_ACTIVATION_CODE') {
         const result = await emailHelper.verityActivationCode(email, activation_code);
         if (!result) {
-            throw new GraphqlError('Wrong activation code', 403);
+            throw new GQLError('Wrong activation code', 403);
         } else {
             if (!password) {
-                throw new GraphqlError('Password is required', 400);
+                throw new GQLError('Password is required', 400);
             }
 
             const salt = password_helper.getSecureRandomString();
@@ -56,7 +56,7 @@ async function signUp(email, password, step, activation_code) {
                 }).$fragment(`{ id email roles password_hash password_salt last_login_date }`);
             } catch (e) {
                 log.trace(e);
-                throw new GraphqlError(`User '${email}' already exists`, 409)
+                throw new GQLError(`User '${email}' already exists`, 409)
             }
 
             log.trace('User created: ', newUser.email);
@@ -71,11 +71,11 @@ async function signUp(email, password, step, activation_code) {
 
 async function signIn(email, password) {
     if (!email || !password) {
-        throw new GraphqlError('Email and password required', 400);
+        throw new GQLError('Email and password required', 400);
     }
 
     if (!validator.isEmail(email)) {
-        throw new GraphqlError('Wrong email format', 400);
+        throw new GQLError('Wrong email format', 400);
     }
 
     const user = await prisma.user({
@@ -87,7 +87,7 @@ async function signIn(email, password) {
     const result = await password_helper.verifyHashPassword(user.password_hash, password, user.password_salt);
 
     if (!result) {
-        throw new GraphqlError('Wrong password', 403)
+        throw new GQLError('Wrong password', 403)
     } else {
         const res = await prisma.updateUser({
             where: {
@@ -112,7 +112,7 @@ async function change_password(userId, oldPassword, newPassword) {
 
     const isPasswordCorrect = await password_helper.verifyHashPassword(user.password_hash, oldPassword, user.password_salt);
     if (!isPasswordCorrect) {
-        throw new GraphqlError('Wrong password', 401)
+        throw new GQLError('Wrong password', 401)
     }
 
     const newPasswordHash = await password_helper.hashPassword(newPassword, user.password_salt);

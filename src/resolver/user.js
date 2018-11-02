@@ -1,5 +1,5 @@
 const userService = require('../service/user');
-const GraphqlError = require('../helper/GraphqlError');
+const GQLError = require('../helper/GQLError');
 
 async function signUp(root, {email, password, step, activation_code}, ctx, info) {
     return userService.signUp(email, password, step, activation_code);
@@ -11,7 +11,7 @@ async function signIn(root, {email, password}, ctx, info) {
 
 async function change_password(root, {old_password, new_password}, ctx, info) {
     if (!ctx.user || !ctx.user.id) {
-        throw new GraphqlError('Unauthorized', 401);
+        throw new GQLError('Unauthorized', 401);
     }
     const userId = ctx.user.id;
     return userService.change_password(userId, old_password, new_password);

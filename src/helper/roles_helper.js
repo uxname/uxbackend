@@ -1,5 +1,5 @@
 const log = require('./logger').getLogger('role_asserter');
-const GraphqlError = require('./GraphqlError');
+const GQLError = require('./GQLError');
 const prisma = require('./prisma_helper').prisma;
 
 async function userHasRoles(rolesForCheck, userId) {
@@ -28,7 +28,7 @@ async function userHasRoles(rolesForCheck, userId) {
 async function assertWrongRoles(rolesForCheck, userId) {
     const result = await userHasRoles(rolesForCheck, userId);
     if (!result) {
-        throw new GraphqlError('Permission denied', 403);
+        throw new GQLError('Permission denied', 403);
     }
 }
 

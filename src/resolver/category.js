@@ -1,5 +1,5 @@
 const prisma = require('../helper/prisma_helper').prisma;
-const GraphqlError = require('../helper/GraphqlError');
+const GQLError = require('../helper/GQLError');
 const rolesHelper = require('../helper/roles_helper');
 const productService = require('../service/product');
 

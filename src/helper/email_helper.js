@@ -5,7 +5,7 @@ const config = require('../config/config');
 const pug = require('pug');
 const compiledLetter = pug.compileFile(__dirname + '/../template/email_confirm_letter.pug');
 const prisma = require('./prisma_helper').prisma;
-const GraphqlError = require('./GraphqlError');
+const GQLError = require('./GQLError');
 const crypto = require('crypto');
 
 let transporter = nodemailer.createTransport({
@@ -109,9 +109,9 @@ async function verityActivationCode(email, code) {
         email: email
     });
 
-    if (!result) throw new GraphqlError('Activation code was not generated', 404);
+    if (!result) throw new GQLError('Activation code was not generated', 404);
 
-    if (new Date(result.valid_until) < new Date()) throw new GraphqlError('Activation code expired', 410);
+    if (new Date(result.valid_until) < new Date()) throw new GQLError('Activation code expired', 410);
 
     if (code === result.code) {
         await prisma.deleteActivationCode({
