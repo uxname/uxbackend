@@ -11,13 +11,19 @@ const systemResolver = require('./resolver/system_resolver');
 
 const DataLoader = require('dataloader');
 
-const cachedResponseLoader = new DataLoader(keys => new Promise((resolve, reject) => {
-    setTimeout(() => {
-        resolve([ //first element of result array will contain all keys and random value
-            keys + ' -> ' + Math.random().toString(10)
-        ])
-    }, 2000); // Manual delay
-}));
+const cachedResponseLoader = new DataLoader(keys => {
+    let result = [];
+    keys.forEach(key => {
+        const tmpPromise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(key + ' -> ' + Math.random().toString(10))
+            }, 2000); // Manual delay
+        });
+        result.push(tmpPromise);
+    });
+
+    return Promise.all(result);
+});
 
 const resolvers = {
     Query: {
