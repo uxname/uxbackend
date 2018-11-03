@@ -20,6 +20,7 @@ const pg = require('./helper/db');
 const job_scheduler = require('./helper/job_scheduler');
 const {default: costAnalysis} = require('graphql-cost-analysis');
 const GraphqlRequestLogger = require('./helper/GraphqlRequestLogger');
+const compression = require('compression');
 
 process.on('unhandledRejection', error => {
     log.warn('unhandledRejection', error);
@@ -49,7 +50,13 @@ const graphqlServer = new GraphQLServer({
     }
 });
 
-// DDOS protection
+/*
+Important, for using `res.write` or similar functions - please
+use `res.flush()` function: https://github.com/expressjs/compression#server-sent-events
+ */
+graphqlServer.express.use(compression(config.compression));
+
+// DDoS protection
 const limiter = rateLimit({
     windowMs: config.ddos_protection.windowMs || 1000,
     max: config.ddos_protection.max || 1000000, // limit each IP to 'max' requests per windowMs

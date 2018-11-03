@@ -29,6 +29,7 @@
     "agenda": "^2.0.2",
     "agendash": "^0.4.0",
     "argon2": "^0.19.3",
+    "compression": "^1.7.3",
     "dataloader": "^1.4.0",
     "express": "^4.16.4",
     "express-rate-limit": "^3.3.0",

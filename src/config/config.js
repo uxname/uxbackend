@@ -101,6 +101,9 @@ const config = {
             '::1',
             '::ffff:127.0.0.1'
         ]
+    },
+    compression: {
+        level: -1 // https://github.com/expressjs/compression#level
     }
 };
 
