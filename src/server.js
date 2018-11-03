@@ -22,8 +22,8 @@ const {default: costAnalysis} = require('graphql-cost-analysis');
 const GraphqlRequestLogger = require('./helper/GraphqlRequestLogger');
 const compression = require('compression');
 
-process.on('unhandledRejection', error => {
-    log.warn('unhandledRejection', error);
+process.on('unhandledRejection', (reason, p) => {
+    log.warn('Unhandled Rejection at:', p, 'reason:', reason);
 });
 
 const graphqlServer = new GraphQLServer({
