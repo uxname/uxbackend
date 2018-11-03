@@ -1,7 +1,19 @@
 type Query {
-    "Get cached value (first request will not be cached)"
+    """
+    Get cached value (first request will not be cached).
+
+    Example of query:
+
+    {
+        request_1: cachedResponse(id: 1)
+        request_2: cachedResponse(id: 2)
+        request_3: cachedResponse(id: 3)
+        request_4: cachedResponse(id: 4)
+    }
+    """
     cachedResponse(id: Int!): String
-    "Clar cached value"
+
+    """Clear cached value"""
     clearCachedResponse(id: Int!): Boolean
 
     sign_in(email: String!, password: String!): UserAuthResponse!
