@@ -53,7 +53,11 @@ const graphqlServer = new GraphQLServer({
 const limiter = rateLimit({
     windowMs: config.ddos_protection.windowMs || 1000,
     max: config.ddos_protection.max || 1000000, // limit each IP to 'max' requests per windowMs
-    message: config.ddos_protection.message || '{ "message": "Too many requests" }'
+    message: config.ddos_protection.message || '{ "message": "Too many requests" }',
+    onLimitReached: (req, res, options) => {
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        log.error(`HTTP Request limit reached. IP: [${ip}]`);
+    }
 });
 
 // Log ip
