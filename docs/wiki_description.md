@@ -3,7 +3,7 @@
 
 # Common description
 
-* The project is based on such technologies as: Node.JS, Express, Docker, Docker-compose, Prisma, GraphQL, Agenda, PostgreSQL, MongoDB, Dataloader, JWT, Argon2, Mocha, Swagger.
+* The project is based on such technologies as: Node.JS, Express, Docker, Docker-compose, [Prisma](https://www.prisma.io/), GraphQL, [Agenda](https://github.com/agenda/agenda), PostgreSQL, MongoDB, [Dataloader](https://github.com/facebook/dataloader), JWT, [Argon2](https://github.com/ranisalt/node-argon2), Mocha, Swagger.
 * The project uses `graphql-yoga` as the main GraphQL server.
 * The main database is PostgreSQL.
 * The main ORM for working with a database is Prisma, running in a Docker container and associated with a PostgreSQL Docker container.
