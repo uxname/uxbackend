@@ -2522,10 +2522,10 @@ graphql-request@^1.5.0:
   dependencies:
     cross-fetch "2.2.2"
 
-graphql-shield@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/graphql-shield/-/graphql-shield-4.0.1.tgz#731fca9a69a540ff446edf9e5bec610da295f5cb"
-  integrity sha512-JLKf1Le0NFZzSSEzBMbl+mbGBsydHejYtTZ7RO5Ks/+HYXxdkBbBs4Cc/R7zAY9UW5lgpJzVNyC02NXBL34/Sw==
+graphql-shield@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/graphql-shield/-/graphql-shield-4.1.0.tgz#8bd55179fd28d00e64ca5a7dbd3cffe82e282e73"
+  integrity sha512-r3m5t7FpLDyJQIby0IKyNrtp8k62hP/syhPcrpdT67UVNKh0jjjl+zpjXh/3PXeNZHPEAiBQTHhFjnC7H2B4SA==
   dependencies:
     object-hash "^1.3.0"
     opencollective "1.0.3"
