@@ -11,7 +11,7 @@ services:
         volumes:
         - './data/postgres:/data/postgres'
         networks:
-        - ux_backend_network
+        - uxbackend_network_debug
     mongodb:
         image: 'mongo:latest'
         environment:
@@ -22,7 +22,7 @@ services:
         ports:
         - '27017:27017'
         networks:
-        - ux_backend_network
+        - uxbackend_network_debug
         command: 'mongod --smallfiles --logpath=/dev/null'
     pgadmin:
         image: fenglc/pgadmin4
@@ -35,7 +35,7 @@ services:
         ports:
         - '5775:5050'
         networks:
-        - ux_backend_network
+        - uxbackend_network_debug
         environment:
             DEFAULT_USER: admin@admin.com
             DEFAULT_PASSWORD: admin
@@ -43,7 +43,7 @@ services:
         image: prismagraphql/prisma:1.19.1
         restart: on-failure
         networks:
-        - ux_backend_network
+        - uxbackend_network_debug
         ports:
         - "4466:4466"
         depends_on:
@@ -66,9 +66,9 @@ services:
         ports:
         - "6379:6379"
         networks:
-        - ux_backend_network
+        - uxbackend_network_debug
         volumes:
         - ./data/redis:/data
 networks:
-    ux_backend_network:
+    uxbackend_network_debug:
         driver: bridge
