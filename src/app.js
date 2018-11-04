@@ -11,6 +11,7 @@ const {rule, shield, and, or, not} = require('graphql-shield');
 const systemResolver = require('./resolver/system_resolver');
 const redis = require('redis');
 const redisClient = redis.createClient(config.redis);
+const _ = require('lodash');
 
 const CACHED_RESPONSE_REDIS_PREFIX = 'cached:';
 const CACHED_RESPONSE_REDIS_EXPIRE_SEC = 10;
@@ -34,7 +35,7 @@ const resolvers = {
                                 return reject(err);
                             }
 
-                            setTimeout(() => {
+                            _.delay(() => {
                                 resolve(nonCachedObject);
                             }, 2000); // Manual delay for first request
                         });
