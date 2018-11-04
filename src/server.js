@@ -3,14 +3,17 @@
 const log = require('./helper/logger').getLogger('server');
 const pkg = require('../package');
 
-log.trace('\n███████╗████████╗ █████╗ ██████╗ ████████╗    ███╗   ██╗███████╗██╗    ██╗    ██╗███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗ ██████╗███████╗\n██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝    ████╗  ██║██╔════╝██║    ██║    ██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║██╔════╝██╔════╝\n███████╗   ██║   ███████║██████╔╝   ██║       ██╔██╗ ██║█████╗  ██║ █╗ ██║    ██║██╔██╗ ██║███████╗   ██║   ███████║██╔██╗ ██║██║     █████╗\n╚════██║   ██║   ██╔══██║██╔══██╗   ██║       ██║╚██╗██║██╔══╝  ██║███╗██║    ██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║╚██╗██║██║     ██╔══╝\n███████║   ██║   ██║  ██║██║  ██║   ██║       ██║ ╚████║███████╗╚███╔███╔╝    ██║██║ ╚████║███████║   ██║   ██║  ██║██║ ╚████║╚██████╗███████╗\n╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝       ╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝     ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝');
-
 log.info(`Starting server: [${pkg.name} - ${pkg.version}]...`);
 const config = require('./config/config');
-if (process.env.NODE_ENV !== 'production') {
-    process.env.PRISMA_ENDPOINT = 'http://localhost:4466'
+
+const production = process.env.NODE_ENV === 'production';
+
+if (!production) {
+    // Set or override prisma endpoint
+    process.env.PRISMA_ENDPOINT = 'http://localhost:4466';
 }
 log.debug(`Prisma endpoint: [ ${process.env.PRISMA_ENDPOINT} ]`);
+
 const {GraphQLServer} = require('graphql-yoga');
 const {importSchema} = require('graphql-import');
 const rateLimit = require("express-rate-limit");
@@ -21,6 +24,9 @@ const job_scheduler = require('./helper/job_scheduler');
 const {default: costAnalysis} = require('graphql-cost-analysis');
 const GraphqlRequestLogger = require('./helper/GraphqlRequestLogger');
 const compression = require('compression');
+const RedisStore = require('rate-limit-redis');
+const redis = require('redis');
+const redisClient = redis.createClient(config.redis);
 
 process.on('unhandledRejection', (reason, p) => {
     log.warn('Unhandled Rejection at:', p, 'reason:', reason);
@@ -58,6 +64,11 @@ graphqlServer.express.use(compression(config.compression));
 
 // DDoS protection
 const limiter = rateLimit({
+    store: new RedisStore({
+        expiry: config.ddos_protection.windowMs / 1000 || 1, // in seconds
+        prefix: 'rate_limit:',
+        client: redisClient
+    }),
     windowMs: config.ddos_protection.windowMs || 1000,
     max: config.ddos_protection.max || 1000000, // limit each IP to 'max' requests per windowMs
     message: config.ddos_protection.message || '{ "message": "Too many requests" }',

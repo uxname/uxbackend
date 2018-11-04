@@ -9,6 +9,7 @@ services:
         - 'postgres:database'
         - 'prisma:prisma'
         - 'mongodb:mongodb'
+        - 'redis:redis'
         ports:
         - '4001:4000'
         environment:
@@ -26,6 +27,7 @@ services:
         - pgadmin
         - mongodb
         - prisma
+        - redis
         networks:
         - uxbackend_network
         volumes:
@@ -75,7 +77,15 @@ services:
         environment:
             DEFAULT_USER: $PGADMIN_DEFAULT_USER
             DEFAULT_PASSWORD: $PGADMIN_DEFAULT_PASSWORD
-
+    redis:
+        image: redis:latest
+        restart: always
+        #ports:
+        #- "6379:6379"
+        networks:
+        - uxbackend_network
+        volumes:
+        - ./data/redis:/data
     prisma:
         image: prismagraphql/prisma:1.19.1
         restart: always

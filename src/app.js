@@ -1,6 +1,7 @@
 "use strict";
 
 const log = require('./helper/logger').getLogger('app');
+const config = require('./config/config');
 const productResolver = require('./resolver/product');
 const categoryResolver = require('./resolver/category');
 const userResolver = require('./resolver/user');
@@ -8,31 +9,53 @@ const prisma = require('./helper/prisma_helper').prisma;
 const roleHelper = require('./helper/roles_helper');
 const {rule, shield, and, or, not} = require('graphql-shield');
 const systemResolver = require('./resolver/system_resolver');
+const redis = require('redis');
+const redisClient = redis.createClient(config.redis);
 
-const DataLoader = require('dataloader');
-
-const cachedResponseLoader = new DataLoader(keys => {
-    let result = [];
-    keys.forEach(key => {
-        const tmpPromise = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(key + ' -> ' + Math.random().toString(10))
-            }, 2000); // Manual delay
-        });
-        result.push(tmpPromise);
-    });
-
-    return Promise.all(result);
-});
+const CACHED_RESPONSE_REDIS_PREFIX = 'cached:';
+const CACHED_RESPONSE_REDIS_EXPIRE_SEC = 10;
 
 const resolvers = {
     Query: {
         cachedResponse: (root, {id}) => {
-            return cachedResponseLoader.load(id);
+            return new Promise((resolve, reject) => {
+                redisClient.get(CACHED_RESPONSE_REDIS_PREFIX + id, (err, result) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    if (result !== null) {
+                        return resolve(result);
+                    } else {
+
+                        const nonCachedObject = `This is cached (for ${CACHED_RESPONSE_REDIS_EXPIRE_SEC} sec.) string: ${Math.random()}`;
+
+                        redisClient.set(CACHED_RESPONSE_REDIS_PREFIX + id, nonCachedObject, 'EX', CACHED_RESPONSE_REDIS_EXPIRE_SEC, (err, res) => {
+                            if (err) {
+                                return reject(err);
+                            }
+
+                            setTimeout(() => {
+                                resolve(nonCachedObject);
+                            }, 2000); // Manual delay for first request
+                        });
+                    }
+                });
+            })
         },
         clearCachedResponse: (root, {id}) => {
-            cachedResponseLoader.clear(id);
-            return true;
+            return new Promise((resolve, reject) => {
+                redisClient.del(CACHED_RESPONSE_REDIS_PREFIX + id, (err, deletedCount) => {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    if (deletedCount >= 1) {
+                        resolve(true);
+                    } else {
+                        reject('Cache not found');
+                    }
+                });
+            });
         },
         systemInfo: systemResolver.systemInfo,
         sign_in: userResolver.signIn,

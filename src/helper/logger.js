@@ -1,6 +1,7 @@
 const log4js = require('log4js');
 const config = require('../config/config');
 const pkg = require('../../package');
+const cluster = require('cluster');
 
 log4js.configure(config.logger_config);
 
@@ -34,7 +35,8 @@ addWarnings();
  * @type {Logger}
  */
 function getLogger(name) {
-    return log4js.getLogger(`[${pkg.name}] [${name}]`)
+    let cluster_id = cluster.isMaster ? `master` : `worker ${cluster.worker.id}`;
+    return log4js.getLogger(`[${pkg.name}] [${name}] [${cluster_id}]`)
 }
 
 module.exports.getLogger = getLogger;

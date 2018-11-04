@@ -10,7 +10,7 @@ FROM dependencies AS modules
 WORKDIR /app
 
 COPY ./package*.json ./
-RUN npm install --loglevel=error
+RUN npm install --production
 
 FROM modules AS app
 

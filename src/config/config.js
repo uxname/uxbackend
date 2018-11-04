@@ -1,3 +1,5 @@
+const production = process.env.NODE_ENV === 'production';
+
 const config = {
     token_secret: "123",
     token_expiresIn: 30 * 24 * 60 * 60, // 30 days in seconds
@@ -52,6 +54,10 @@ const config = {
             min: 4,
             idleTimeoutMillis: 1000
         }
+    },
+    redis: {
+        host: production ? 'redis' : 'localhost',
+        port: 6379
     },
     mongodb: {
         host: process.env.MONGODB_HOST || "localhost",

@@ -61,6 +61,14 @@ services:
                         user: postgres
                         password: postgres
                         connectionLimit: 15
+    redis:
+        image: redis:latest
+        ports:
+        - "6379:6379"
+        networks:
+        - ux_backend_network
+        volumes:
+        - ./data/redis:/data
 networks:
     ux_backend_network:
         driver: bridge

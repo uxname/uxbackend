@@ -2,6 +2,7 @@ const log = require('./logger').getLogger('job_scheduler');
 const Agenda = require('agenda');
 const Agendash = require('agendash');
 const config = require('../config/config');
+const cluster = require('cluster');
 
 function getAgenda(expressServer = null, protectAccessMiddleware = null) {
     const agenda = new Agenda();
@@ -19,11 +20,16 @@ function getAgenda(expressServer = null, protectAccessMiddleware = null) {
     return agenda;
 }
 
-async function addGracefulExitHandler(agenda) {
+function addGracefulExitHandler(agenda) {
     async function gracefulExit() {
         log.debug('Graceful agenda exit...');
         await agenda.stop();
         process.exit(0);
+    }
+
+    if (cluster.isWorker) {
+        cluster.worker.on('exit', gracefulExit);
+        cluster.worker.on('disconnect', gracefulExit);
     }
 
     process.on('SIGTERM', gracefulExit);
