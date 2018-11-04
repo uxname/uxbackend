@@ -1,4 +1,4 @@
-const log = require('../helper/logger').getLogger('product_service');
+const log = require('../helper/logger').getLogger('product_core');
 const prisma = require('../helper/prisma_helper').prisma;
 const agenda = require('../helper/job_scheduler').getAgenda();
 

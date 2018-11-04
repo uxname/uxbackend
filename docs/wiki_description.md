@@ -47,7 +47,7 @@
  src/**helper**                            | **Directory** | Any tools and helper classes
  src/**resolver**                          | **Directory** | GraphQL resolvers (modules, that implements public GraphQL API)
  src/**router**                            | **Directory** | REST API routers (modules, that implements public REST API)
- src/**service**                           | **Directory** | Modules works with database and implements business logic
+ src/**core**                              | **Directory** | Modules works with database and implements business logic
  src/**template**                          | **Directory** | Template files for email and other things 
  **.env_example**                          | **File**      | Example of `.env` file, contains environments variables for Docker container 
  **.dockerignore**                         | **File**      | Docker ignore file (describes which files should not get inside Docker container)  

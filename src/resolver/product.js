@@ -1,10 +1,10 @@
 const prisma = require('../helper/prisma_helper').prisma;
 const GQLError = require('../helper/GQLError');
 const rolesHelper = require('../helper/roles_helper');
-const productService = require('../service/product');
+const productCore = require('../core/product');
 
 async function getProducts(root, args, ctx, info) {
-    return productService.getProducts(root, args, ctx, info);
+    return productCore.getProducts(root, args, ctx, info);
 }
 
 async function createProduct(root, args, ctx, info) {
@@ -14,7 +14,7 @@ async function createProduct(root, args, ctx, info) {
 
     await rolesHelper.assertWrongRoles(['ADMIN'], ctx.user.id);
 
-    return await productService.createProduct(root, args, ctx, info);
+    return await productCore.createProduct(root, args, ctx, info);
 }
 
 async function getProductCategories(root, args, ctx, info) {

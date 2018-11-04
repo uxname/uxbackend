@@ -1,4 +1,4 @@
-const log = require('../helper/logger').getLogger('user_service');
+const log = require('../helper/logger').getLogger('user_core');
 const prisma = require('../helper/prisma_helper').prisma;
 const password_helper = require('../helper/password_helper');
 const token = require('../helper/token');

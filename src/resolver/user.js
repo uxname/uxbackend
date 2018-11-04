@@ -1,12 +1,12 @@
-const userService = require('../service/user');
+const userCore = require('../core/user');
 const GQLError = require('../helper/GQLError');
 
 async function signUp(root, {email, password, step, activation_code}, ctx, info) {
-    return userService.signUp(email, password, step, activation_code);
+    return userCore.signUp(email, password, step, activation_code);
 }
 
 async function signIn(root, {email, password}, ctx, info) {
-    return userService.signIn(email, password);
+    return userCore.signIn(email, password);
 }
 
 async function change_password(root, {old_password, new_password}, ctx, info) {
@@ -14,7 +14,7 @@ async function change_password(root, {old_password, new_password}, ctx, info) {
         throw new GQLError('Unauthorized', 401);
     }
     const userId = ctx.user.id;
-    return userService.change_password(userId, old_password, new_password);
+    return userCore.change_password(userId, old_password, new_password);
 }
 
 module.exports = {
