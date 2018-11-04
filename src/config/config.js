@@ -12,7 +12,7 @@ const config = {
                 type: 'file',
                 filename: './logs/logs.log',
                 maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
-                backups: 10,
+                backups: 50,
                 compress: true
             },
             telegramAlert: {
