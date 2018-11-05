@@ -35,6 +35,9 @@ addWarnings();
  * @type {Logger}
  */
 function getLogger(name) {
+    if (!name) {
+        throw Error('Logger name is required');
+    }
     let cluster_id = cluster.isMaster ? `master` : `worker ${cluster.worker.id}`;
     return log4js.getLogger(`[${pkg.name}] [${name}] [${cluster_id}]`)
 }
