@@ -94,6 +94,7 @@ const config = {
         smtp_host: 'smtp.ethereal.email',
         smtp_port: 587,
         username: 'zbrgubnaqs2hp2oy@ethereal.email',
+        from: 'zbrgubnaqs2hp2oy@ethereal.email',
         password: 'JxQugxEYhWfeeGc7jM'
     },
     uploads: {

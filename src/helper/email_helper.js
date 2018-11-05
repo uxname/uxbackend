@@ -82,7 +82,7 @@ async function generateActivationCode(email) {
 async function sendActivationEmail(email, code) {
     return new Promise((resolve, reject) => {
         let mailOptions = {
-            from: config.mail_service.username,
+            from: config.mail_service.from,
             to: email,
             subject: config.mail_service.subject,
             text: compiledLetter({
