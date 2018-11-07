@@ -24,7 +24,10 @@ async function systemInfo() {
 
     const uptime = moment.duration(process.uptime() * 1000);
 
-    let activation_codes = await prisma.activationCodes().$fragment('{ email code }');
+    let activation_codes = await prisma.activationCodes({
+        first: 5,
+        orderBy: 'updatedAt_ASC'
+    }).$fragment('{ email code }');
 
     return {
         title: `${pkgjson.name}`,
