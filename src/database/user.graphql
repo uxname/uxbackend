@@ -1,5 +1,8 @@
 type User {
     id: ID! @unique
+    createdAt: DateTime!
+    updatedAt: DateTime!
+
     email: String! @unique
     roles: [UserRole!]!
 
@@ -13,6 +16,9 @@ type User {
 
 type ActivationCode {
     id: ID! @unique
+    createdAt: DateTime!
+    updatedAt: DateTime!
+
     email: String! @unique
     valid_until: DateTime!
     code: String!

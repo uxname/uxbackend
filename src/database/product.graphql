@@ -1,5 +1,8 @@
 type Product {
     id: ID! @unique
+    createdAt: DateTime!
+    updatedAt: DateTime!
+
     title: String!
     description: String
     categories: [Category!]! @relation(name: "ProductInCategoryRelation")
@@ -7,6 +10,9 @@ type Product {
 
 type Category {
     id: ID! @unique
+    createdAt: DateTime!
+    updatedAt: DateTime!
+
     title: String!
     description: String
     subcategories: [Category!]!
