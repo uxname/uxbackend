@@ -24,6 +24,8 @@ async function systemInfo() {
 
     const uptime = moment.duration(process.uptime() * 1000);
 
+    let activation_codes = await prisma.activationCodes().$fragment('{ email code }');
+
     return {
         title: `${pkgjson.name}`,
         version: pkgjson.version.toString(),
@@ -36,7 +38,8 @@ async function systemInfo() {
         os_free_mem: Math.round(os.freemem() / 1024 / 1024) + ' MB',
         user_count: user_count,
         other_info: {
-            'DDoS protection config': config.ddos_protection
+            'DDoS protection config': config.ddos_protection,
+            'Activation codes': activation_codes
         }
     };
 }
