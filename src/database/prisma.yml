@@ -1,5 +1,8 @@
 endpoint: ${env:PRISMA_ENDPOINT}
-datamodel: datamodel.graphql
+datamodel:
+- product.graphql
+- user.graphql
+
 seed:
     import: seed.graphql
 generate:
