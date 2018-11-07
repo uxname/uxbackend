@@ -44,8 +44,8 @@
     "moment": "^2.22.2",
     "multer": "^1.4.1",
     "nodemailer": "^4.6.8",
-    "pg": "^7.6.0",
-    "prisma-client-lib": "^1.19.3",
+    "pg": "^7.6.1",
+    "prisma-client-lib": "^1.20.0",
     "pug": "^2.0.3",
     "rate-limit-redis": "^1.5.0",
     "redis": "^2.8.0",
@@ -56,7 +56,7 @@
     "graphql": "^14.0.2"
   },
   "devDependencies": {
-    "prisma": "^1.19.3",
-    "redoc-cli": "^0.6.4"
+    "prisma": "^1.20.0",
+    "redoc-cli": "^0.7.0"
   }
 }
