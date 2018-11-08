@@ -32,7 +32,7 @@
     "argon2": "^0.19.3",
     "compression": "^1.7.3",
     "express": "^4.16.4",
-    "express-rate-limit": "^3.3.0",
+    "express-rate-limit": "^3.3.1",
     "graphql-cost-analysis": "^1.0.2",
     "graphql-import": "^0.7.1",
     "graphql-shield": "^4.1.0",
@@ -45,18 +45,18 @@
     "multer": "^1.4.1",
     "nodemailer": "^4.6.8",
     "pg": "^7.6.1",
-    "prisma-client-lib": "^1.20.0",
+    "prisma-client-lib": "^1.20.1",
     "pug": "^2.0.3",
     "rate-limit-redis": "^1.5.0",
     "redis": "^2.8.0",
     "request": "^2.88.0",
-    "validator": "^10.8.0"
+    "validator": "^10.9.0"
   },
   "resolutions": {
     "graphql": "^14.0.2"
   },
   "devDependencies": {
-    "prisma": "^1.20.0",
+    "prisma": "^1.20.1",
     "redoc-cli": "^0.7.0"
   }
 }
