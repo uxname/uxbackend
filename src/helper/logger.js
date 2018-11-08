@@ -39,7 +39,7 @@ function getLogger(name) {
         throw Error('Logger name is required');
     }
     let cluster_id = cluster.isMaster ? `master` : `worker ${cluster.worker.id}`;
-    return log4js.getLogger(`[${pkg.name}] [${name}] [${cluster_id}]`)
+    return log4js.getLogger(`[${pkg.name} - ${pkg.version}] [${name}] [${cluster_id}]`)
 }
 
 module.exports.getLogger = getLogger;

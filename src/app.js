@@ -101,7 +101,8 @@ const isAuthenticated = rule()(async (parent, args, ctx, info) => {
 
 const permissions = shield({
     Query: {
-        products: isAuthenticated
+        products: isAuthenticated,
+        systemInfo: and(isAuthenticated, isAdmin),
     },
     Mutation: {
         change_password: isAuthenticated
