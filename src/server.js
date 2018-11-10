@@ -27,6 +27,7 @@ const compression = require('compression');
 const RedisStore = require('rate-limit-redis');
 const redis = require('redis');
 const redisClient = redis.createClient(config.redis);
+const GQLError = require('./helper/GQLError');
 
 process.on('unhandledRejection', (reason, p) => {
     log.warn('Unhandled Rejection at:', p, 'reason:', reason);
@@ -160,7 +161,7 @@ if (routers && routers.length > 0) {
         ],
         formatError: error => {
             log.debug('GraphQL error -> stacktrace:', error);
-            return error;
+            return GQLError.formatError(error);
         }
     });
     log.info('GraphQL server started successful');
