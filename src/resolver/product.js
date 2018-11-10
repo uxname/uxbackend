@@ -9,7 +9,7 @@ async function getProducts(root, args, ctx, info) {
 
 async function createProduct(root, args, ctx, info) {
     if (!ctx.user) {
-        throw new GQLError('Permission denied, please log in', 403)
+        throw new GQLError({message: 'Permission denied, please log in', code: 403})
     }
 
     await rolesHelper.assertWrongRoles(['ADMIN'], ctx.user.id);

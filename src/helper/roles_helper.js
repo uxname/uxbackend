@@ -28,7 +28,7 @@ async function userHasRoles(rolesForCheck, userId) {
 async function assertWrongRoles(rolesForCheck, userId) {
     const result = await userHasRoles(rolesForCheck, userId);
     if (!result) {
-        throw new GQLError('Permission denied', 403);
+        throw new GQLError({message: 'Permission denied', code: 403});
     }
 }
 

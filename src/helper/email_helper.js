@@ -109,9 +109,9 @@ async function verityActivationCode(email, code) {
         email: email
     });
 
-    if (!result) throw new GQLError('Activation code was not generated', 404);
+    if (!result) throw new GQLError({message: 'Activation code was not generated', code: 404});
 
-    if (new Date(result.valid_until) < new Date()) throw new GQLError('Activation code expired', 410);
+    if (new Date(result.valid_until) < new Date()) throw new GQLError({message: 'Activation code expired', code: 410});
 
     if (code === result.code) {
         await prisma.deleteActivationCode({

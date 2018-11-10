@@ -2,14 +2,14 @@ const BaseGraphQLError = require('graphql').GraphQLError;
 
 module.exports = class GQLError extends BaseGraphQLError {
     /**
-     * Create new GQLError
-     * @param params:
-     * message, code, data, internalData
-     * @param params.internalData The internalData property is meant for data you want to store on the error
+     * Create GQLError
+     * @param message
+     * @param code
+     * @param data
+     * @param internalData The internalData property is meant for data you want to store on the error
      * object (e.g. for logging), but not send out to your end users. You can utilize this data for logging purposes.
      */
-    constructor(params) {
-        const {message, code, data, internalData} = params;
+    constructor({message, code, data, internalData}) {
         super({
             message: message || 'Unknown error',
             code: code || -1,

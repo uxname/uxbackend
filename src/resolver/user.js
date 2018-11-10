@@ -11,7 +11,7 @@ async function signIn(root, {email, password}, ctx, info) {
 
 async function change_password(root, {old_password, new_password}, ctx, info) {
     if (!ctx.user || !ctx.user.id) {
-        throw new GQLError('Unauthorized', 401);
+        throw new GQLError({message: 'Unauthorized', code: 401});
     }
     const userId = ctx.user.id;
     return userCore.change_password(userId, old_password, new_password);
