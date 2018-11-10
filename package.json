@@ -5,6 +5,7 @@
   "author": "uxname",
   "license": "MIT",
   "scripts": {
+    "dev-start-simple": "nodemon -e \"js json graphql\" node src/server.js",
     "dev-start-app": "npm run dev-prisma-deploy && node src/cluster.js",
     "dev-prisma-deploy": "npm run dev-generate-docs && cd src/database && prisma deploy -e ../../.env && prisma generate -e ../../.env",
     "dev-prisma-deploy-f": "npm run dev-generate-docs && cd src/database && prisma deploy -f -e ../../.env && prisma generate -e ../../.env",

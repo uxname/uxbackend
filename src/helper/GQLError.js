@@ -19,7 +19,7 @@ module.exports = class GQLError extends BaseGraphQLError {
     }
 
     static formatError(error) {
-        if (error instanceof GQLError) {
+        if (error instanceof BaseGraphQLError || error instanceof GQLError) {
             return {
                 message: error.message.message,
                 code: error.message.code,
