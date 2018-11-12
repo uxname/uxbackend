@@ -3,7 +3,8 @@
 const log = require('./helper/logger').getLogger('server');
 const pkg = require('../package');
 
-log.info(`Starting server: [${pkg.name} - ${pkg.version}]...`);
+const machineId = require('./helper/machine_id');
+log.info(`Starting server: [${pkg.name} - ${pkg.version}] [Machine ID: ${machineId.getShortMachineId()}]...`);
 const config = require('./config/config');
 
 const production = process.env.NODE_ENV === 'production';
@@ -28,7 +29,6 @@ const RedisStore = require('rate-limit-redis');
 const redis = require('redis');
 const redisClient = redis.createClient(config.redis);
 const GQLError = require('./helper/GQLError');
-const machineId = require('./helper/machine_id');
 
 process.on('unhandledRejection', (reason, p) => {
     log.warn('Unhandled Rejection at:', p, 'reason:', reason);
@@ -170,5 +170,5 @@ if (routers && routers.length > 0) {
     await agenda.start();
     log.info('Job scheduler started successful');
 
-    log.info(`Server [ "${pkg.name} - ${pkg.version}" ] [Machine ID: ${machineId.getShortMachineId()}] started successful (${config.port} port).`);
+    log.info(`Server [ "${pkg.name} - ${pkg.version}" ] started successful (${config.port} port).`);
 })();
