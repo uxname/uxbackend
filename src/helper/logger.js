@@ -23,7 +23,6 @@ function addWarnings() {
 }
 
 addWarnings();
-console.log('saddddddddddddd');
 
 /**
  * Returns log4js object.
