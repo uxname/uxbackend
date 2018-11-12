@@ -29,6 +29,7 @@ const RedisStore = require('rate-limit-redis');
 const redis = require('redis');
 const redisClient = redis.createClient(config.redis);
 const GQLError = require('./helper/GQLError');
+const express = require('express');
 
 process.on('unhandledRejection', (reason, p) => {
     log.warn('Unhandled Rejection at:', p, 'reason:', reason);
@@ -133,6 +134,21 @@ graphqlServer.express.get('/', (req, res) => {
         message: 'Welcome'
     });
 });
+
+if (config.logs_web_panel.enabled) {
+    const serveIndex = require('serve-index');
+    graphqlServer.express.use(config.logs_web_panel.path, (req, res, next) => {
+        if (!req.headers.access_token || req.headers.access_token !== config.logs_web_panel.access_token) {
+            return res.status(401).json({
+                message: 'Wrong access token'
+            })
+        } else {
+            next();
+        }
+    });
+    graphqlServer.express.use(config.logs_web_panel.path, express.static('./logs'), serveIndex('./logs', {'icons': true}));
+}
+
 const routers = require(__dirname + '/router');
 
 if (routers && routers.length > 0) {

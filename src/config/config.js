@@ -132,6 +132,11 @@ const config = {
         }
     },
     port: 4000,
+    logs_web_panel: {
+        enabled: true,
+        path: '/logs_web_panel',
+        access_token: 'HKRXtyacnEi7eTFnERbop6AWsNCqW5dG4idyKTLQfYnQzIyioWbxqqhQzTn4EQRqn'
+    },
     database: {
         host: process.env.POSTGRES_HOST || "localhost",
         user: process.env.POSTGRES_USER || "postgres",
