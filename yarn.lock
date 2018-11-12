@@ -1956,10 +1956,10 @@ expand-brackets@^2.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-express-rate-limit@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-3.3.1.tgz#e334e53b82bd3516b3cfae800dcdb8ddb7d64ae1"
-  integrity sha512-nah1w25D+JEaswqZ3KSS+AREm6ecuNeOazfXxDmJqzRSyoVPsDs8SGQMYIYjkSpPtx/pCLHgBCAs9N+O2qZj3w==
+express-rate-limit@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-3.3.2.tgz#c5b2fc770d533878ce01a5dbbfadca340f3b8915"
+  integrity sha512-JZnnTf6ZX9ntQalCZiPHsOG9zhxyRGqfaur+WD4yIcdqzf5FJQao5dmxXbWHk093K8WRSYwNwnzkFXVYnBNudg==
   dependencies:
     defaults "^1.0.3"
 
