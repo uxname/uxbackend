@@ -25,7 +25,8 @@
     "prod-clear": "npm run clear && docker-compose rm -f",
     "prod-logs": "docker-compose logs -f",
     "prod-stop": "docker-compose stop",
-    "test": "mocha src/test"
+    "test": "mocha src/test",
+    "sms": "node src/helper/SecureMemStorageCLI.js"
   },
   "dependencies": {
     "agenda": "^2.0.2",

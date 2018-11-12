@@ -1,16 +1,32 @@
 const request = require('request');
 const term = require('terminal-kit').terminal;
+const sms = require('./SecureMemStorage');
+const validator = require('validator');
 
 const main_menu = [
     '1. Set variable',
-    '2. Exit'
+    '2. Generate password hash',
+    '3. Exit'
 ];
 
-const WELCOME_TEXT = 'Welcome to secure memory storage interface';
+const WELCOME_TEXT = 'Welcome to secure memory storage menu';
 
 function showWrongParameterMessage() {
-    term.red('\nWrong parameter...\n');
-    process.exit();
+    term.eraseLineAfter.red('\nWrong parameter...\n');
+    showMainMenu();
+}
+
+async function showGeneratePasswordHashMenu() {
+    term('\nPlease enter password: ');
+    const password = await term.inputField({echo: false}).promise;
+    if (!password) {
+        showWrongParameterMessage()
+    } else {
+        term.green('\n\n-----  PASSWORD HASH  -------------------------------------------------------------------------\n');
+        term.eraseLineAfter.red(await sms.hashPassword(password));
+        term.green('\n-----------------------------------------------------------------------------------------------\n');
+        showMainMenu();
+    }
 }
 
 async function showSetValueMenu() {
@@ -27,7 +43,7 @@ async function showSetValueMenu() {
             term('Please enter your access token: ');
             access_token = await term.inputField({echo: false}).promise;
             if (!access_token) {
-                showWrongParameterMessage()
+                return showWrongParameterMessage()
             } else {
                 term.green("\nOK\n");
             }
@@ -36,7 +52,7 @@ async function showSetValueMenu() {
         term('Please enter your access password: ');
         access_password = await term.inputField({echo: false}).promise;
         if (!access_password) {
-            showWrongParameterMessage()
+            return showWrongParameterMessage()
         } else {
             term.green("\nOK\n");
         }
@@ -44,7 +60,7 @@ async function showSetValueMenu() {
         term('Please enter key: ');
         key = await term.inputField().promise;
         if (!key) {
-            showWrongParameterMessage()
+            return showWrongParameterMessage()
         } else {
             term.green("\nOK\n");
         }
@@ -52,7 +68,7 @@ async function showSetValueMenu() {
         term('Please enter value: ');
         value = await term.inputField({echo: false}).promise;
         if (!value) {
-            showWrongParameterMessage()
+            return showWrongParameterMessage()
         } else {
             term.green("\nOK\n");
         }
@@ -61,8 +77,8 @@ async function showSetValueMenu() {
         port = await term.inputField({
             default: '9191'
         }).promise;
-        if (!port) {
-            showWrongParameterMessage()
+        if (!port || !validator.isPort(port)) {
+            return showWrongParameterMessage()
         } else {
             term.green("\nOK\n");
         }
@@ -74,26 +90,32 @@ async function showSetValueMenu() {
         }
         request(url, (error, response, body) => {
             if (error) {
-                term.red('Received error:\n', error, '\n');
-                process.exit();
+                term.eraseLineAfter.red('Received error:\n', error, '\n');
+                showMainMenu();
                 return;
             }
 
             term.green('\n---  RESULT -------------\n');
-            term.blue(body);
+            term.red(body);
             term.green('\n-------------------------\n');
 
-            term.green('\nThank you, good bye!\n');
-            process.exit();
+            term.eraseLineAfter.green('\nThank you!\n');
+            showMainMenu();
         });
     });
 }
 
 function showMainMenu() {
-    term('\n').eraseLineAfter.blue(`${WELCOME_TEXT}\n`);
+    term('\n').eraseLineAfter.red(`${WELCOME_TEXT}\n`);
 
     term.singleColumnMenu(main_menu, async (error, response) => {
+        if (error) {
+            console.error('Stopped:', error);
+            process.exit();
+        }
         if (response.selectedIndex === 1) {
+            await showGeneratePasswordHashMenu();
+        } else if (response.selectedIndex === 2) {
             term('\n').eraseLineAfter.blue('Good bye.\n');
             process.exit();
         } else {

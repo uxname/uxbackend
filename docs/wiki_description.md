@@ -32,6 +32,7 @@
 * For planning and performing tasks, the library `agenda` is used, which stores tasks in MongoDB, and the `agendash` library is used as a web interface to the task manager along the path configured in `config.js`. To access Agendash, you must specify the user token with the role `ADMIN`, in headers in HTTP request.
 * Application has implemented "Maintenance mode", which can be enabled or disabled in `config.js`. When this mode is enabled, the server stops responding to all HTTP requests, except for requests from IP addresses allowed in the `config.js` file.
 * Application server is described in the `server.js` file. All business logic of the application is described in the file `app.js` 
+* Application server is described in the `server.js` file. All business logic of the application is described in the file `app.js` 
 
 # Project structure
 
@@ -74,6 +75,7 @@
  **dev-stop**           | Development     | Stop Docker development environment containers
  **dev-generate-docs**  | Development     | Generate API docs
  **clear**              | Dev&**Prod**    | Delete ignored folders (databases, logs, config...)
+ **sms**                | Dev&**Prod**    | Run secure memory storage CLI
  **prod-start-app**     | **Production**  | Start server (for Docker)
  **prod-build**         | **Production**  | Build Docker container of app 
  **prod-up**            | **Production**  | Update & start Docker container of app
@@ -89,7 +91,7 @@
 * **agenda** - Job manager
 * **agendash** - Web interface for Agenda, by default available at `/jobs_dashboard` endpoint
 * **argon2** - Hashing algorithm
-* **Redis** - Server-side in-memory database for data cache
+* **redis** - Server-side in-memory database for data cache
 * **express-rate-limit** - Basic rate-limiting middleware for Express. Use to limit repeated requests to public APIs and/or endpoints such as password reset.
 * **graphql-cost-analysis** - A GraphQL request cost analyzer. This can be used to protect GraphQL servers against DoS attacks, compute the data consumption per user and limit it.
 * **graphql-import** - Import & export definitions in GraphQL SDL (Schema Definition Language)

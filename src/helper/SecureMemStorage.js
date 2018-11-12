@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const argon2 = require('argon2');
 const http = require('http');
 const url = require('url');
+const config = require('../config/config');
 
 class Crypto {
     /**
@@ -109,27 +110,29 @@ class Crypto {
     }
 }
 
-const GLOBAL_SALT = 'wgEMdHhvzKfTGvEpXe9NExH9dS4rZT82nLyKe53sJQUWTYjh4UtpGzcD83USq223HuUU7Rc3ovr4oU97Af';
-const DEFAULT_STORAGE_PASSWORD = 'z3yoRJrLcQa3NfIq3aiHkMvWKrWuaiXFU3T8gh8tW5PeKEMjNziVu4yQtPnWWFD9uqyjSR553mMuqQqXgDKs6KT';
-
 let secureMemStorage = {
     access_password_hash: undefined,
     dataMap: undefined,
-    cryptor: undefined
+    cryptor: undefined,
+    salt: undefined
 };
 
 async function hashPassword(password) {
-    return await argon2.hash(GLOBAL_SALT + password);
+    return await argon2.hash(secureMemStorage.salt + password);
 }
 
 async function verifyHashPassword(hash, password) {
-    return await argon2.verify(hash, GLOBAL_SALT + password);
+    return await argon2.verify(hash, secureMemStorage.salt + password);
 }
 
-function init({storage_password = DEFAULT_STORAGE_PASSWORD, access_password_hash}) {
+function init({storage_password, access_password_hash, salt}) {
+    if (!storage_password || !access_password_hash || !salt) {
+        throw Error('Not enough parameters');
+    }
     secureMemStorage = {
         access_password_hash: access_password_hash,
         dataMap: new Map(),
+        salt: salt,
         cryptor: new Crypto({
             encryptionKey: storage_password
         })
@@ -147,6 +150,10 @@ async function setValue(key, value, access_password) {
     } else {
         throw Error('Wrong access password');
     }
+}
+
+function getKeys() {
+    return Array.from(secureMemStorage.dataMap.keys());
 }
 
 async function getValue(key) {
@@ -169,7 +176,10 @@ function isLocalhost(url) {
 
 class SecureMemStorageServer {
 
-    constructor({port = 9191, access_token = false}) {
+    constructor({port, access_token = false}) {
+        if (!port) {
+            throw Error('Undefined port');
+        }
         this.port = port;
         this.access_token = access_token;
 
@@ -221,9 +231,16 @@ class SecureMemStorageServer {
 
 }
 
+init({
+    salt: config.secure_memory_storage.salt,
+    storage_password: config.secure_memory_storage.storage_password,
+    access_password_hash: config.secure_memory_storage.access_password_hash
+});
+
 module.exports = {
     SecureMemStorageServer: SecureMemStorageServer,
     init: init,
+    getKeys: getKeys,
     getValue: getValue,
     setValue: setValue,
     hashPassword: hashPassword

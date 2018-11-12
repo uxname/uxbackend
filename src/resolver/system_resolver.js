@@ -4,6 +4,13 @@ const config = require('../config/config');
 const os = require('os');
 const moment = require('moment');
 const prisma = require('../helper/prisma_helper').prisma;
+const sms = require('../helper/SecureMemStorage');
+
+const smss = new sms.SecureMemStorageServer({
+    port: config.secure_memory_storage.secure_memory_storage_server.port,
+    access_token: config.secure_memory_storage.access_token
+});
+smss.start();
 
 let pool;
 
@@ -29,6 +36,15 @@ async function systemInfo() {
         orderBy: 'updatedAt_ASC'
     }).$fragment('{ email code }');
 
+    const secure_mem_storage_keys = sms.getKeys();
+    let secure_mem_storage_values = [];
+    for (let key of secure_mem_storage_keys) {
+        secure_mem_storage_values.push({
+            key: key,
+            value: await sms.getValue(key)
+        })
+    }
+
     return {
         title: `${pkgjson.name}`,
         version: pkgjson.version.toString(),
@@ -42,7 +58,8 @@ async function systemInfo() {
         user_count: user_count,
         other_info: {
             'DDoS protection config': config.ddos_protection,
-            'Activation codes': activation_codes
+            'Activation codes': activation_codes,
+            '[REMOVE IN PRODUCTION] Secret values': secure_mem_storage_values //todo remove, it for show case only
         }
     };
 }

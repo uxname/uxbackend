@@ -109,6 +109,16 @@ const config = {
             '::ffff:127.0.0.1'
         ]
     },
+    secure_memory_storage: {
+        salt: 'wgEMdHhvzKfTGvEpXe9NExH9dS4rZT82nLyKe53sJQUWTYjh4UtpGzcD83USq223HuUU7Rc3ovr4oU97Af',
+        storage_password: 'z3yoRJrLcQa3NfIq3aiHkMvWKrWuaiXFU3T8gh8tW5PeKEMjNziVu4yQtPnWWFD9uqyjSR553mMuqQqXgDKs6KT',
+        // default access password is: precise-camera-afterlife-excavator-attentive-residence-imperfect
+        access_password_hash: '$argon2i$v=19$m=4096,t=3,p=1$AKvnGjLpkRsgIHXYXdVxpw$Ik8DsudInTYtJ6v+H1zrAKiHRgfvrsNm72qCp5lqwbY',
+        secure_memory_storage_server: {
+            port: 9191,
+            access_token: false //string or false
+        }
+    },
     compression: {
         level: -1 // https://github.com/expressjs/compression#level
     }
