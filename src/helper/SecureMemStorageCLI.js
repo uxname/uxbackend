@@ -39,6 +39,10 @@ async function showSetValueMenu() {
     term('Do you have an access token? (Y/n)\n');
 
     term.yesOrNo({yes: ['y', 'ENTER'], no: ['n']}, async (error, result) => {
+        if (error) {
+            console.error('Stopped:', error);
+            process.exit();
+        }
         if (result) {
             term('Please enter your access token: ');
             access_token = await term.inputField({echo: false}).promise;
