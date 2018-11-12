@@ -27,10 +27,10 @@ function generateNewCode() {
         if (range >= Math.pow(2, 32))
             log.warn("Warning! Range is too large.");
 
-        var tmp = range;
-        var bitsNeeded = 0;
-        var bytesNeeded = 0;
-        var mask = 1;
+        let tmp = range;
+        let bitsNeeded = 0;
+        let bytesNeeded = 0;
+        let mask = 1;
 
         while (tmp > 0) {
             if (bitsNeeded % 8 === 0) bytesNeeded += 1;
@@ -38,10 +38,11 @@ function generateNewCode() {
             mask = mask << 1 | 1;
             tmp = tmp >>> 1
         }
-        const randomBytes = crypto.randomBytes(bytesNeeded);
-        var randomValue = 0;
 
-        for (var i = 0; i < bytesNeeded; i++) {
+        const randomBytes = crypto.randomBytes(bytesNeeded);
+        let randomValue = 0;
+
+        for (let i = 0; i < bytesNeeded; i++) {
             randomValue |= randomBytes[i] << 8 * i
         }
 
