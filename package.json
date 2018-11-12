@@ -34,7 +34,7 @@
     "argon2": "^0.19.3",
     "compression": "^1.7.3",
     "express": "^4.16.4",
-    "express-rate-limit": "^3.3.1",
+    "express-rate-limit": "^3.3.2",
     "graphql-cost-analysis": "^1.0.2",
     "graphql-import": "^0.7.1",
     "graphql-shield": "^4.1.0",
