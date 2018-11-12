@@ -61,8 +61,8 @@ async function systemInfo() {
             'DDoS protection config': config.ddos_protection,
             'Activation codes': activation_codes,
             'Machine ID': {
-                short: machineId.getShortMachineId(),
-                full: machineId.getMachineId()
+                short: machineId.shortMachineId,
+                full: machineId.machineId
             },
             '[REMOVE IN PRODUCTION] Secret values': secure_mem_storage_values //todo remove, it for show case only
         }

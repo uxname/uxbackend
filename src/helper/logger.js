@@ -2,15 +2,18 @@ const log4js = require('log4js');
 const config = require('../config/config');
 const pkg = require('../../package');
 const cluster = require('cluster');
+const machineId = require('./machine_id');
 
 log4js.configure(config.logger_config);
 
+
+const basic_string = `[${pkg.name} ${pkg.version} ${machineId.shortMachineId}]`;
 
 /**
  * Add warning on using default console object
  */
 function addWarnings() {
-    const log = log4js.getLogger('[console]');
+    const log = log4js.getLogger(`${basic_string} [console]`);
 
     ['trace', 'debug', 'log', 'info', 'warn', 'error'].forEach(function (method) {
         console[method] = function (...args) {
@@ -20,6 +23,7 @@ function addWarnings() {
 }
 
 addWarnings();
+console.log('saddddddddddddd');
 
 /**
  * Returns log4js object.
@@ -39,7 +43,7 @@ function getLogger(name) {
         throw Error('Logger name is required');
     }
     let cluster_id = cluster.isMaster ? `master` : `worker ${cluster.worker.id}`;
-    return log4js.getLogger(`[${pkg.name} - ${pkg.version}] [${name}] [${cluster_id}]`)
+    return log4js.getLogger(`${basic_string} [${name}] [${cluster_id}]`)
 }
 
 module.exports.getLogger = getLogger;

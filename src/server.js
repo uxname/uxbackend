@@ -4,7 +4,7 @@ const log = require('./helper/logger').getLogger('server');
 const pkg = require('../package');
 
 const machineId = require('./helper/machine_id');
-log.info(`Starting server: [${pkg.name} - ${pkg.version}] [Machine ID: ${machineId.getShortMachineId()}]...`);
+log.info(`Starting server: [${pkg.name} - ${pkg.version}] [Machine ID: ${machineId.shortMachineId}]...`);
 const config = require('./config/config');
 
 const production = process.env.NODE_ENV === 'production';

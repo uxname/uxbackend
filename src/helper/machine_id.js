@@ -29,10 +29,9 @@ function getMachineId() {
 
 function getShortMachineId() {
     const mid = getMachineId();
-    return mid.substring(0, 4) + '-' + mid.substring(mid.length / 2 - 2, mid.length / 2 + 2) + '-' + mid.substring(mid.length - 4, mid.length);
+    return mid.substring(0, 4) + '-' + mid.substring(mid.length - 4, mid.length);
 }
 
-module.exports = {
-    getMachineId: getMachineId,
-    getShortMachineId: getShortMachineId,
-};
+module.exports.machineId = getMachineId();
+module.exports.shortMachineId = getShortMachineId();
+
