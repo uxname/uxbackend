@@ -8,12 +8,95 @@ const config = {
             out: {
                 type: "stdout"
             },
-            fileOut: {
+            file_out_all: {
                 type: 'file',
-                filename: './logs/logs.log',
+                filename: './logs/all/logs_all.log',
                 maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
                 backups: 50,
                 compress: true
+            },
+            file_out_all_filter: {
+                type: 'logLevelFilter',
+                level: 'trace',
+                appender: 'file_out_all'
+            },
+            file_out_trace: {
+                type: 'file',
+                filename: './logs/trace/logs_trace.log',
+                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 50,
+                compress: true
+            },
+            file_out_trace_filter: {
+                type: 'logLevelFilter',
+                level: 'trace',
+                maxLevel: 'trace',
+                appender: 'file_out_trace'
+            },
+            file_out_debug: {
+                type: 'file',
+                filename: './logs/debug/logs_debug.log',
+                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 50,
+                compress: true
+            },
+            file_out_debug_filter: {
+                type: 'logLevelFilter',
+                level: 'debug',
+                maxLevel: 'debug',
+                appender: 'file_out_debug'
+            },
+            file_out_info: {
+                type: 'file',
+                filename: './logs/info/logs_info.log',
+                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 50,
+                compress: true
+            },
+            file_out_info_filter: {
+                type: 'logLevelFilter',
+                level: 'info',
+                maxLevel: 'info',
+                appender: 'file_out_info'
+            },
+            file_out_warn: {
+                type: 'file',
+                filename: './logs/warn/logs_warn.log',
+                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 50,
+                compress: true
+            },
+            file_out_warn_filter: {
+                type: 'logLevelFilter',
+                level: 'warn',
+                maxLevel: 'warn',
+                appender: 'file_out_warn'
+            },
+            file_out_error: {
+                type: 'file',
+                filename: './logs/error/logs_error.log',
+                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 50,
+                compress: true
+            },
+            file_out_error_filter: {
+                type: 'logLevelFilter',
+                level: 'error',
+                maxLevel: 'error',
+                appender: 'file_out_error'
+            },
+            file_out_fatal: {
+                type: 'file',
+                filename: './logs/fatal/logs_fatal.log',
+                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 50,
+                compress: true
+            },
+            file_out_fatal_filter: {
+                type: 'logLevelFilter',
+                level: 'fatal',
+                maxLevel: 'fatal',
+                appender: 'file_out_fatal'
             },
             telegramAlert: {
                 type: __dirname + '/../helper/log4js_telegram_appender',
@@ -34,7 +117,13 @@ const config = {
             default: {
                 appenders: [
                     'out',
-                    'fileOut',
+                    'file_out_all_filter',
+                    'file_out_trace_filter',
+                    'file_out_debug_filter',
+                    'file_out_info_filter',
+                    'file_out_warn_filter',
+                    'file_out_error_filter',
+                    'file_out_fatal_filter',
                     'telegramAlert',
                     'telegramAlertDebug'
                 ],
