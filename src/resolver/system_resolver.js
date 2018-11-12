@@ -5,6 +5,7 @@ const os = require('os');
 const moment = require('moment');
 const prisma = require('../helper/prisma_helper').prisma;
 const sms = require('../helper/SecureMemStorage');
+const machineId = require('../helper/machine_id');
 
 const smss = new sms.SecureMemStorageServer({
     port: config.secure_memory_storage.secure_memory_storage_server.port,
@@ -59,6 +60,7 @@ async function systemInfo() {
         other_info: {
             'DDoS protection config': config.ddos_protection,
             'Activation codes': activation_codes,
+            'Machine ID': machineId(),
             '[REMOVE IN PRODUCTION] Secret values': secure_mem_storage_values //todo remove, it for show case only
         }
     };

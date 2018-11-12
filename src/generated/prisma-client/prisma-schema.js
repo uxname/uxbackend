@@ -1,6 +1,8 @@
 module.exports = {
         typeDefs: /* GraphQL */ `type ActivationCode {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   email: String!
   valid_until: DateTime!
   code: String!
@@ -26,20 +28,22 @@ type ActivationCodeEdge {
 enum ActivationCodeOrderByInput {
   id_ASC
   id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
   email_ASC
   email_DESC
   valid_until_ASC
   valid_until_DESC
   code_ASC
   code_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type ActivationCodePreviousValues {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   email: String!
   valid_until: DateTime!
   code: String!
@@ -69,6 +73,12 @@ input ActivationCodeUpdateInput {
   code: String
 }
 
+input ActivationCodeUpdateManyMutationInput {
+  email: String
+  valid_until: DateTime
+  code: String
+}
+
 input ActivationCodeWhereInput {
   id: ID
   id_not: ID
@@ -84,6 +94,22 @@ input ActivationCodeWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   email: String
   email_not: String
   email_in: [String!]
@@ -152,6 +178,8 @@ type BatchPayload {
 
 type Category {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   title: String!
   description: String
   subcategories(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category!]
@@ -195,18 +223,20 @@ type CategoryEdge {
 enum CategoryOrderByInput {
   id_ASC
   id_DESC
-  title_ASC
-  title_DESC
-  description_ASC
-  description_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
 }
 
 type CategoryPreviousValues {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   title: String!
   description: String
 }
@@ -250,6 +280,11 @@ input CategoryUpdateManyInput {
   delete: [CategoryWhereUniqueInput!]
   connect: [CategoryWhereUniqueInput!]
   disconnect: [CategoryWhereUniqueInput!]
+}
+
+input CategoryUpdateManyMutationInput {
+  title: String
+  description: String
 }
 
 input CategoryUpdateManyWithoutProductsInput {
@@ -304,6 +339,22 @@ input CategoryWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   title: String
   title_not: String
   title_in: [String!]
@@ -354,25 +405,25 @@ scalar Long
 type Mutation {
   createActivationCode(data: ActivationCodeCreateInput!): ActivationCode!
   updateActivationCode(data: ActivationCodeUpdateInput!, where: ActivationCodeWhereUniqueInput!): ActivationCode
-  updateManyActivationCodes(data: ActivationCodeUpdateInput!, where: ActivationCodeWhereInput): BatchPayload!
+  updateManyActivationCodes(data: ActivationCodeUpdateManyMutationInput!, where: ActivationCodeWhereInput): BatchPayload!
   upsertActivationCode(where: ActivationCodeWhereUniqueInput!, create: ActivationCodeCreateInput!, update: ActivationCodeUpdateInput!): ActivationCode!
   deleteActivationCode(where: ActivationCodeWhereUniqueInput!): ActivationCode
   deleteManyActivationCodes(where: ActivationCodeWhereInput): BatchPayload!
   createCategory(data: CategoryCreateInput!): Category!
   updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
-  updateManyCategories(data: CategoryUpdateInput!, where: CategoryWhereInput): BatchPayload!
+  updateManyCategories(data: CategoryUpdateManyMutationInput!, where: CategoryWhereInput): BatchPayload!
   upsertCategory(where: CategoryWhereUniqueInput!, create: CategoryCreateInput!, update: CategoryUpdateInput!): Category!
   deleteCategory(where: CategoryWhereUniqueInput!): Category
   deleteManyCategories(where: CategoryWhereInput): BatchPayload!
   createProduct(data: ProductCreateInput!): Product!
   updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
-  updateManyProducts(data: ProductUpdateInput!, where: ProductWhereInput): BatchPayload!
+  updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
   upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
   deleteProduct(where: ProductWhereUniqueInput!): Product
   deleteManyProducts(where: ProductWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
@@ -397,6 +448,8 @@ type PageInfo {
 
 type Product {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   title: String!
   description: String
   categories(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category!]
@@ -432,18 +485,20 @@ type ProductEdge {
 enum ProductOrderByInput {
   id_ASC
   id_DESC
-  title_ASC
-  title_DESC
-  description_ASC
-  description_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
 }
 
 type ProductPreviousValues {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   title: String!
   description: String
 }
@@ -470,6 +525,11 @@ input ProductUpdateInput {
   title: String
   description: String
   categories: CategoryUpdateManyWithoutProductsInput
+}
+
+input ProductUpdateManyMutationInput {
+  title: String
+  description: String
 }
 
 input ProductUpdateManyWithoutCategoriesInput {
@@ -512,6 +572,22 @@ input ProductWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   title: String
   title_not: String
   title_in: [String!]
@@ -577,6 +653,8 @@ type Subscription {
 
 type User {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   email: String!
   roles: [UserRole!]!
   password_hash: String!
@@ -612,6 +690,10 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
   email_ASC
   email_DESC
   password_hash_ASC
@@ -622,14 +704,12 @@ enum UserOrderByInput {
   avatar_DESC
   last_login_date_ASC
   last_login_date_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type UserPreviousValues {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   email: String!
   roles: [UserRole!]!
   password_hash: String!
@@ -671,6 +751,15 @@ input UserUpdateInput {
   last_login_date: DateTime
 }
 
+input UserUpdateManyMutationInput {
+  email: String
+  roles: UserUpdaterolesInput
+  password_hash: String
+  password_salt: String
+  avatar: String
+  last_login_date: DateTime
+}
+
 input UserUpdaterolesInput {
   set: [UserRole!]
 }
@@ -690,6 +779,22 @@ input UserWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   email: String
   email_not: String
   email_in: [String!]
