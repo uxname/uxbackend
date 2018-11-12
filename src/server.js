@@ -70,7 +70,7 @@ const limiter = rateLimit({
         prefix: 'rate_limit:',
         client: redisClient
     }),
-    windowMs: config.ddos_protection.windowMs || 1000,
+    windowMs: config.ddos_protection.windowMs || 1000 * 60 * 15,
     max: config.ddos_protection.max || 1000000, // limit each IP to 'max' requests per windowMs
     message: config.ddos_protection.message || '{ "message": "Too many requests" }',
     onLimitReached: (req, res, options) => {
