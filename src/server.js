@@ -28,6 +28,7 @@ const RedisStore = require('rate-limit-redis');
 const redis = require('redis');
 const redisClient = redis.createClient(config.redis);
 const GQLError = require('./helper/GQLError');
+const machineId = require('./helper/machine_id');
 
 process.on('unhandledRejection', (reason, p) => {
     log.warn('Unhandled Rejection at:', p, 'reason:', reason);
@@ -169,5 +170,5 @@ if (routers && routers.length > 0) {
     await agenda.start();
     log.info('Job scheduler started successful');
 
-    log.info(`Server [ "${pkg.name} - ${pkg.version}" ] started successful (${config.port} port)`);
+    log.info(`Server [ "${pkg.name} - ${pkg.version}" ] [Machine ID: ${machineId.getShortMachineId()}] started successful (${config.port} port).`);
 })();

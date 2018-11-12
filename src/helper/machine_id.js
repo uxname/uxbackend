@@ -1,7 +1,7 @@
 const os = require('os');
 const crypto = require('crypto');
 
-function getMachineId(){
+function getMachineId() {
     let machineIdString = '';
 
     // mac addresses
@@ -15,18 +15,24 @@ function getMachineId(){
         }
     }
 
-    machineIdString += [...macAddresses.values()].sort().join('/')+'|';
+    machineIdString += [...macAddresses.values()].sort().join('/') + '|';
 
     // memory
-    machineIdString += os.totalmem()+'|';
-
+    machineIdString += os.totalmem() + '|';
 
     // cpu info
     const cpuInfo = os.cpus();
-    machineIdString += cpuInfo[0].model+'/'+cpuInfo.length;
-
+    machineIdString += cpuInfo[0].model + '/' + cpuInfo.length;
 
     return crypto.createHash('sha1').update(machineIdString).digest("hex");
 }
 
-module.exports = getMachineId;
+function getShortMachineId() {
+    const mid = getMachineId();
+    return mid.substring(0, 4) + '-' + mid.substring(mid.length / 2 - 2, mid.length / 2 + 2) + '-' + mid.substring(mid.length - 4, mid.length);
+}
+
+module.exports = {
+    getMachineId: getMachineId,
+    getShortMachineId: getShortMachineId,
+};
