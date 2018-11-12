@@ -3,6 +3,7 @@ const argon2 = require('argon2');
 const http = require('http');
 const url = require('url');
 const config = require('../config/config');
+const log = require('./logger').getLogger('secure_mem_storage');
 
 class Crypto {
     /**
@@ -220,12 +221,12 @@ class SecureMemStorageServer {
     }
 
     start() {
-        console.log(`Starting SecureMemStorageServer at ${this.port} port`);
+        log.trace(`Starting SecureMemStorageServer at ${this.port} port`);
         this.httpServer.listen(this.port, '127.0.0.1');
     }
 
     stop() {
-        console.log(`Stopping SecureMemStorageServer at ${this.port} port`);
+        log.trace(`Stopping SecureMemStorageServer at ${this.port} port`);
         this.httpServer.close();
     }
 

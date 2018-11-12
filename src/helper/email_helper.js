@@ -25,7 +25,7 @@ function generateNewCode() {
     function csprng(min, max) {
         const range = max - min;
         if (range >= Math.pow(2, 32))
-            console.log("Warning! Range is too large.");
+            log.warn("Warning! Range is too large.");
 
         var tmp = range;
         var bitsNeeded = 0;
