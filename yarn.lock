@@ -4783,10 +4783,28 @@ prisma-cli-engine@1.20.1:
     update-notifier "^2.3.0"
     validator "^8.2.0"
 
-prisma-client-lib@1.20.1, prisma-client-lib@^1.20.1:
+prisma-client-lib@1.20.1:
   version "1.20.1"
   resolved "https://registry.yarnpkg.com/prisma-client-lib/-/prisma-client-lib-1.20.1.tgz#4e25f9c682bf5fadc2537739fcdd917b29113df6"
   integrity sha512-ZLkQUasaL1Y7s5wUcs0a8rpyGgV/oHoxmz9H05R38I7vBVGAGqAxWIfX0Hb/OhRUOn6orZ9bCdZnHeiryPhrGg==
+  dependencies:
+    "@types/node" "^10.12.0"
+    "@types/prettier" "^1.13.2"
+    debug "^4.1.0"
+    graphql-tag "^2.10.0"
+    http-link-dataloader "^0.1.6"
+    jsonwebtoken "^8.3.0"
+    lodash.flatten "^4.4.0"
+    prettier "^1.14.3"
+    subscriptions-transport-ws "^0.9.15"
+    uppercamelcase "^3.0.0"
+    ws "^6.1.0"
+    zen-observable "^0.8.10"
+
+prisma-client-lib@^1.20.2:
+  version "1.20.2"
+  resolved "https://registry.yarnpkg.com/prisma-client-lib/-/prisma-client-lib-1.20.2.tgz#d2076f409dbffe77579f8a9616b5afcfc9bf43c1"
+  integrity sha512-ZOq7LA0tA5V8z/H5kmn7NYtSetFOl8N80UgwLFz0W+2dMPy85FgvgOnM8MamU7DnYBroJO/hikemDP/Z3JDfQw==
   dependencies:
     "@types/node" "^10.12.0"
     "@types/prettier" "^1.13.2"
