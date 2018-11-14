@@ -11,8 +11,8 @@ const config = {
             file_out_all: {
                 type: 'file',
                 filename: './logs/all/logs_all.log',
-                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
-                backups: 50,
+                maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 100,
                 compress: true
             },
             file_out_all_filter: {
@@ -23,8 +23,8 @@ const config = {
             file_out_trace: {
                 type: 'file',
                 filename: './logs/trace/logs_trace.log',
-                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
-                backups: 50,
+                maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 100,
                 compress: true
             },
             file_out_trace_filter: {
@@ -36,8 +36,8 @@ const config = {
             file_out_debug: {
                 type: 'file',
                 filename: './logs/debug/logs_debug.log',
-                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
-                backups: 50,
+                maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 100,
                 compress: true
             },
             file_out_debug_filter: {
@@ -49,8 +49,8 @@ const config = {
             file_out_info: {
                 type: 'file',
                 filename: './logs/info/logs_info.log',
-                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
-                backups: 50,
+                maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 100,
                 compress: true
             },
             file_out_info_filter: {
@@ -62,8 +62,8 @@ const config = {
             file_out_warn: {
                 type: 'file',
                 filename: './logs/warn/logs_warn.log',
-                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
-                backups: 50,
+                maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 100,
                 compress: true
             },
             file_out_warn_filter: {
@@ -75,8 +75,8 @@ const config = {
             file_out_error: {
                 type: 'file',
                 filename: './logs/error/logs_error.log',
-                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
-                backups: 50,
+                maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 100,
                 compress: true
             },
             file_out_error_filter: {
@@ -88,8 +88,8 @@ const config = {
             file_out_fatal: {
                 type: 'file',
                 filename: './logs/fatal/logs_fatal.log',
-                maxLogSize: 10 * 1024 * 1024, // maximum size (in bytes) for the log file.
-                backups: 50,
+                maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
+                backups: 100,
                 compress: true
             },
             file_out_fatal_filter: {
