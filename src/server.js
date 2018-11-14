@@ -113,19 +113,15 @@ graphqlServer.express.use((req, res, next) => {
 });
 graphqlServer.express.use(limiter);
 
-const roles_helper = require('./helper/roles_helper');
-
 const agenda = job_scheduler.getAgenda(graphqlServer.express,
-    async (req, res, next) => { // Admin only access
-        try {
-            const user = await token.validateToken(req.headers.token);
-            await roles_helper.userHasRoles(['ADMIN'], user.id);
-            next();
-        } catch (e) {
-            log.debug('Job scheduler dashboard access error', e.message);
+    async (req, res, next) => {
+        if (!req.headers.jobs_access_token || req.headers.jobs_access_token !== config.job_scheduler.access_token) {
+            log.debug(`Job scheduler dashboard access error (wrong token)`);
             res.status(401).json({
                 result: 'Access denied'
             });
+        } else {
+            next();
         }
     });
 
@@ -138,9 +134,9 @@ graphqlServer.express.get('/', (req, res) => {
 if (config.logs_web_panel.enabled) {
     const serveIndex = require('serve-index');
     graphqlServer.express.use(config.logs_web_panel.path, (req, res, next) => {
-        if (!req.headers.access_token || req.headers.access_token !== config.logs_web_panel.access_token) {
+        if (!req.headers.logs_access_token || req.headers.logs_access_token !== config.logs_web_panel.access_token) {
             return res.status(401).json({
-                message: 'Wrong access token'
+                message: 'Wrong access token',
             })
         } else {
             next();

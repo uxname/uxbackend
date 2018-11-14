@@ -162,7 +162,8 @@ const config = {
         process_every: '10 seconds',
         timeout_in_ms: 3 * 60 * 1000,
         enable_web_interface: true,
-        web_interface_path: '/jobs_dashboard'
+        web_interface_path: '/jobs_dashboard',
+        access_token: 'yi9a35EcieFiLBYSx5YJhZKekbTXxUTxEez75ip4HqTHJD8FbLSotGGHcMzb2gv6h'
     },
     graphql: {
         endpoint_path: "/api",
