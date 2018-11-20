@@ -144,3 +144,6 @@ Dockerfile
 
 uploads/
 docs
+
+.scannerwork
+sonar-scanner.properties

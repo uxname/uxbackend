@@ -33,6 +33,7 @@
 * Application has implemented "Maintenance mode", which can be enabled or disabled in `config.js`. When this mode is enabled, the server stops responding to all HTTP requests, except for requests from IP addresses allowed in the `config.js` file.
 * Application server is described in the `server.js` file. All business logic of the application is described in the file `app.js` 
 * Application server is described in the `server.js` file. All business logic of the application is described in the file `app.js` 
+* To analyse code used [SonarQube](https://www.sonarqube.org/)
 
 # Project structure
 
@@ -85,6 +86,7 @@
  **prod-logs**          | **Production**  | Show logs output of app's container
  **prod-stop**          | **Production**  | Stop Docker app container of app
  **prod-init**          | **Production**  | Copy config and dotenv file from to production paths
+ **sonar**              | Dev             | Start [SonarQube scanner](https://www.sonarqube.org/) to analyze project
 
 # Dependencies description
 

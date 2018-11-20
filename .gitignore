@@ -122,3 +122,6 @@ data
 /config/
 
 uploads/
+
+.scannerwork
+sonar-scanner.properties

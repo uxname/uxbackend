@@ -26,6 +26,7 @@
     "prod-logs": "docker-compose logs -f",
     "prod-stop": "docker-compose stop",
     "test": "mocha src/test",
+    "sonar": "npx sonarqube-scanner -D project.settings=sonar-scanner.properties",
     "sms": "node src/helper/SecureMemStorageCLI.js"
   },
   "dependencies": {
@@ -60,7 +61,9 @@
     "graphql": "^14.0.2"
   },
   "devDependencies": {
+    "nodemon": "^1.18.6",
     "prisma": "^1.20.7",
-    "redoc-cli": "^0.7.0"
+    "redoc-cli": "^0.7.0",
+    "sonarqube-scanner": "^2.1.2"
   }
 }
