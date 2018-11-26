@@ -62,7 +62,8 @@ const Game = {
         const step = 1 / options.fps,
             update = options.update,
             render = options.render;
-            //fpsmeter = new FPSMeter(options.fpsmeter || {decimals: 0, graph: true, theme: 'dark', left: '5px'});
+
+        //fpsmeter = new FPSMeter(options.fpsmeter || {decimals: 0, graph: true, theme: 'dark', left: '5px'});
 
         function frame() {
             // fpsmeter.tickStart();
@@ -89,8 +90,7 @@ const Game = {
             entity.animation = animation;
             entity.animationFrame = 0;
             entity.animationCounter = 0;
-        }
-        else if (++(entity.animationCounter) === Math.round(fps / animation.fps)) {
+        } else if (++(entity.animationCounter) === Math.round(fps / animation.fps)) {
             entity.animationFrame = Game.Math.normalize(entity.animationFrame + 1, 0, entity.animation.frames);
             entity.animationCounter = 0;
         }
@@ -147,15 +147,278 @@ Game.Load = {
     },
 
     json: function (url, onsuccess) {
-        const request = new XMLHttpRequest();
-        request.onreadystatechange = function () {
-            if ((request.readyState === 4) && (request.status === 200))
-                onsuccess(JSON.parse(request.responseText));
-        };
-        request.open("GET", url + ".json", true);
-        request.send();
-    }
+        let available_parts = [
+            [
+                "XXXXXXXXXXXXXXXXXHXX",
+                "                 H  ",
+                "                 H  ",
+                "                 H  ",
+                "     o           H  ",
+                "    o o          H  ",
+                "   o   oooooooo  H  ",
+                "   o   XXXXXXXH  X  ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "   o          H     ",
+                "              H     ",
+                "              H     ",
+                "              H     ",
+                "              H     ",
+                "   oooooooooooH     ",
+                "   HXXXXXXXXXXX     ",
+                "   H                ",
+                "   H        0       ",
+                "   H       0        ",
+                "   H      0         ",
+                "   H     0          ",
+                "   H    0           ",
+                "   H   0            ",
+                "   H  0             ",
+                "   Ho0ooooooooooo   ",
+                "   XXXXXXXXXXXXXH   ",
+                "                H   ",
+                "                H   ",
+                "                H   ",
+                "                H   ",
+                "                X   ",
+                "                 X  ",
+                "  1               X ",
+                "XXX  2             X",
+                "   XXXX 3           ",
+                "       XXXX  2      ",
+                "           XXXX   1 ",
+                "               XXXXH",
+                "                   H",
+                "                   H",
+                "                   H",
+                "                  XX",
+                "               0 X  ",
+                "            o  HX   ",
+                "            o  H    ",
+                "            o  H    ",
+                "            o  H    ",
+                "            o  H    ",
+                "            o  H    ",
+                "            o  H    ",
+                "            o  H    ",
+                "            o  H    ",
+                "            o 0H    ",
+                "            o  H    ",
+                "            o  H    ",
+                "            o  H    ",
+                "            o  H    ",
+                "            o  H    ",
+                "            o  H    ",
+                "            o0 H  1 ",
+                "XXXXXX   XXHXXXXXXXX",
+                "o  o       H        ",
+                "o  o       H        ",
+                "o  o       H        ",
+                "o  X       H        ",
+                "o  o       H        ",
+                "X  o    0  H        ",
+                "   o       H        ",
+                "   X       H        ",
+                "           H        ",
+                "oooo       H        ",
+                "XXXX       H        ",
+                "           H        ",
+                "           H        ",
+                "           H        ",
+                "           H        ",
+                "    ooooo  H  1ooooo",
+                "    XXXXX  X  XXXXXX",
+                "                    ",
+                "                    ",
+                " XX                 ",
+                "X  X                ",
+                "    X              X",
+                "                  X ",
+                "oooooooo        0X  ",
+                "HXXXXXXX        X   ",
+                "H       XX    XX    ",
+                "H                   ",
+                "H           0       ",
+                "H  3       XX       ",
+                "XXHXXXX   XXXX2     ",
+                "  H      X    XXX   ",
+                "  H     X           ",
+                "  H    X          X ",
+                " XH                 ",
+                "H         ooooooooo"
+            ],
+            [
+                "                    ",
+                "                    ",
+                " XX                 ",
+                "X  X                ",
+                "    X              X",
+                "                  X ",
+                "oooooooo        0X  ",
+                "HXXXXXXX        X   ",
+                "H       XX    XX    ",
+                "H                   ",
+                "H           0       ",
+                "H  3       XX       ",
+                "XXHXXXX   XXXX2     ",
+                "  H      X    XXX   ",
+                "  H     X           ",
+                "  H    X          X ",
+                "  H                 ",
+                "HXH        ooooooooo",
+                "H                   ",
+                "H                   ",
+                "H                   ",
+                "H                   ",
+            ],
+            [
+                "H                   ",
+                "H                   ",
+                "Hooooooooooooooooooo",
+                "H                   ",
+                "H                   ",
+            ],
+            [
+                "H                   ",
+                "H                   ",
+                "H                   ",
+                "H                   ",
+                "H                   ",
+                "H                   ",
+                "H         XXXXXXXXXX",
+                "H                   ",
+            ],
+            [
+                "H         1         ",
+                "H      XXXXXX       ",
+                "H                   ",
+                "H                   ",
+                "H                   ",
+                "H                   ",
+                "H          XXXXXXXXX",
+                "H                   ",
+                "H                   ",
+            ],
+            [
+                "H                   ",
+                "H                   ",
+                "H                  2",
+                "HXXXXXXXXXXXXXXXXXXX",
+            ],
+            [
+                "H                  X",
+                "H                 X ",
+                "H                X  ",
+                "H               X   ",
+                "H              X    ",
+                "H             X     ",
+                "H            X      ",
+                "H           X      0",
+                "H          X        ",
+                "H         X         ",
+                "H        X          ",
+                "H       X       oooo",
+                "H      X       oXXXX",
+                "H     X       oX    ",
+                "H    X     oooX     ",
+                "H   X     oXXX      ",
+                "H  X     oX         ",
+                "H Xo2ooooX          ",
+                "HXXXXXXXX           ",
+                "H                   ",
+                "H                   ",
+            ],
 
+            [
+                "H    XXXXXXX        ",
+                "H                   ",
+                "H                   ",
+                "HoooooXoooXoooooXXXX",
+                "H                   ",
+                "H                   ",
+            ],
+            [
+                "H                   ",
+                "HXXXXXXXXX   XXXXXXX",
+                "H                   ",
+                "H      2            ",
+                "H     XXXXXX        ",
+            ]
+        ];
+
+        // o H X 0 1 2
+
+        function generate(max_height) {
+            let generated_level = [];
+
+            for (let i = 0; i < max_height; i++) {
+                const item = available_parts[Math.floor(Math.random() * available_parts.length)];
+                generated_level = generated_level.concat(item);
+            }
+
+            return '[\n"' + generated_level.join('",\n"') + '"\n]';
+        }
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        const level = JSON.parse(generate(getRandomInt(5, 20)));
+        onsuccess({
+                "name": "demo level",
+                "color": {
+                    "wall": "#70482C",
+                    "platform": "#C0C0C0",
+                    "stroke": "#000000"
+                },
+                "map": level
+            }
+        )
+    }
 };
 
 //-------------------------------------------------------------------------
