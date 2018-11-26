@@ -40,8 +40,7 @@ services:
             DEFAULT_USER: admin@admin.com
             DEFAULT_PASSWORD: admin
     prisma:
-        image: prismagraphql/prisma:1.20.7
-        restart: on-failure
+        image: prismagraphql/prisma:1.21.1
         networks:
         - uxbackend_network_debug
         ports:
