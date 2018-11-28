@@ -22,7 +22,7 @@ function responseListener(details) {
 }
 
 chrome.webRequest.onBeforeSendHeaders.addListener(responseListener, {
-    urls: ['*://*/*']
+    urls: ['*://___ENTER_YOU_IP_OR_DOMAIN_HERE___:*/*']
 }, [
     'blocking',
     'requestHeaders'
