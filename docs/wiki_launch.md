@@ -5,13 +5,13 @@
 1. `git clone ...`
 2. `yarn install`
 3. Copy `.env_example` to `.env` file
-4. `yarn dev-start`
-5. `yarn dev-start-app`
+4. `yarn dev:start`
+5. `yarn dev:start-app`
 6. (Optional) Copy `sonar-scanner.properties.example` to `sonar-scanner.properties` and edit it.
 
 # Production launch
 1. `git clone ...`
-2. `yarn prod-build`
-3. `yarn prod-init`
+2. `yarn prod:build`
+3. `yarn prod:init`
 4. Edit `config.js` and `.env` files
-5. `yarn prod-up`
+5. `yarn prod:up`

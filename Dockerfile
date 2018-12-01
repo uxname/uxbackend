@@ -20,4 +20,4 @@ COPY . .
 
 EXPOSE 4000
 
-CMD ["npm", "run", "prod-start-app"]
+CMD ["npm", "run", "prod:start-app"]
