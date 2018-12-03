@@ -84,8 +84,9 @@ const limiter = rateLimit({
 // Log ip
 graphqlServer.express.use((req, res, next) => {
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const requestedUrl = req.protocol + '://' + req.get('Host') + req.url;
 
-    let log_string = 'Request IP: [' + ip.toString() + ']';
+    let log_string = `Request IP: [${ip.toString()}] - ${requestedUrl}`;
     if (req.headers['x-forwarded-for']) {
         log_string += ' (from header "x-forwarded-for")';
     }
