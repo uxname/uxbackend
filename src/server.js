@@ -86,7 +86,8 @@ graphqlServer.express.use((req, res, next) => {
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     const requestedUrl = req.protocol + '://' + req.get('Host') + req.url;
 
-    let log_string = `Request IP: [${ip.toString()}] - ${requestedUrl}`;
+    let log_string = `Request IP: [${ip.toString()}] - ${req.method} ${requestedUrl}`;
+
     if (req.headers['x-forwarded-for']) {
         log_string += ' (from header "x-forwarded-for")';
     }
