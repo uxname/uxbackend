@@ -241,6 +241,70 @@ type CategoryPreviousValues {
   description: String
 }
 
+input CategoryScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  AND: [CategoryScalarWhereInput!]
+  OR: [CategoryScalarWhereInput!]
+  NOT: [CategoryScalarWhereInput!]
+}
+
 type CategorySubscriptionPayload {
   mutation: MutationType!
   node: Category
@@ -273,6 +337,11 @@ input CategoryUpdateInput {
   products: ProductUpdateManyWithoutCategoriesInput
 }
 
+input CategoryUpdateManyDataInput {
+  title: String
+  description: String
+}
+
 input CategoryUpdateManyInput {
   create: [CategoryCreateInput!]
   update: [CategoryUpdateWithWhereUniqueNestedInput!]
@@ -280,6 +349,8 @@ input CategoryUpdateManyInput {
   delete: [CategoryWhereUniqueInput!]
   connect: [CategoryWhereUniqueInput!]
   disconnect: [CategoryWhereUniqueInput!]
+  deleteMany: [CategoryScalarWhereInput!]
+  updateMany: [CategoryUpdateManyWithWhereNestedInput!]
 }
 
 input CategoryUpdateManyMutationInput {
@@ -294,6 +365,13 @@ input CategoryUpdateManyWithoutProductsInput {
   disconnect: [CategoryWhereUniqueInput!]
   update: [CategoryUpdateWithWhereUniqueWithoutProductsInput!]
   upsert: [CategoryUpsertWithWhereUniqueWithoutProductsInput!]
+  deleteMany: [CategoryScalarWhereInput!]
+  updateMany: [CategoryUpdateManyWithWhereNestedInput!]
+}
+
+input CategoryUpdateManyWithWhereNestedInput {
+  where: CategoryScalarWhereInput!
+  data: CategoryUpdateManyDataInput!
 }
 
 input CategoryUpdateWithoutProductsDataInput {
@@ -503,6 +581,70 @@ type ProductPreviousValues {
   description: String
 }
 
+input ProductScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  AND: [ProductScalarWhereInput!]
+  OR: [ProductScalarWhereInput!]
+  NOT: [ProductScalarWhereInput!]
+}
+
 type ProductSubscriptionPayload {
   mutation: MutationType!
   node: Product
@@ -527,6 +669,11 @@ input ProductUpdateInput {
   categories: CategoryUpdateManyWithoutProductsInput
 }
 
+input ProductUpdateManyDataInput {
+  title: String
+  description: String
+}
+
 input ProductUpdateManyMutationInput {
   title: String
   description: String
@@ -539,6 +686,13 @@ input ProductUpdateManyWithoutCategoriesInput {
   disconnect: [ProductWhereUniqueInput!]
   update: [ProductUpdateWithWhereUniqueWithoutCategoriesInput!]
   upsert: [ProductUpsertWithWhereUniqueWithoutCategoriesInput!]
+  deleteMany: [ProductScalarWhereInput!]
+  updateMany: [ProductUpdateManyWithWhereNestedInput!]
+}
+
+input ProductUpdateManyWithWhereNestedInput {
+  where: ProductScalarWhereInput!
+  data: ProductUpdateManyDataInput!
 }
 
 input ProductUpdateWithoutCategoriesDataInput {
