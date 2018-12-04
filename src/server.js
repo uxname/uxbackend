@@ -32,7 +32,11 @@ const GQLError = require('./helper/GQLError');
 const express = require('express');
 
 process.on('unhandledRejection', (reason, p) => {
-    log.warn('Unhandled Rejection at:', p, 'reason:', reason);
+    log.error('Unhandled Rejection at:', p, 'reason:', reason);
+});
+
+process.on('uncaughtException', function (error) {
+    log.error('uncaughtException :', error);
 });
 
 const graphqlServer = new GraphQLServer({
