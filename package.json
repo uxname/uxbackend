@@ -63,7 +63,6 @@
   "devDependencies": {
     "nodemon": "^1.18.7",
     "prisma": "^1.22.1",
-    "redoc-cli": "^0.7.0",
-    "sonarqube-scanner": "^2.1.2"
+    "redoc-cli": "^0.7.0"
   }
 }
