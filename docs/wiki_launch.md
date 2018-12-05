@@ -7,7 +7,6 @@
 3. Copy `.env_example` to `.env` file
 4. `yarn dev:start`
 5. `yarn dev:start-app`
-6. (Optional) Copy `sonar-scanner.properties.example` to `sonar-scanner.properties` and edit it.
 
 # Production launch
 1. `git clone ...`

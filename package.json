@@ -26,7 +26,6 @@
     "prod:logs": "docker-compose logs -f",
     "prod:stop": "docker-compose stop",
     "test": "mocha src/test",
-    "sonar": "npx sonarqube-scanner -D project.settings=sonar-scanner.properties",
     "sms": "node src/helper/SecureMemStorageCLI.js"
   },
   "dependencies": {
