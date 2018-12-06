@@ -33,6 +33,7 @@ services:
         volumes:
         - './data/config:/app/src/config'
         - './data/uploads:/app/uploads'
+        - './data/prisma:/app/prisma'
         - './data/logs:/app/logs'
     mongodb:
         image: 'mongo:latest'
