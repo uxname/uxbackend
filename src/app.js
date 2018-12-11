@@ -2,8 +2,6 @@
 
 const log = require('./helper/logger').getLogger('app');
 const config = require('./config/config');
-const productResolver = require('./resolver/product');
-const categoryResolver = require('./resolver/category');
 const userResolver = require('./resolver/user');
 const prisma = require('./helper/prisma_helper').prisma;
 const roleHelper = require('./helper/roles_helper');
@@ -12,19 +10,6 @@ const systemResolver = require('./resolver/system_resolver');
 const redis = require('redis');
 const redisClient = redis.createClient(config.redis);
 const _ = require('lodash');
-const fetch = require('node-fetch');
-const {
-    makeRemoteExecutableSchema,
-    addResolveFunctionsToSchema,
-    introspectSchema,
-    mergeSchemas,
-    transformSchema,
-    makeExecutableSchema,
-    FilterRootFields,
-} = require('graphql-tools');
-const {importSchema} = require('graphql-import');
-const {createHttpLink} = require('apollo-link-http');
-
 
 const CACHED_RESPONSE_REDIS_PREFIX = 'cached:';
 const CACHED_RESPONSE_REDIS_EXPIRE_SEC = 10;
@@ -73,18 +58,62 @@ const resolvers = {
         },
         systemInfo: systemResolver.systemInfo,
         sign_in: userResolver.signIn,
-        products: productResolver.getProducts
-    },
-    Product: {
-        categories: productResolver.getProductCategories
-    },
-    Category: {
-        subcategories: categoryResolver.getSubcategories
+
+        activationCode: (root, {where}) => prisma.activationCode(where),
+        activationCodes: (root, args) => prisma.activationCodes(args),
+
+        category: (root, {where}) => prisma.category(where),
+        categories: (root, args) => prisma.categories(args),
+
+        product: (root, {where}) => prisma.product(where),
+        products: (root, args) => prisma.products(args),
+
+        user: (root, {where}) => prisma.user(where),
+        users: (root, args) => prisma.users(args),
     },
     Mutation: {
         sign_up: userResolver.signUp,
         change_password: userResolver.change_password,
-        createProduct: productResolver.createProduct
+        createProduct: productResolver.createProduct,
+
+        createActivationCode: (root, args) => prisma.createActivationCode(args.data),
+        updateActivationCode: (root, args) => prisma.updateActivationCode(args),
+        updateManyActivationCodes: (root, args) => prisma.updateManyActivationCodes(args),
+        upsertActivationCode: (root, args) => prisma.upsertActivationCode(args),
+        deleteActivationCode: (root, args) => prisma.deleteActivationCode(args.where),
+        deleteManyActivationCodes: (root, args) => prisma.deleteManyActivationCodes(args.where),
+
+        createCategory: (root, args) => prisma.createCategory(args.data),
+        updateCategory: (root, args) => prisma.updateCategory(args),
+        updateManyCategories: (root, args) => prisma.updateManyCategories(args),
+        upsertCategory: (root, args) => prisma.upsertCategory(args),
+        deleteCategory: (root, args) => prisma.deleteCategory(args.where),
+        deleteManyCategories: (root, args) => prisma.deleteManyCategories(args.where),
+
+        updateProduct: (root, args) => prisma.updateProduct(args.data),
+        updateManyProducts: (root, args) => prisma.updateManyProducts(args),
+        upsertProduct: (root, args) => prisma.upsertProduct(args),
+        deleteProduct: (root, args) => prisma.deleteProduct(args.where),
+        deleteManyProducts: (root, args) => prisma.deleteManyProducts(args.where),
+
+        createUser: (root, args) => prisma.createUser(args.data),
+        updateUser: (root, args) => prisma.updateUser(args),
+        updateManyUsers: (root, args) => prisma.updateManyUsers(args),
+        upsertUser: (root, args) => prisma.upsertUser(args),
+        deleteUser: (root, args) => prisma.deleteUser(args.where),
+        deleteManyUsers: (root, args) => prisma.deleteManyUsers(args.where),
+    },
+    Category: {
+        subcategories: root => prisma.category({id: root.id}).subcategories(),
+        products: root => prisma.category({id: root.id}).products(),
+    },
+    Product: {
+        categories: root => prisma.product({id: root.id}).categories(),
+    },
+    Node: { // to remove warning "Type "Node" is missing a "__resolveType" resolver. Pass false into "resolverValidationOptions.requireResolversForResolveType" to disable this warning."
+        __resolveType() {
+            return null;
+        }
     }
 };
 
@@ -112,18 +141,17 @@ const permissions = shield({
         cachedResponse: allow,
         clearCachedResponse: allow,
 
-        activationCode: isAuthenticated,
-        activationCodes: isAuthenticated,
-        activationCodesConnection: isAuthenticated,
+        activationCode: and(isAuthenticated, isAdmin),
+        activationCodes: and(isAuthenticated, isAdmin),
+
         category: isAuthenticated,
         categories: isAuthenticated,
-        categoriesConnection: isAuthenticated,
+
         product: isAuthenticated,
         products: isAuthenticated,
-        productsConnection: isAuthenticated,
+
         user: isAuthenticated,
         users: isAuthenticated,
-        usersConnection: isAuthenticated,
     },
     Mutation: {
         change_password: isAuthenticated,
@@ -134,18 +162,21 @@ const permissions = shield({
         upsertActivationCode: and(isAuthenticated, isAdmin),
         deleteActivationCode: and(isAuthenticated, isAdmin),
         deleteManyActivationCodes: and(isAuthenticated, isAdmin),
+
         createCategory: and(isAuthenticated, isAdmin),
         updateCategory: and(isAuthenticated, isAdmin),
         updateManyCategories: and(isAuthenticated, isAdmin),
         upsertCategory: and(isAuthenticated, isAdmin),
         deleteCategory: and(isAuthenticated, isAdmin),
         deleteManyCategories: and(isAuthenticated, isAdmin),
+
         createProduct: and(isAuthenticated, isAdmin),
         updateProduct: and(isAuthenticated, isAdmin),
         updateManyProducts: and(isAuthenticated, isAdmin),
         upsertProduct: and(isAuthenticated, isAdmin),
         deleteProduct: and(isAuthenticated, isAdmin),
         deleteManyProducts: and(isAuthenticated, isAdmin),
+
         createUser: and(isAuthenticated, isAdmin),
         updateUser: and(isAuthenticated, isAdmin),
         updateManyUsers: and(isAuthenticated, isAdmin),
@@ -181,55 +212,9 @@ const permissions = shield({
     }
 });
 
-async function getSchema() {
-    const makeDatabaseServiceLink = () => createHttpLink({
-        uri: `${process.env["PRISMA_ENDPOINT"]}`,
-        fetch
-    });
-
-    const introspected_schema = await introspectSchema(makeDatabaseServiceLink());
-
-    const transformed_schema = transformSchema(introspected_schema, [
-        new FilterRootFields(
-            (from, to) => {
-                // noinspection RedundantIfStatementJS
-                if (to === 'node') { // exclude query "node" from Query
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        )
-    ]);
-
-    const remoteExecutableSchema = makeRemoteExecutableSchema({
-        schema: transformed_schema,
-        link: makeDatabaseServiceLink()
-    });
-
-    const app_schema = makeExecutableSchema({
-        typeDefs: importSchema(__dirname + '/../src/schema/schema.graphql')
-    });
-
-    const merged_schema = mergeSchemas({
-        schemas: [
-            remoteExecutableSchema,
-            app_schema
-        ]
-    });
-
-    addResolveFunctionsToSchema({
-        schema: merged_schema,
-        resolvers: resolvers
-    });
-
-    return merged_schema;
-}
-
-
 module.exports = {
-    getSchema: getSchema,
-    permissions: permissions,
+    resolvers: resolvers,
+    permissions: permissions
 };
 
 // todo remove me

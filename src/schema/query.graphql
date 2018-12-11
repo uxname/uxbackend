@@ -19,4 +19,14 @@ type Query {
     sign_in(email: String!, password: String!): UserAuthResponse!
 
     systemInfo: SystemInfo @cost(complexity: 50) @cacheControl(maxAge: 5)
+
+
+    activationCode(where: ActivationCodeWhereUniqueInput!): ActivationCode
+    activationCodes(where: ActivationCodeWhereInput, orderBy: ActivationCodeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ActivationCode]!
+    category(where: CategoryWhereUniqueInput!): Category
+    categories(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category]!
+    product(where: ProductWhereUniqueInput!): Product
+    products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
+    user(where: UserWhereUniqueInput!): User
+    users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
 }

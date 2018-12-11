@@ -89,7 +89,7 @@ async function signIn(email, password) {
     if (!result) {
         throw new GQLError({message: 'Wrong password', code: 403});
     } else {
-        const res = await prisma.updateUser({
+        await prisma.updateUser({
             where: {
                 id: user.id
             },

@@ -1,5 +1,30 @@
 type Mutation {
     sign_up(email: String!, password: String, activation_code: String, step: SignUpStep!): UserAuthResponse!
     change_password(old_password: String!, new_password: String!): UserAuthResponse!
+
+    createActivationCode(data: ActivationCodeCreateInput!): ActivationCode!
+    updateActivationCode(data: ActivationCodeUpdateInput!, where: ActivationCodeWhereUniqueInput!): ActivationCode
+    updateManyActivationCodes(data: ActivationCodeUpdateManyMutationInput!, where: ActivationCodeWhereInput): BatchPayload!
+    upsertActivationCode(where: ActivationCodeWhereUniqueInput!, create: ActivationCodeCreateInput!, update: ActivationCodeUpdateInput!): ActivationCode!
+    deleteActivationCode(where: ActivationCodeWhereUniqueInput!): ActivationCode
+    deleteManyActivationCodes(where: ActivationCodeWhereInput): BatchPayload!
+    createCategory(data: CategoryCreateInput!): Category!
+    updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
+    updateManyCategories(data: CategoryUpdateManyMutationInput!, where: CategoryWhereInput): BatchPayload!
+    upsertCategory(where: CategoryWhereUniqueInput!, create: CategoryCreateInput!, update: CategoryUpdateInput!): Category!
+    deleteCategory(where: CategoryWhereUniqueInput!): Category
+    deleteManyCategories(where: CategoryWhereInput): BatchPayload!
+    createProduct(data: ProductCreateInput!): Product!
+    updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
+    updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
+    upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
+    deleteProduct(where: ProductWhereUniqueInput!): Product
+    deleteManyProducts(where: ProductWhereInput): BatchPayload!
+    createUser(data: UserCreateInput!): User!
+    updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+    updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+    upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+    deleteUser(where: UserWhereUniqueInput!): User
+    deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 

@@ -16,10 +16,6 @@ const agenda = require('../helper/job_scheduler').getAgenda();
     });
 })();
 
-async function getProducts(root, args, ctx, info) {
-    return await prisma.products(args);
-}
-
 async function createProduct(root, args, ctx, info) {
     const result = await prisma.createProduct(args.data);
 
@@ -33,6 +29,5 @@ async function createProduct(root, args, ctx, info) {
 }
 
 module.exports = {
-    getProducts: getProducts,
     createProduct: createProduct
 };
