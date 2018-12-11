@@ -16,6 +16,7 @@ if (!production) {
 log.debug(`Prisma endpoint: [ ${process.env.PRISMA_ENDPOINT} ]`);
 
 const {GraphQLServer} = require('graphql-yoga');
+const {importSchema} = require('graphql-import');
 const rateLimit = require("express-rate-limit");
 const token = require('./helper/token');
 const app = require('./app');
@@ -42,8 +43,8 @@ process.on('uncaughtException', function (error) {
 (async () => {
     const graphqlServer = new GraphQLServer({
         mocks: config.graphql.mocks,
-        schema: await app.getSchema(),
-        resolvers: null,
+        typeDefs: importSchema(__dirname + '/../src/schema/schema.graphql'),
+        resolvers: app.resolvers,
         middlewares: [app.permissions],
         context: async ({request}) => {
             GraphqlRequestLogger.log(request);

@@ -9,6 +9,8 @@ const {rule, shield, and, or, not, allow, deny} = require('graphql-shield');
 const systemResolver = require('./resolver/system_resolver');
 const redis = require('redis');
 const redisClient = redis.createClient(config.redis);
+const GQLError = require('./helper/GQLError');
+const product_core = require('./core/product');
 const _ = require('lodash');
 
 const CACHED_RESPONSE_REDIS_PREFIX = 'cached:';
@@ -74,7 +76,6 @@ const resolvers = {
     Mutation: {
         sign_up: userResolver.signUp,
         change_password: userResolver.change_password,
-        createProduct: productResolver.createProduct,
 
         createActivationCode: (root, args) => prisma.createActivationCode(args.data),
         updateActivationCode: (root, args) => prisma.updateActivationCode(args),
@@ -90,6 +91,7 @@ const resolvers = {
         deleteCategory: (root, args) => prisma.deleteCategory(args.where),
         deleteManyCategories: (root, args) => prisma.deleteManyCategories(args.where),
 
+        createProduct: (root, args, ctx, info) => product_core.createProduct(root, args, ctx, info),
         updateProduct: (root, args) => prisma.updateProduct(args.data),
         updateManyProducts: (root, args) => prisma.updateManyProducts(args),
         upsertProduct: (root, args) => prisma.upsertProduct(args),
@@ -210,6 +212,8 @@ const permissions = shield({
         subcategories: allow,
         products: allow,
     }
+}, {
+    fallbackError: new GQLError({message: 'Permission denied!', code: 403}),
 });
 
 module.exports = {
