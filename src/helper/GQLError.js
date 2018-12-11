@@ -14,12 +14,13 @@ module.exports = class GQLError extends BaseGraphQLError {
             message: message || 'Unknown error',
             code: code || -1,
             data: data,
-            internalError: internalData
+            internalError: internalData,
+            IS_GQLERROR: true // to check is GQLError in formatError
         });
     }
 
     static formatError(error) {
-        if (error instanceof BaseGraphQLError || error instanceof GQLError) {
+        if (error.message.IS_GQLERROR) {
             return {
                 message: error.message.message,
                 code: error.message.code,

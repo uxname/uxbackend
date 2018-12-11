@@ -16,7 +16,6 @@ if (!production) {
 log.debug(`Prisma endpoint: [ ${process.env.PRISMA_ENDPOINT} ]`);
 
 const {GraphQLServer} = require('graphql-yoga');
-const {importSchema} = require('graphql-import');
 const rateLimit = require("express-rate-limit");
 const token = require('./helper/token');
 const app = require('./app');
@@ -39,127 +38,128 @@ process.on('uncaughtException', function (error) {
     log.error('uncaughtException :', error);
 });
 
-const graphqlServer = new GraphQLServer({
-    mocks: config.graphql.mocks,
-    typeDefs: importSchema(__dirname + '/../src/schema/schema.graphql'),
-    resolvers: app.resolvers,
-    middlewares: [app.permissions],
-    context: async ({request}) => {
-        GraphqlRequestLogger.log(request);
-
-        let user = null;
-        try {
-            user = await token.validateToken(request.headers.token);
-        } catch (e) {
-            log.trace("Can't get user from token:", e.message)
-        }
-
-        return {
-            user: user,
-            token: request.headers.token,
-            pgPool: pg.pgPool,
-            middlewareError: request.middlewareError
-        }
-    }
-});
-
-/*
-Important, for using `res.write` or similar functions - please
-use `res.flush()` function: https://github.com/expressjs/compression#server-sent-events
- */
-graphqlServer.express.use(compression(config.compression));
-
-// DDoS protection
-const limiter = rateLimit({
-    store: new RedisStore({
-        expiry: config.ddos_protection.windowMs / 1000 || 1, // in seconds
-        prefix: 'rate_limit:',
-        client: redisClient
-    }),
-    windowMs: config.ddos_protection.windowMs || 1000 * 60 * 15,
-    max: config.ddos_protection.max || 1000000, // limit each IP to 'max' requests per windowMs
-    message: config.ddos_protection.message || '{ "message": "Too many requests" }',
-    onLimitReached: (req, res, options) => {
-        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-        log.error(`HTTP Request limit reached. IP: [${ip}]`);
-    }
-});
-
-// Log ip
-graphqlServer.express.use((req, res, next) => {
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    const requestedUrl = req.protocol + '://' + req.get('Host') + req.url;
-
-    let log_string = `Request IP: [${ip.toString()}] - ${req.method} ${requestedUrl}`;
-
-    if (req.headers['x-forwarded-for']) {
-        log_string += ' (from header "x-forwarded-for")';
-    }
-    log.trace(log_string);
-
-    next();
-});
-
-// Maintenance mode handler
-graphqlServer.express.use((req, res, next) => {
-    if (!config.maintenance_mode.maintenance_mode_enabled) {
-        next();
-        return;
-    }
-    const ip = req.connection.remoteAddress;
-
-    if (config.maintenance_mode.allowed_hosts.indexOf(ip) >= 0) {
-        log.info(`Maintenance mode enabled. Disable it in config. Got request from: [${ip}]`);
-        next();
-    } else {
-        res.status(503).json({
-            status: config.maintenance_mode.message
-        });
-    }
-});
-graphqlServer.express.use(limiter);
-
-const agenda = job_scheduler.getAgenda(graphqlServer.express,
-    async (req, res, next) => {
-        if (!req.headers.jobs_access_token || req.headers.jobs_access_token !== config.job_scheduler.access_token) {
-            log.debug(`Job scheduler dashboard access error (wrong token)`);
-            res.status(401).json({
-                result: 'Access denied'
-            });
-        } else {
-            next();
-        }
-    });
-
-graphqlServer.express.get('/', (req, res) => {
-    res.status(404).json({
-        message: 'Welcome'
-    });
-});
-
-if (config.logs_web_panel.enabled) {
-    const serveIndex = require('serve-index');
-    graphqlServer.express.use(config.logs_web_panel.path, (req, res, next) => {
-        if (!req.headers.logs_access_token || req.headers.logs_access_token !== config.logs_web_panel.access_token) {
-            return res.status(401).json({
-                message: 'Wrong access token',
-            })
-        } else {
-            next();
-        }
-    });
-    graphqlServer.express.use(config.logs_web_panel.path, express.static('./logs'), serveIndex('./logs', {'icons': true}));
-}
-
-const routers = require(__dirname + '/router');
-
-if (routers && routers.length > 0) {
-    routers.forEach(function (router) {
-        if (router.router && router.path) graphqlServer.express.use(router.path, router.router);
-    });
-}
 
 (async () => {
+    const graphqlServer = new GraphQLServer({
+        mocks: config.graphql.mocks,
+        schema: await app.getSchema(),
+        resolvers: null,
+        middlewares: [app.permissions],
+        context: async ({request}) => {
+            GraphqlRequestLogger.log(request);
+
+            let user = null;
+            try {
+                user = await token.validateToken(request.headers.token);
+            } catch (e) {
+                log.trace("Can't get user from token:", e.message)
+            }
+
+            return {
+                user: user,
+                token: request.headers.token,
+                pgPool: pg.pgPool,
+                middlewareError: request.middlewareError
+            }
+        }
+    });
+
+    /*
+    Important, for using `res.write` or similar functions - please
+    use `res.flush()` function: https://github.com/expressjs/compression#server-sent-events
+     */
+    graphqlServer.express.use(compression(config.compression));
+
+    // DDoS protection
+    const limiter = rateLimit({
+        store: new RedisStore({
+            expiry: config.ddos_protection.windowMs / 1000 || 1, // in seconds
+            prefix: 'rate_limit:',
+            client: redisClient
+        }),
+        windowMs: config.ddos_protection.windowMs || 1000 * 60 * 15,
+        max: config.ddos_protection.max || 1000000, // limit each IP to 'max' requests per windowMs
+        message: config.ddos_protection.message || '{ "message": "Too many requests" }',
+        onLimitReached: (req, res, options) => {
+            const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+            log.error(`HTTP Request limit reached. IP: [${ip}]`);
+        }
+    });
+
+    // Log ip
+    graphqlServer.express.use((req, res, next) => {
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        const requestedUrl = req.protocol + '://' + req.get('Host') + req.url;
+
+        let log_string = `Request IP: [${ip.toString()}] - ${req.method} ${requestedUrl}`;
+
+        if (req.headers['x-forwarded-for']) {
+            log_string += ' (from header "x-forwarded-for")';
+        }
+        log.trace(log_string);
+
+        next();
+    });
+
+    // Maintenance mode handler
+    graphqlServer.express.use((req, res, next) => {
+        if (!config.maintenance_mode.maintenance_mode_enabled) {
+            next();
+            return;
+        }
+        const ip = req.connection.remoteAddress;
+
+        if (config.maintenance_mode.allowed_hosts.indexOf(ip) >= 0) {
+            log.info(`Maintenance mode enabled. Disable it in config. Got request from: [${ip}]`);
+            next();
+        } else {
+            res.status(503).json({
+                status: config.maintenance_mode.message
+            });
+        }
+    });
+    graphqlServer.express.use(limiter);
+
+    const agenda = job_scheduler.getAgenda(graphqlServer.express,
+        async (req, res, next) => {
+            if (!req.headers.jobs_access_token || req.headers.jobs_access_token !== config.job_scheduler.access_token) {
+                log.debug(`Job scheduler dashboard access error (wrong token)`);
+                res.status(401).json({
+                    result: 'Access denied'
+                });
+            } else {
+                next();
+            }
+        });
+
+    graphqlServer.express.get('/', (req, res) => {
+        res.status(404).json({
+            message: 'Welcome'
+        });
+    });
+
+    if (config.logs_web_panel.enabled) {
+        const serveIndex = require('serve-index');
+        graphqlServer.express.use(config.logs_web_panel.path, (req, res, next) => {
+            if (!req.headers.logs_access_token || req.headers.logs_access_token !== config.logs_web_panel.access_token) {
+                return res.status(401).json({
+                    message: 'Wrong access token',
+                })
+            } else {
+                next();
+            }
+        });
+        graphqlServer.express.use(config.logs_web_panel.path, express.static('./logs'), serveIndex('./logs', {'icons': true}));
+    }
+
+    const routers = require(__dirname + '/router');
+
+    if (routers && routers.length > 0) {
+        routers.forEach(function (router) {
+            if (router.router && router.path) graphqlServer.express.use(router.path, router.router);
+        });
+    }
+
     await pg.connect();
 
     await graphqlServer.start({
@@ -170,7 +170,7 @@ if (routers && routers.length > 0) {
         port: config.port,
         validationRules: (req) => [
             costAnalysis({
-                variables: req.query.variables,
+                variables: req.body.variables,
                 maximumCost: config.graphql.maximumCost,
                 defaultCost: config.graphql.defaultCost,
                 onComplete(cost) {

@@ -11,14 +11,12 @@ type Query {
         request_4: cachedResponse(id: 4)
     }
     """
-    cachedResponse(id: Int!): String
+    cachedResponse(id: Int!): String @cost(complexity: 5)
 
     """Clear cached value"""
     clearCachedResponse(id: Int!): Boolean
 
     sign_in(email: String!, password: String!): UserAuthResponse!
-
-    products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]! @cost(complexity: 3)
 
     systemInfo: SystemInfo @cost(complexity: 50) @cacheControl(maxAge: 5)
 }
