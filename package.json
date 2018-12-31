@@ -50,7 +50,7 @@
     "mocha": "^5.2.0",
     "moment": "^2.23.0",
     "multer": "^1.4.1",
-    "nodemailer": "^4.7.0",
+    "nodemailer": "^5.0.0",
     "pg": "^7.7.1",
     "prisma-client-lib": "^1.23.2",
     "pug": "^2.0.3",
