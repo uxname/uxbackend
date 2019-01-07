@@ -52,13 +52,13 @@
     "multer": "^1.4.1",
     "nodemailer": "^5.0.0",
     "pg": "^7.7.1",
-    "prisma-client-lib": "^1.23.2",
+    "prisma-client-lib": "^1.23.4",
     "pug": "^2.0.3",
     "rate-limit-redis": "^1.6.0",
     "redis": "^2.8.0",
     "request": "^2.88.0",
     "serve-index": "^1.9.1",
-    "terminal-kit": "^1.26.8",
+    "terminal-kit": "^1.26.9",
     "validator": "^10.10.0"
   },
   "resolutions": {
@@ -66,7 +66,7 @@
   },
   "devDependencies": {
     "nodemon": "^1.18.9",
-    "prisma": "^1.23.2",
+    "prisma": "^1.23.4",
     "redoc-cli": "^0.7.0"
   }
 }
