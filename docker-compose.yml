@@ -6,12 +6,12 @@ services:
             dockerfile: Dockerfile
         restart: always
         links:
-        - 'postgres:database'
-        - 'prisma:prisma'
-        - 'mongodb:mongodb'
-        - 'redis:redis'
+            - 'postgres:database'
+            - 'prisma:prisma'
+            - 'mongodb:mongodb'
+            - 'redis:redis'
         ports:
-        - '4001:4000'
+            - '4001:4000'
         environment:
             PRISMA_ENDPOINT: $PRISMA_ENDPOINT
             POSTGRES_USER: $POSTGRES_USER
@@ -23,28 +23,28 @@ services:
             MONGODB_PORT: $MONGODB_PORT
             NODE_ENV: production
         depends_on:
-        - postgres
-        - pgadmin
-        - mongodb
-        - prisma
-        - redis
+            - postgres
+            - pgadmin
+            - mongodb
+            - prisma
+            - redis
         networks:
-        - uxbackend_network
+            - uxbackend_network
         volumes:
-        - './data/config:/app/src/config'
-        - './data/uploads:/app/uploads'
-        - './data/prisma:/app/prisma'
-        - './data/logs:/app/logs'
+            - './data/config:/app/src/config'
+            - './data/uploads:/app/uploads'
+            - './data/prisma:/app/prisma'
+            - './data/logs:/app/logs'
     mongodb:
         image: 'mongo:latest'
         restart: always
         environment:
-        - MONGO_DATA_DIR=/data/db
-        - MONGO_LOG_DIR=/dev/null
+            - MONGO_DATA_DIR=/data/db
+            - MONGO_LOG_DIR=/dev/null
         networks:
-        - uxbackend_network
+            - uxbackend_network
         volumes:
-        - './data/mongodb:/data/db'
+            - './data/mongodb:/data/db'
         #ports:
         #- '27017:27017'
         command: 'mongod --smallfiles --logpath=/dev/null'
@@ -59,22 +59,22 @@ services:
         #ports:
         #- "5432:5432"
         volumes:
-        - './data/postgres:/data/postgres'
+            - './data/postgres:/data/postgres'
         networks:
-        - uxbackend_network
+            - uxbackend_network
     pgadmin:
         image: fenglc/pgadmin4
         links:
-        - 'postgres:postgres'
+            - 'postgres:postgres'
         depends_on:
-        - postgres
+            - postgres
         volumes:
-        - './data/pgadmin:/root/.pgadmin'
+            - './data/pgadmin:/root/.pgadmin'
         restart: always
         #ports:
         #- '5052:5050'
         networks:
-        - uxbackend_network
+            - uxbackend_network
         environment:
             DEFAULT_USER: $PGADMIN_DEFAULT_USER
             DEFAULT_PASSWORD: $PGADMIN_DEFAULT_PASSWORD
@@ -84,20 +84,20 @@ services:
         #ports:
         #- "6379:6379"
         networks:
-        - uxbackend_network
+            - uxbackend_network
         volumes:
-        - ./data/redis:/data
+            - ./data/redis:/data
     prisma:
-        image: prismagraphql/prisma:1.24.0
+        image: prismagraphql/prisma:1.25.3
         restart: always
         networks:
-        - uxbackend_network
+            - uxbackend_network
         #ports:
         #- "4488:4466"
         depends_on:
-        - postgres
+            - postgres
         links:
-        - 'postgres:postgres'
+            - 'postgres:postgres'
         environment:
             PRISMA_CONFIG: |
                 port: 4466

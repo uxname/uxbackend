@@ -7,48 +7,48 @@ services:
             POSTGRES_PASSWORD: postgres
             PGDATA: /data/postgres
         ports:
-        - "5445:5432"
+            - "5445:5432"
         volumes:
-        - './data/postgres:/data/postgres'
+            - './data/postgres:/data/postgres'
         networks:
-        - uxbackend_network_debug
+            - uxbackend_network_debug
     mongodb:
         image: 'mongo:latest'
         environment:
-        - MONGO_DATA_DIR=/data/db
-        - MONGO_LOG_DIR=/dev/null
+            - MONGO_DATA_DIR=/data/db
+            - MONGO_LOG_DIR=/dev/null
         volumes:
-        - './data/mongodb:/data/db'
+            - './data/mongodb:/data/db'
         ports:
-        - '27017:27017'
+            - '27017:27017'
         networks:
-        - uxbackend_network_debug
+            - uxbackend_network_debug
         command: 'mongod --smallfiles --logpath=/dev/null'
     pgadmin:
         image: fenglc/pgadmin4
         links:
-        - 'postgres:postgres'
+            - 'postgres:postgres'
         depends_on:
-        - postgres
+            - postgres
         volumes:
-        - './data/pgadmin:/root/.pgadmin'
+            - './data/pgadmin:/root/.pgadmin'
         ports:
-        - '5775:5050'
+            - '5775:5050'
         networks:
-        - uxbackend_network_debug
+            - uxbackend_network_debug
         environment:
             DEFAULT_USER: admin@admin.com
             DEFAULT_PASSWORD: admin
     prisma:
-        image: prismagraphql/prisma:1.24.0
+        image: prismagraphql/prisma:1.25.3
         networks:
-        - uxbackend_network_debug
+            - uxbackend_network_debug
         ports:
-        - "4466:4466"
+            - "4466:4466"
         depends_on:
-        - postgres
+            - postgres
         links:
-        - 'postgres:postgres'
+            - 'postgres:postgres'
         environment:
             PRISMA_CONFIG: |
                 port: 4466
@@ -63,11 +63,11 @@ services:
     redis:
         image: redis:latest
         ports:
-        - "6379:6379"
+            - "6379:6379"
         networks:
-        - uxbackend_network_debug
+            - uxbackend_network_debug
         volumes:
-        - ./data/redis:/data
+            - ./data/redis:/data
 networks:
     uxbackend_network_debug:
         driver: bridge
