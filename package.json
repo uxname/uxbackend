@@ -43,7 +43,7 @@
     "graphql-cost-analysis": "^1.0.2",
     "graphql-import": "^0.7.1",
     "graphql-shield": "^5.1.0",
-    "graphql-yoga": "^1.17.0",
+    "graphql-yoga": "^1.17.1",
     "jsonwebtoken": "^8.4.0",
     "lodash": "^4.17.11",
     "log4js": "^4.0.0",
