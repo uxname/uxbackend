@@ -92,8 +92,8 @@ services:
         restart: always
         networks:
             - uxbackend_network
-        #ports:
-        #- "4488:4466"
+        ports:
+            - "127.0.0.1:4488:4466"
         depends_on:
             - postgres
         links:
