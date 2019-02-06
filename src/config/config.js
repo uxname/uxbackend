@@ -10,7 +10,7 @@ const config = {
             },
             file_out_all: {
                 type: 'file',
-                filename: './logs/all/logs_all.log',
+                filename: __dirname + '/../../logs/all/logs_all.log',
                 maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
                 backups: 100,
                 compress: true
@@ -22,7 +22,7 @@ const config = {
             },
             file_out_trace: {
                 type: 'file',
-                filename: './logs/trace/logs_trace.log',
+                filename: __dirname + '/../../logs/trace/logs_trace.log',
                 maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
                 backups: 100,
                 compress: true
@@ -35,7 +35,7 @@ const config = {
             },
             file_out_debug: {
                 type: 'file',
-                filename: './logs/debug/logs_debug.log',
+                filename: __dirname + '/../../logs/debug/logs_debug.log',
                 maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
                 backups: 100,
                 compress: true
@@ -48,7 +48,7 @@ const config = {
             },
             file_out_info: {
                 type: 'file',
-                filename: './logs/info/logs_info.log',
+                filename: __dirname + '/../../logs/info/logs_info.log',
                 maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
                 backups: 100,
                 compress: true
@@ -61,7 +61,7 @@ const config = {
             },
             file_out_warn: {
                 type: 'file',
-                filename: './logs/warn/logs_warn.log',
+                filename: __dirname + '/../../logs/warn/logs_warn.log',
                 maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
                 backups: 100,
                 compress: true
@@ -74,7 +74,7 @@ const config = {
             },
             file_out_error: {
                 type: 'file',
-                filename: './logs/error/logs_error.log',
+                filename: __dirname + '/../../logs/error/logs_error.log',
                 maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
                 backups: 100,
                 compress: true
@@ -87,7 +87,7 @@ const config = {
             },
             file_out_fatal: {
                 type: 'file',
-                filename: './logs/fatal/logs_fatal.log',
+                filename: __dirname + '/../../logs/fatal/logs_fatal.log',
                 maxLogSize: 25 * 1024 * 1024, // maximum size (in bytes) for the log file.
                 backups: 100,
                 compress: true
