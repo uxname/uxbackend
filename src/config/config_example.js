@@ -1,7 +1,7 @@
 const production = process.env.NODE_ENV === 'production';
 
 const config = {
-    token_secret: "123",
+    token_secret: "EbzXNoaFtZjFBx955gQWJjfbCfsPN2kViuhq8e8WooprTQxn5W2n2friEbxWPUm3",
     token_expiresIn: 30 * 24 * 60 * 60, // 30 days in seconds
     logger_config: {
         appenders: {
