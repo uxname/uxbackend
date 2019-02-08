@@ -126,3 +126,5 @@ uploads/
 .scannerwork
 
 prisma
+
+src/config/config.js

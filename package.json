@@ -19,7 +19,7 @@
     "dev:generate-docs": "cd ./docs && npx redoc-cli bundle swagger.yml && cd ..",
     "clear": "sudo rm -rf ./data ./uploads ./logs ./config ./prisma",
     "prod:build": "docker-compose build",
-    "prod:init": "mkdir -p data/config && cp src/config/config.js data/config/config.js && cp .env_example .env",
+    "prod:init": "mkdir -p data/config && cp src/config/config_example.js data/config/config.js && cp .env_example .env",
     "prod:start-app": "cd src/database && npx prisma deploy && cd .. && node cluster.js",
     "prod:up": "docker-compose up -d",
     "prod:start": "docker-compose start",
