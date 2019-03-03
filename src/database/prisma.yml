@@ -1,3 +1,4 @@
+secret: ${env:PRISMA_SECRET}
 endpoint: ${env:PRISMA_ENDPOINT}
 datamodel:
 - product.graphql
@@ -8,8 +9,3 @@ seed:
 generate:
 -   generator: javascript-client
     output: ../generated/prisma-client/
-
-# If specified, the `secret` must be used to generate a JWT which is attached
-# to the `Authorization` header of HTTP requests made against the Prisma API.
-# Info: https://www.prisma.io/docs/reference/prisma-api/concepts-utee3eiquo#authentication
-# secret: ${env:PRISMA_API_SECRET}

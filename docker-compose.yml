@@ -13,6 +13,8 @@ services:
         ports:
             - '4001:4000'
         environment:
+            PRISMA_SECRET: $PRISMA_SECRET
+            PRISMA_MANAGEMENT_API_SECRET: $PRISMA_MANAGEMENT_API_SECRET
             PRISMA_ENDPOINT: $PRISMA_ENDPOINT
             POSTGRES_USER: $POSTGRES_USER
             POSTGRES_PASSWORD: $POSTGRES_PASSWORD
@@ -93,13 +95,14 @@ services:
         networks:
             - uxbackend_network
         ports:
-            - "127.0.0.1:4488:4466"
+            - "4488:4466"
         depends_on:
             - postgres
         links:
             - 'postgres:postgres'
         environment:
             PRISMA_CONFIG: |
+                managementApiSecret: $PRISMA_MANAGEMENT_API_SECRET
                 port: 4466
                 databases:
                     default:

@@ -7,6 +7,7 @@
   "scripts": {
     "dev:start-simple": "nodemon -e \"js json graphql\" node src/server.js",
     "dev:start-app": "npm run dev:prisma-deploy && node src/cluster.js",
+    "prisma-token": "cd src/database && npx prisma token -e ../../.env",
     "prisma-export": "cd src/database && mkdir -p ../../prisma/ && npx prisma export -e ../../.env -p ../../prisma/export_import.zip",
     "prisma-import": "cd src/database && npx prisma import -e ../../.env -d ../../prisma/export_import.zip",
     "dev:prisma-deploy": "npm run dev:generate-docs && cd src/database && npx prisma deploy -e ../../.env && npx prisma generate -e ../../.env",
