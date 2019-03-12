@@ -34,8 +34,8 @@
   "dependencies": {
     "agenda": "^2.0.2",
     "agendash": "^1.0.0",
-    "apollo-link-http": "^1.5.11",
-    "argon2": "^0.20.1",
+    "apollo-link-http": "^1.5.12",
+    "argon2": "^0.21.0",
     "compression": "^1.7.3",
     "express": "^4.16.4",
     "express-rate-limit": "^3.4.0",
@@ -52,8 +52,8 @@
     "multer": "^1.4.1",
     "node-fetch": "^2.3.0",
     "nodemailer": "^5.1.1",
-    "pg": "^7.8.1",
-    "prisma-client-lib": "^1.27.4",
+    "pg": "^7.8.2",
+    "prisma-client-lib": "^1.28.3",
     "pug": "^2.0.3",
     "rate-limit-redis": "^1.6.0",
     "redis": "^2.8.0",
@@ -67,8 +67,8 @@
   },
   "devDependencies": {
     "nodemon": "^1.18.10",
-    "npm-check-updates": "^2.15.0",
-    "prisma": "^1.27.4",
+    "npm-check-updates": "^3.0.4",
+    "prisma": "^1.28.3",
     "redoc-cli": "^0.7.0"
   }
 }
