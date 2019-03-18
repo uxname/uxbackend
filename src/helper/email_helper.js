@@ -65,6 +65,8 @@ async function generateActivationCode(email) {
     const date = new Date();
     date.setMilliseconds(new Date().getMilliseconds() + config.mail_service.expiresInMs);
 
+    log.trace(`generateActivationCode: email (${email}) code (${code}) date (${date.toISOString()})`);
+
     return await prisma.upsertActivationCode({
         where: {
             email: email
@@ -72,10 +74,12 @@ async function generateActivationCode(email) {
         create: {
             email: email,
             code: code,
-            valid_until: date.toISOString()
+            valid_until: date
         },
         update: {
-            code: code
+            code: code,
+            valid_until: date,
+            email: email
         }
     });
 }
