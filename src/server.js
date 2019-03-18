@@ -1,6 +1,7 @@
 "use strict";
 
 const log = require('./helper/logger').getLogger('server');
+require('dotenv').config();
 const pkg = require('../package');
 
 const machineId = require('./helper/machine_id');
