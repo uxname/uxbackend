@@ -61,7 +61,8 @@
     "request": "^2.88.0",
     "serve-index": "^1.9.1",
     "terminal-kit": "^1.27.0",
-    "validator": "^10.11.0"
+    "validator": "^10.11.0",
+    "prisma": "1.28.3"
   },
   "resolutions": {
     "graphql": "^14.0.2"
@@ -69,7 +70,6 @@
   "devDependencies": {
     "nodemon": "^1.18.10",
     "npm-check-updates": "^3.1.0",
-    "prisma": "^1.29.0",
     "redoc-cli": "^0.8.3"
   }
 }
