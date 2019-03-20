@@ -60,6 +60,8 @@ function generateNewCode() {
 }
 
 async function generateActivationCode(email) {
+    email = email.toLowerCase();
+
     const code = generateNewCode();
 
     const date = new Date();
@@ -85,6 +87,8 @@ async function generateActivationCode(email) {
 }
 
 async function sendActivationEmail(email, code) {
+    email = email.toLowerCase();
+
     return new Promise((resolve, reject) => {
         let mailOptions = {
             from: config.mail_service.from,
@@ -110,6 +114,8 @@ async function sendActivationEmail(email, code) {
 }
 
 async function verityActivationCode(email, code) {
+    email = email.toLowerCase();
+
     const result = await prisma.activationCode({
         email: email
     });

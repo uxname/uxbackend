@@ -24,6 +24,8 @@ async function signUp(email, password, step, activation_code) {
         throw new GQLError({message: 'Wrong email format', code: 400});
     }
 
+    email = email.toLowerCase();
+
     if (step === 'GENERATE_ACTIVATION_CODE') {
         const result = await emailHelper.generateActivationCode(email);
 
@@ -77,6 +79,8 @@ async function signIn(email, password) {
     if (!validator.isEmail(email)) {
         throw new GQLError({message: 'Wrong email format', code: 400});
     }
+
+    email = email.toLowerCase();
 
     const user = await prisma.user({
         email: email
