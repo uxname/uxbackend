@@ -54,7 +54,7 @@
     "node-fetch": "^2.3.0",
     "nodemailer": "^5.1.1",
     "pg": "^7.9.0",
-    "prisma-client-lib": "^1.29.0",
+    "prisma-client-lib": "^1.29.1",
     "pug": "^2.0.3",
     "rate-limit-redis": "^1.6.0",
     "redis": "^2.8.0",
@@ -62,14 +62,14 @@
     "serve-index": "^1.9.1",
     "terminal-kit": "^1.27.0",
     "validator": "^10.11.0",
-    "prisma": "1.28.3"
+    "prisma": "^1.29.1"
   },
   "resolutions": {
     "graphql": "^14.0.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.10",
-    "npm-check-updates": "^3.1.0",
+    "npm-check-updates": "^3.1.1",
     "redoc-cli": "^0.8.3"
   }
 }
