@@ -52,6 +52,8 @@
  src/**template**                          | **Directory** | Template files for email and other things 
  **.env_example**                          | **File**      | Example of `.env` file, contains environments variables for Docker container 
  **.dockerignore**                         | **File**      | Docker ignore file (describes which files should not get inside Docker container)  
+ **appinfo.json**                          | **File**      | File that contains info about application (name, version, build number & build date)
+ **appinfo_tools.js**                      | **File**      | Tools for show and update `appinfo.json` (for automatic update build number on app restart in development mode)
  **docker-compose.yml**                    | **File**      | Docker compose file for production launch  
  **docker-compose-dev.yml**                | **File**      | Docker compose file for development launch  
  **Dockerfile**                            | **File**      | [Dockerfile](https://docs.docker.com/engine/reference/builder)  

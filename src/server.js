@@ -1,6 +1,7 @@
 "use strict";
 
 const log = require('./helper/logger').getLogger('server');
+process.env.NODE_ENV = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
 require('dotenv').config();
 const pkg = require('../package');
 

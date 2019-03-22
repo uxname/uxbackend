@@ -1,5 +1,5 @@
 const log = require('../helper/logger').getLogger('system_resolver');
-const pkgjson = require('../../package.json');
+const appinfo = require('../../appinfo');
 const config = require('../config/config');
 const os = require('os');
 const moment = require('moment');
@@ -45,10 +45,10 @@ async function systemInfo() {
             value: await sms.getValue(key)
         })
     }
+    log.error('Remove secure_mem_storage_values from production build');
 
     return {
-        title: `${pkgjson.name}`,
-        version: pkgjson.version.toString(),
+        appinfo: appinfo,
         uptime: `${uptime.years()} years, ${uptime.months()} months, ${uptime.days()} days, ${uptime.hours()} hours, ${uptime.minutes()} min, ${uptime.seconds()} sec`,
         node_mem_usage: node_mem_usage,
         platform: os.platform(),

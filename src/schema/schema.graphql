@@ -5,8 +5,7 @@
 #import Mutation from './mutation.graphql'
 
 type SystemInfo {
-    title: String
-    version: String
+    appinfo: JSON
     uptime: String
     node_mem_usage: [String]
     platform: String

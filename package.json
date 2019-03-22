@@ -1,12 +1,12 @@
 {
   "name": "ux_backend",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "main": "src/cluster.js",
   "author": "uxname",
   "license": "MIT",
   "scripts": {
-    "dev:start-simple": "nodemon -e \"js json graphql\" node src/server.js",
-    "dev:start-app": "npm run dev:prisma-deploy && node src/cluster.js",
+    "dev:start-simple": "nodemon -e \"js json graphql\" --ignore 'appinfo.json' --exec \"node appinfo_tools.js update && node src/server.js\"",
+    "dev:start-app": "node appinfo_tools.js update && npm run dev:prisma-deploy && node src/cluster.js",
     "prisma-token": "cd src/database && npx prisma token -e ../../.env",
     "prisma-export": "cd src/database && mkdir -p ../../prisma/ && npx prisma export -e ../../.env -p ../../prisma/export_import.zip",
     "prisma-import": "cd src/database && npx prisma import -e ../../.env -d ../../prisma/export_import.zip",
