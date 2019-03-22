@@ -3,10 +3,9 @@
 const log = require('./helper/logger').getLogger('server');
 process.env.NODE_ENV = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
 require('dotenv').config();
-const pkg = require('../package');
 
 const machineId = require('./helper/machine_id');
-log.info(`Starting server: [${pkg.name} - ${pkg.version}] [Machine ID: ${machineId.shortMachineId}]...`);
+log.info(`Starting server [Machine ID: ${machineId.shortMachineId}]...`);
 const config = require('./config/config');
 
 const production = process.env.NODE_ENV === 'production';
@@ -191,5 +190,5 @@ process.on('uncaughtException', function (error) {
     await agenda.start();
     log.info('Job scheduler started successful');
 
-    log.info(`Server [ "${pkg.name} - ${pkg.version}" ] started successful (${config.port} port).`);
+    log.info(`Server started successful (${config.port} port).`);
 })();

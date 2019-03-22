@@ -1,13 +1,13 @@
 const log4js = require('log4js');
 const config = require('../config/config');
-const pkg = require('../../package');
 const cluster = require('cluster');
 const machineId = require('./machine_id');
+const appinfo = require('../../appinfo');
 
 log4js.configure(config.logger_config);
 
 
-const basic_string = `[${pkg.name} ${pkg.version} ${machineId.shortMachineId}]`;
+const basic_string = `[${appinfo.name} ${appinfo.version.major}.${appinfo.version.minor}.${appinfo.version.patch}-${appinfo.build.number} ${machineId.shortMachineId}]`;
 
 /**
  * Add warning on using default console object
