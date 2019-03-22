@@ -139,7 +139,7 @@ const isAuthenticated = rule({cache: 'no_cache'})(async (parent, args, ctx, info
 
 const permissions = shield({
     Query: {
-        systemInfo: allow,//and(isAuthenticated, isAdmin),
+        systemInfo: and(isAuthenticated, isAdmin),
         cachedResponse: allow,
         clearCachedResponse: allow,
 
