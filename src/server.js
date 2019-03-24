@@ -128,7 +128,8 @@ process.on('uncaughtException', function (error) {
             authorizer: (username, password) => {
                 return password === config.job_scheduler.access_token;
             },
-            challenge: true
+            challenge: true,
+            realm: machineId.machineId
         }));
 
     graphqlServer.express.get('/', (req, res) => {
@@ -144,7 +145,8 @@ process.on('uncaughtException', function (error) {
             authorizer: (username, password) => {
                 return password === config.logs_web_panel.access_token;
             },
-            challenge: true
+            challenge: true,
+            realm: machineId.machineId
         }));
 
         graphqlServer.express.use(config.logs_web_panel.path, express.static('./logs'), serveIndex('./logs', {'icons': true}));
