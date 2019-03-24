@@ -31,6 +31,7 @@ const redis = require('redis');
 const redisClient = redis.createClient(config.redis);
 const GQLError = require('./helper/GQLError');
 const express = require('express');
+const basicAuth = require('express-basic-auth');
 
 process.on('unhandledRejection', (reason, p) => {
     log.error('Unhandled Rejection at:', p, 'reason:', reason);
@@ -123,16 +124,12 @@ process.on('uncaughtException', function (error) {
     graphqlServer.express.use(limiter);
 
     const agenda = job_scheduler.getAgenda(graphqlServer.express,
-        async (req, res, next) => {
-            if (!req.headers.jobs_access_token || req.headers.jobs_access_token !== config.job_scheduler.access_token) {
-                log.debug(`Job scheduler dashboard access error (wrong token)`);
-                res.status(401).json({
-                    result: 'Access denied'
-                });
-            } else {
-                next();
-            }
-        });
+        basicAuth({
+            authorizer: (username, password) => {
+                return password === config.job_scheduler.access_token;
+            },
+            challenge: true
+        }));
 
     graphqlServer.express.get('/', (req, res) => {
         res.status(404).json({
@@ -142,15 +139,14 @@ process.on('uncaughtException', function (error) {
 
     if (config.logs_web_panel.enabled) {
         const serveIndex = require('serve-index');
-        graphqlServer.express.use(config.logs_web_panel.path, (req, res, next) => {
-            if (!req.headers.logs_access_token || req.headers.logs_access_token !== config.logs_web_panel.access_token) {
-                return res.status(401).json({
-                    message: 'Wrong access token',
-                })
-            } else {
-                next();
-            }
-        });
+
+        graphqlServer.express.use(config.logs_web_panel.path, basicAuth({
+            authorizer: (username, password) => {
+                return password === config.logs_web_panel.access_token;
+            },
+            challenge: true
+        }));
+
         graphqlServer.express.use(config.logs_web_panel.path, express.static('./logs'), serveIndex('./logs', {'icons': true}));
     }
 

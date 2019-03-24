@@ -39,6 +39,7 @@
     "compression": "^1.7.4",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "express-basic-auth": "^1.1.6",
     "express-rate-limit": "^3.4.0",
     "graphql-cost-analysis": "^1.0.3",
     "graphql-import": "^0.7.1",
@@ -54,6 +55,7 @@
     "node-fetch": "^2.3.0",
     "nodemailer": "^5.1.1",
     "pg": "^7.9.0",
+    "prisma": "^1.29.1",
     "prisma-client-lib": "^1.29.1",
     "pug": "^2.0.3",
     "rate-limit-redis": "^1.6.0",
@@ -61,8 +63,7 @@
     "request": "^2.88.0",
     "serve-index": "^1.9.1",
     "terminal-kit": "^1.27.0",
-    "validator": "^10.11.0",
-    "prisma": "^1.29.1"
+    "validator": "^10.11.0"
   },
   "resolutions": {
     "graphql": "^14.0.2"
