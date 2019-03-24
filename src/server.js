@@ -149,7 +149,8 @@ process.on('uncaughtException', function (error) {
             realm: machineId.machineId
         }));
 
-        graphqlServer.express.use(config.logs_web_panel.path, express.static('./logs'), serveIndex('./logs', {'icons': true}));
+        const logs_dir = path.normalize(__dirname + '/../logs');
+        graphqlServer.express.use(config.logs_web_panel.path, express.static(logs_dir), serveIndex(logs_dir, {'icons': true}));
     }
 
     const routers = require(__dirname + '/router');
