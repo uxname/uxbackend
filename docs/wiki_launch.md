@@ -4,9 +4,10 @@
 # Development launch
 1. `git clone ...`
 2. `yarn install`
-3. Copy `.env_example` to `.env` file
+3. Copy `.env_example` to `.env` file and `src/config/config_example.js` to `src/config/config.js`
 4. `yarn dev:start`
-5. `yarn dev:start-app`
+5. `yarn dev:prisma-deploy`
+6. `yarn dev:start-app`
 
 # Production launch
 1. `git clone ...`
