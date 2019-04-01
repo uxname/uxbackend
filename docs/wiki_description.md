@@ -76,6 +76,7 @@
  **dev:clear**          | Development     | Delete all data (All storage folders, Docker containers)
  **dev:start**          | Development     | Start Docker development environment containers 
  **dev:stop**           | Development     | Stop Docker development environment containers
+ **dev:kill**           | Development     | Kill Docker development environment containers
  **dev:generate-docs**  | Development     | Generate API docs
  **prisma-export**      | Dev&**Prod**    | Export database to `./prisma` directory
  **prisma-import**      | Dev&**Prod**    | Import database from `./prisma` directory

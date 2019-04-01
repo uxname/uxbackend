@@ -17,6 +17,7 @@
     "dev:clear": "npm run clear && docker-compose -f docker-compose-dev.yml rm -f",
     "dev:start": "docker-compose -f docker-compose-dev.yml up -d",
     "dev:stop": "docker-compose -f docker-compose-dev.yml stop",
+    "dev:kill": "docker-compose -f docker-compose-dev.yml kill",
     "dev:generate-docs": "cd ./docs && npx redoc-cli bundle swagger.yml && cd ..",
     "clear": "sudo rm -rf ./data ./uploads ./logs ./config ./prisma",
     "prod:build": "docker-compose build",
