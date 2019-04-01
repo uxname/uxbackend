@@ -32,6 +32,7 @@ const redisClient = redis.createClient(config.redis);
 const GQLError = require('./helper/GQLError');
 const express = require('express');
 const basicAuth = require('express-basic-auth');
+const path = require('path');
 
 process.on('unhandledRejection', (reason, p) => {
     log.error('Unhandled Rejection at:', p, 'reason:', reason);
