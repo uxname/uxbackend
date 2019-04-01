@@ -59,7 +59,6 @@ const resolvers = {
             });
         },
         systemInfo: systemResolver.systemInfo,
-        sign_in: userResolver.signIn,
 
         activationCode: (root, {where}) => prisma.activationCode(where),
         activationCodes: (root, args) => prisma.activationCodes(args),
@@ -75,6 +74,7 @@ const resolvers = {
     },
     Mutation: {
         sign_up: userResolver.signUp,
+        sign_in: userResolver.signIn,
         change_password: userResolver.change_password,
         restore_password: userResolver.restore_password,
 

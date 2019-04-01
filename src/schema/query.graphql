@@ -16,8 +16,6 @@ type Query {
     """Clear cached value"""
     clearCachedResponse(id: Int!): Boolean
 
-    sign_in(email: String!, password: String!): UserAuthResponse!
-
     systemInfo: SystemInfo @cost(complexity: 50) @cacheControl(maxAge: 5)
 
 
