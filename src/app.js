@@ -76,6 +76,7 @@ const resolvers = {
     Mutation: {
         sign_up: userResolver.signUp,
         change_password: userResolver.change_password,
+        restore_password: userResolver.restore_password,
 
         createActivationCode: (root, args) => prisma.createActivationCode(args.data),
         updateActivationCode: (root, args) => prisma.updateActivationCode(args),

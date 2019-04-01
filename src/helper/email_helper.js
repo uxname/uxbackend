@@ -3,7 +3,8 @@ const log = require('./logger').getLogger('email_helper');
 const nodemailer = require('nodemailer');
 const config = require('../config/config');
 const pug = require('pug');
-const compiledLetter = pug.compileFile(__dirname + '/../template/email_confirm_letter.pug');
+const compiledLetterActivation = pug.compileFile(__dirname + '/../template/email_confirm_letter.pug');
+const compiledLetterRestore = pug.compileFile(__dirname + '/../template/email_restore_letter.pug');
 const prisma = require('./prisma_helper').prisma;
 const GQLError = require('./GQLError');
 const crypto = require('crypto');
@@ -86,6 +87,33 @@ async function generateActivationCode(email) {
     });
 }
 
+async function generateRestoreCode(email) {
+    email = email.toLowerCase();
+
+    const code = generateNewCode();
+
+    const date = new Date();
+    date.setMilliseconds(new Date().getMilliseconds() + config.mail_service.expiresInMs);
+
+    log.trace(`generateRestoreCode: email (${email}) code (${code}) date (${date.toISOString()})`);
+
+    return await prisma.upsertRestoreCode({
+        where: {
+            email: email
+        },
+        create: {
+            email: email,
+            code: code,
+            valid_until: date
+        },
+        update: {
+            code: code,
+            valid_until: date,
+            email: email
+        }
+    });
+}
+
 async function sendActivationEmail(email, code) {
     email = email.toLowerCase();
 
@@ -94,10 +122,36 @@ async function sendActivationEmail(email, code) {
             from: config.mail_service.from,
             to: email,
             subject: config.mail_service.subject,
-            text: compiledLetter({
+            text: compiledLetterActivation({
                 code: code
             }),
-            html: compiledLetter({
+            html: compiledLetterActivation({
+                code: code
+            })
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                log.warn('Send email error', error);
+                reject(error)
+            } else {
+                resolve(info)
+            }
+        });
+    })
+}
+
+async function sendRestoreEmail(email, code) {
+    email = email.toLowerCase();
+    return new Promise((resolve, reject) => {
+        let mailOptions = {
+            from: config.mail_service.from,
+            to: email,
+            subject: config.mail_service.subject,
+            text: compiledLetterRestore({
+                code: code
+            }),
+            html: compiledLetterRestore({
                 code: code
             })
         };
@@ -135,8 +189,33 @@ async function verityActivationCode(email, code) {
     }
 }
 
+async function verityRestoreCode(email, code) {
+    email = email.toLowerCase();
+
+    const result = await prisma.restoreCode({
+        email: email
+    });
+
+    if (!result) throw new GQLError({message: 'Restore code was not generated', code: 404});
+
+    if (new Date(result.valid_until) < new Date()) throw new GQLError({message: 'Restore code expired', code: 410});
+
+    if (code === result.code) {
+        await prisma.deleteRestoreCode({
+            email: email
+        });
+
+        return true
+    } else {
+        return false
+    }
+}
+
 module.exports = {
     sendActivationEmail: sendActivationEmail,
+    sendRestoreEmail: sendRestoreEmail,
     generateActivationCode: generateActivationCode,
-    verityActivationCode: verityActivationCode
+    generateRestoreCode: generateRestoreCode,
+    verityActivationCode: verityActivationCode,
+    verityRestoreCode: verityRestoreCode,
 };

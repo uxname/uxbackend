@@ -28,6 +28,11 @@ enum SignUpStep {
     CHECK_ACTIVATION_CODE
 }
 
+enum RestorePasswordStep {
+    GENERATE_RESTORE_CODE
+    CHECK_RESTORE_CODE
+}
+
 ######################################################################################
 
 type ActivationCode {

@@ -34,14 +34,14 @@ async function signUp(email, password, step, activation_code) {
             status: 'ok'
         };
     } else if (step === 'CHECK_ACTIVATION_CODE') {
+        if (!password) {
+            throw new GQLError({message: 'Password is required', code: 400});
+        }
+
         const result = await emailHelper.verityActivationCode(email, activation_code);
         if (!result) {
             throw new GQLError({message: 'Wrong activation code', code: 403});
         } else {
-            if (!password) {
-                throw new GQLError({message: 'Password is required', code: 400});
-            }
-
             const salt = password_helper.getSecureRandomString();
 
             const password_hash = await password_helper.hashPassword(password, salt);

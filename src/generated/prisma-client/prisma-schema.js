@@ -172,6 +172,10 @@ type AggregateProduct {
   count: Int!
 }
 
+type AggregateRestoreCode {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -505,6 +509,12 @@ type Mutation {
   upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
   deleteProduct(where: ProductWhereUniqueInput!): Product
   deleteManyProducts(where: ProductWhereInput): BatchPayload!
+  createRestoreCode(data: RestoreCodeCreateInput!): RestoreCode!
+  updateRestoreCode(data: RestoreCodeUpdateInput!, where: RestoreCodeWhereUniqueInput!): RestoreCode
+  updateManyRestoreCodes(data: RestoreCodeUpdateManyMutationInput!, where: RestoreCodeWhereInput): BatchPayload!
+  upsertRestoreCode(where: RestoreCodeWhereUniqueInput!, create: RestoreCodeCreateInput!, update: RestoreCodeUpdateInput!): RestoreCode!
+  deleteRestoreCode(where: RestoreCodeWhereUniqueInput!): RestoreCode
+  deleteManyRestoreCodes(where: RestoreCodeWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -799,16 +809,177 @@ type Query {
   product(where: ProductWhereUniqueInput!): Product
   products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
   productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
+  restoreCode(where: RestoreCodeWhereUniqueInput!): RestoreCode
+  restoreCodes(where: RestoreCodeWhereInput, orderBy: RestoreCodeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [RestoreCode]!
+  restoreCodesConnection(where: RestoreCodeWhereInput, orderBy: RestoreCodeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RestoreCodeConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
 }
 
+type RestoreCode {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String!
+  valid_until: DateTime!
+  code: String!
+}
+
+type RestoreCodeConnection {
+  pageInfo: PageInfo!
+  edges: [RestoreCodeEdge]!
+  aggregate: AggregateRestoreCode!
+}
+
+input RestoreCodeCreateInput {
+  email: String!
+  valid_until: DateTime!
+  code: String!
+}
+
+type RestoreCodeEdge {
+  node: RestoreCode!
+  cursor: String!
+}
+
+enum RestoreCodeOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  email_ASC
+  email_DESC
+  valid_until_ASC
+  valid_until_DESC
+  code_ASC
+  code_DESC
+}
+
+type RestoreCodePreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String!
+  valid_until: DateTime!
+  code: String!
+}
+
+type RestoreCodeSubscriptionPayload {
+  mutation: MutationType!
+  node: RestoreCode
+  updatedFields: [String!]
+  previousValues: RestoreCodePreviousValues
+}
+
+input RestoreCodeSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: RestoreCodeWhereInput
+  AND: [RestoreCodeSubscriptionWhereInput!]
+  OR: [RestoreCodeSubscriptionWhereInput!]
+  NOT: [RestoreCodeSubscriptionWhereInput!]
+}
+
+input RestoreCodeUpdateInput {
+  email: String
+  valid_until: DateTime
+  code: String
+}
+
+input RestoreCodeUpdateManyMutationInput {
+  email: String
+  valid_until: DateTime
+  code: String
+}
+
+input RestoreCodeWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  valid_until: DateTime
+  valid_until_not: DateTime
+  valid_until_in: [DateTime!]
+  valid_until_not_in: [DateTime!]
+  valid_until_lt: DateTime
+  valid_until_lte: DateTime
+  valid_until_gt: DateTime
+  valid_until_gte: DateTime
+  code: String
+  code_not: String
+  code_in: [String!]
+  code_not_in: [String!]
+  code_lt: String
+  code_lte: String
+  code_gt: String
+  code_gte: String
+  code_contains: String
+  code_not_contains: String
+  code_starts_with: String
+  code_not_starts_with: String
+  code_ends_with: String
+  code_not_ends_with: String
+  AND: [RestoreCodeWhereInput!]
+  OR: [RestoreCodeWhereInput!]
+  NOT: [RestoreCodeWhereInput!]
+}
+
+input RestoreCodeWhereUniqueInput {
+  id: ID
+  email: String
+}
+
 type Subscription {
   activationCode(where: ActivationCodeSubscriptionWhereInput): ActivationCodeSubscriptionPayload
   category(where: CategorySubscriptionWhereInput): CategorySubscriptionPayload
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
+  restoreCode(where: RestoreCodeSubscriptionWhereInput): RestoreCodeSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 

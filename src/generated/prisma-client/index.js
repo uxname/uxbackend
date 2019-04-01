@@ -21,6 +21,10 @@ var models = [
     embedded: false
   },
   {
+    name: "RestoreCode",
+    embedded: false
+  },
+  {
     name: "UserRole",
     embedded: false
   }

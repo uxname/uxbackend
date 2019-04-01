@@ -1,6 +1,7 @@
 type Mutation {
     sign_up(email: String!, password: String, activation_code: String, step: SignUpStep!): UserAuthResponse!
     change_password(old_password: String!, new_password: String!): UserAuthResponse!
+    restore_password(email: String!, restore_code: String, new_password: String, step: RestorePasswordStep!): UserAuthResponse!
 
     createActivationCode(data: ActivationCodeCreateInput!): ActivationCode!
     updateActivationCode(data: ActivationCodeUpdateInput!, where: ActivationCodeWhereUniqueInput!): ActivationCode

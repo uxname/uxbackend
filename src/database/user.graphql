@@ -24,6 +24,16 @@ type ActivationCode {
     code: String!
 }
 
+type RestoreCode {
+    id: ID! @unique
+    createdAt: DateTime!
+    updatedAt: DateTime!
+
+    email: String! @unique
+    valid_until: DateTime!
+    code: String!
+}
+
 enum UserRole {
     USER
     MODERATOR
