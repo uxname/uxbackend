@@ -107,11 +107,11 @@ const resolvers = {
         deleteManyUsers: (root, args) => prisma.deleteManyUsers(args.where),
     },
     Category: {
-        subcategories: root => prisma.category({id: root.id}).subcategories(),
-        products: root => prisma.category({id: root.id}).products(),
+        subcategories: (root, args) => prisma.category({id: root.id}).subcategories(args),
+        products: (root, args) => prisma.category({id: root.id}).products(args),
     },
     Product: {
-        categories: root => prisma.product({id: root.id}).categories(),
+        categories: (root, args) => prisma.product({id: root.id}).categories(args),
     },
     Node: { // to remove warning "Type "Node" is missing a "__resolveType" resolver. Pass false into "resolverValidationOptions.requireResolversForResolveType" to disable this warning."
         __resolveType() {
