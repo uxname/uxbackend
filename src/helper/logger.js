@@ -17,7 +17,7 @@ function addWarnings() {
 
     ['trace', 'debug', 'log', 'info', 'warn', 'error'].forEach(function (method) {
         console[method] = function (...args) {
-            log.warn('Console output is deprecated, please use Logger instead. [console.' + method + ']:', args);
+            log.warn(`Console deprecated, use Logger. [${method}]:`, ...args);
         };
     });
 }
