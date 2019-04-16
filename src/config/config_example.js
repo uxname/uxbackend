@@ -132,6 +132,7 @@ const config = {
         }
     },
     port: 4000,
+    cors_enabled: true,
     logs_web_panel: {
         enabled: true,
         path: '/logs_web_panel',

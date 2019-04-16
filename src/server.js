@@ -33,6 +33,7 @@ const GQLError = require('./helper/GQLError');
 const express = require('express');
 const basicAuth = require('express-basic-auth');
 const path = require('path');
+const cors = require('cors');
 
 process.on('unhandledRejection', (reason, p) => {
     log.error('Unhandled Rejection at:', p, 'reason:', reason);
@@ -73,6 +74,10 @@ process.on('uncaughtException', function (error) {
     use `res.flush()` function: https://github.com/expressjs/compression#server-sent-events
      */
     graphqlServer.express.use(compression(config.compression));
+
+    if (config.cors_enabled === true) {
+        graphqlServer.express.use(cors());
+    }
 
     // DDoS protection
     const limiter = rateLimit({
