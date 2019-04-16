@@ -12,6 +12,7 @@ const redisClient = redis.createClient(config.redis);
 const GQLError = require('./helper/GQLError');
 const product_core = require('./core/product');
 const _ = require('lodash');
+const InputShieldFilter = require('./helper/InputSheldFilter')
 
 const CACHED_RESPONSE_REDIS_PREFIX = 'cached:';
 const CACHED_RESPONSE_REDIS_EXPIRE_SEC = 10;
@@ -93,7 +94,7 @@ const resolvers = {
         deleteManyCategories: (root, args) => prisma.deleteManyCategories(args.where),
 
         createProduct: (root, args, ctx, info) => product_core.createProduct(root, args, ctx, info),
-        updateProduct: (root, args) => prisma.updateProduct(args.data),
+        updateProduct: (root, args) => prisma.updateProduct(args),
         updateManyProducts: (root, args) => prisma.updateManyProducts(args),
         upsertProduct: (root, args) => prisma.upsertProduct(args),
         deleteProduct: (root, args) => prisma.deleteProduct(args.where),
@@ -138,6 +139,33 @@ const isAuthenticated = rule({cache: 'no_cache'})(async (parent, args, ctx, info
     });
 });
 
+const updateProductMiddleware = rule({cache: 'no_cache'})(async (parent, args, ctx, info) => {
+    if (!ctx.user || !ctx.user.id) {
+        log.error('isAdmin false, ctx:', ctx);
+        return false;
+    }
+    const isAdmin = await roleHelper.userHasRoles(['ADMIN'], ctx.user.id);
+
+    const rules = {
+        __deny_by_default: !isAdmin,
+        data: {
+            __deny_by_default: true,
+            // title: false,
+            description: true,
+            categories: {
+                create: false
+            },
+        },
+        where: {
+            id: true
+        }
+    };
+
+    InputShieldFilter.filterArgs(rules, args);
+
+    return true;
+});
+
 const permissions = shield({
     Query: {
         systemInfo: and(isAuthenticated, isAdmin),
@@ -174,7 +202,7 @@ const permissions = shield({
         deleteManyCategories: and(isAuthenticated, isAdmin),
 
         createProduct: and(isAuthenticated, isAdmin),
-        updateProduct: and(isAuthenticated, isAdmin),
+        updateProduct: updateProductMiddleware,
         updateManyProducts: and(isAuthenticated, isAdmin),
         upsertProduct: and(isAuthenticated, isAdmin),
         deleteProduct: and(isAuthenticated, isAdmin),
