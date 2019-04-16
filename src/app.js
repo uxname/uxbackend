@@ -60,6 +60,7 @@ const resolvers = {
             });
         },
         systemInfo: systemResolver.systemInfo,
+        whoami: (root, args, ctx) => ctx.user,
 
         activationCode: (root, {where}) => prisma.activationCode(where),
         activationCodes: (root, args) => prisma.activationCodes(args),
@@ -171,6 +172,7 @@ const permissions = shield({
         systemInfo: and(isAuthenticated, isAdmin),
         cachedResponse: allow,
         clearCachedResponse: allow,
+        whoami: allow,
 
         activationCode: and(isAuthenticated, isAdmin),
         activationCodes: and(isAuthenticated, isAdmin),

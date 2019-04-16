@@ -17,7 +17,7 @@ type Query {
     clearCachedResponse(id: Int!): Boolean
 
     systemInfo: SystemInfo @cost(complexity: 50) @cacheControl(maxAge: 5)
-
+    whoami: User
 
     activationCode(where: ActivationCodeWhereUniqueInput!): ActivationCode
     activationCodes(where: ActivationCodeWhereInput, orderBy: ActivationCodeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ActivationCode]!
