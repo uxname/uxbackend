@@ -42,9 +42,8 @@ router.post('/avatar', upload.single('avatar'), async function (req, res) {
     try {
         const result = await prisma.updateUser({
             where: {id: userId},
-            data: {avatar: req.file.filename}
+            data: {avatar: `/user/avatar?file_id=${req.file.filename}`}
         });
-
     } catch (e) {
         res.status(404).json({
             result: 'User not found'
