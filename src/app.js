@@ -242,6 +242,7 @@ const permissions = shield({
         products: allow,
     }
 }, {
+    fallbackRule: allow,
     fallbackError: new GQLError({message: 'Permission denied!', code: 403}),
 });
 
