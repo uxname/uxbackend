@@ -43,7 +43,6 @@ process.on('uncaughtException', function (error) {
     log.error('uncaughtException :', error);
 });
 
-
 (async () => {
     const graphqlServer = new GraphQLServer({
         mocks: config.graphql.mocks,

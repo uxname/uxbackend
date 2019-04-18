@@ -1,7 +1,7 @@
 type Product {
-    id: ID! @unique
-    createdAt: DateTime!
-    updatedAt: DateTime!
+    id: ID! @id
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
 
     title: String!
     description: String
@@ -9,9 +9,9 @@ type Product {
 }
 
 type Category {
-    id: ID! @unique
-    createdAt: DateTime!
-    updatedAt: DateTime!
+    id: ID! @id
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
 
     title: String!
     description: String

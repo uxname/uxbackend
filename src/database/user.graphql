@@ -1,10 +1,10 @@
 type User {
-    id: ID! @unique
-    createdAt: DateTime!
-    updatedAt: DateTime!
+    id: ID! @id
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
 
     email: String! @unique
-    roles: [UserRole!]!
+    roles: [UserRole!]! @scalarList(strategy: RELATION)
 
     password_hash: String!
     password_salt: String! @unique
@@ -15,9 +15,9 @@ type User {
 }
 
 type ActivationCode {
-    id: ID! @unique
-    createdAt: DateTime!
-    updatedAt: DateTime!
+    id: ID! @id
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
 
     email: String! @unique
     valid_until: DateTime!
@@ -25,9 +25,9 @@ type ActivationCode {
 }
 
 type RestoreCode {
-    id: ID! @unique
-    createdAt: DateTime!
-    updatedAt: DateTime!
+    id: ID! @id
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
 
     email: String! @unique
     valid_until: DateTime!
