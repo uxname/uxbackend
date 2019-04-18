@@ -148,13 +148,13 @@ const updateProductMiddleware = rule({cache: 'no_cache'})(async (parent, args, c
     const isAdmin = await roleHelper.userHasRoles(['ADMIN'], ctx.user.id);
 
     const rules = {
-        __deny_by_default: !isAdmin,
+        '*': !isAdmin,
         data: {
-            __deny_by_default: true,
-            // title: false,
+            '*': true,
+            // title: false, //according to parameter '*' above will be "true"
             description: true,
             categories: {
-                create: false
+                create: false,
             },
         },
         where: {
