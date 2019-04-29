@@ -34,6 +34,7 @@ const express = require('express');
 const basicAuth = require('express-basic-auth');
 const path = require('path');
 const cors = require('cors');
+const Likelog = require('likelogserver');
 
 process.on('unhandledRejection', (reason, p) => {
     log.error('Unhandled Rejection at:', p, 'reason:', reason);
@@ -127,6 +128,14 @@ process.on('uncaughtException', function (error) {
         }
     });
     graphqlServer.express.use(limiter);
+
+    if (config.likelog.enabled === true) {
+        log.debug(`Enable likelog server at "${config.likelog.path}"`);
+        Likelog.applyMiddleware(graphqlServer.express, config.likelog.path, async (logs, req) => {
+            const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+            log.trace(`New likelog log received (ip: ${ip}):`, logs);
+        });
+    }
 
     const agenda = job_scheduler.getAgenda(graphqlServer.express,
         basicAuth({

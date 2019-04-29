@@ -131,6 +131,10 @@ const config = {
             }
         }
     },
+    likelog: {
+        enabled: true,
+        path: '/log'
+    },
     port: 4000,
     cors_enabled: true,
     logs_web_panel: {
