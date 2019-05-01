@@ -27,7 +27,7 @@
     "prod:start": "docker-compose start",
     "prod:full-restart": "npm run prod:stop && npm run prod:clear && npm run prod:build && npm run prod:up",
     "prod:clear": "npm run clear && docker-compose rm -f",
-    "prod:logs": "docker-compose logs -f",
+    "prod:logs": "docker-compose logs -f --tail=2000",
     "prod:stop": "docker-compose stop",
     "test": "mocha src/test",
     "sms": "node src/helper/SecureMemStorageCLI.js"
