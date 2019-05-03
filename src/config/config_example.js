@@ -171,8 +171,8 @@ const config = {
         access_token: 'yi9a35EcieFiLBYSx5YJhZKekbTXxUTxEez75ip4HqTHJD8FbLSotGGHcMzb2gv6h'
     },
     graphql: {
-        endpoint_path: "/api",
-        playground: "/api", // string or false
+        endpoint_path: "/graphql",
+        playground: "/graphql", // string or false
         tracing: true,
         maximumCost: 100,
         defaultCost: 1,
