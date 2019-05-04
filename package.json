@@ -58,7 +58,7 @@
     "node-fetch": "^2.5.0",
     "nodemailer": "^6.1.1",
     "pg": "^7.10.0",
-    "prisma": "^1.32.0",
+    "prisma": "^1.32.2",
     "prisma-client-lib": "^1.32.0",
     "pug": "^2.0.3",
     "rate-limit-redis": "^1.6.0",
@@ -73,7 +73,7 @@
   },
   "devDependencies": {
     "nodemon": "^1.19.0",
-    "npm-check-updates": "^3.1.8",
+    "npm-check-updates": "^3.1.9",
     "redoc-cli": "^0.8.3"
   }
 }
