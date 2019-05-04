@@ -5,7 +5,7 @@
   "author": "uxname",
   "license": "MIT",
   "scripts": {
-    "dev:start-simple": "nodemon -e \"js json graphql\" --ignore 'appinfo.json' --exec \"node appinfo_tools.js update && node src/server.js\"",
+    "dev": "nodemon -e \"js json graphql\" --ignore 'appinfo.json' --exec \"node appinfo_tools.js update && node src/server.js\"",
     "dev:start-app": "node appinfo_tools.js update && npm run dev:prisma-deploy && node src/cluster.js",
     "prisma-token": "cd src/database && npx prisma token -e ../../.env",
     "prisma-export": "cd src/database && mkdir -p ../../prisma/ && npx prisma export -e ../../.env -p ../../prisma/export_import.zip",

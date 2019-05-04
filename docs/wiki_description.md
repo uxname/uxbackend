@@ -68,7 +68,7 @@
  Command                | Environment     | Description
  -----------------------|-----------------|--------------
  **dev:start-app**      | Development     | Start server for dev.
- **dev:start-simple**   | Development     | Start server for dev. via `nodemon`
+ **dev**   | Development     | Start server for dev. via `nodemon`
  **dev:prisma-deploy**  | Development     | Deploy database structure to Prisma and generate API documentation 
  **dev:prisma-deploy-f**| Development     | Execute `dev:prisma-deploy` command but with `force` flag
  **dev:prisma-reset**   | Development     | Drop database
