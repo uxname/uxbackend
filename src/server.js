@@ -35,6 +35,7 @@ const basicAuth = require('express-basic-auth');
 const path = require('path');
 const cors = require('cors');
 const Likelog = require('likelogserver');
+const helmet = require('helmet');
 
 process.on('unhandledRejection', (reason, p) => {
     log.error('Unhandled Rejection at:', p, 'reason:', reason);
@@ -68,6 +69,9 @@ process.on('uncaughtException', function (error) {
             }
         }
     });
+
+    // add Helmet for security
+    graphqlServer.express.use(helmet());
 
     /*
     Important, for using `res.write` or similar functions - please
