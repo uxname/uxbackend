@@ -122,6 +122,7 @@ class Crypto {
 
 class SecureMemStorage {
     constructor({master_password}) {
+        log.info('Created new SecureMemStorage');
         if (!master_password) throw Error('Master password is required');
 
         this.master_password = master_password;
@@ -192,10 +193,12 @@ class SecureMemStorageServer {
     }
 
     start() {
+        log.info('Started SecureMemStorageServer');
         this.httpServer.listen(this.port, '127.0.0.1');
     }
 
     stop() {
+        log.info('Stopped SecureMemStorageServer');
         this.httpServer.close();
     }
 }
