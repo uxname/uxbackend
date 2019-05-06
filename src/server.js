@@ -57,7 +57,7 @@ process.on('uncaughtException', function (error) {
             let user = null;
             try {
                 user = await token.validateToken(
-                    request.headers.Authorization.split(' ')[1]
+                    request.headers.authorization.split(' ')[1]
                 );
             } catch (e) {
                 log.trace("Can't get user from token:", e.message)
