@@ -1,6 +1,8 @@
 const log = require('./helper/logger').getLogger('cluster');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
+const {SecureMemStorageServer, SecureMemStorageServerWrapper} = require('./helper/SecureMemStorage');
+const config = require('./config/config');
 
 if (cluster.isMaster) {
     // "START NEW INSTANCE" log
@@ -20,6 +22,14 @@ if (cluster.isMaster) {
     cluster.on('online', function (worker) {
         log.info('Worker ' + worker.process.pid + ' is online');
     });
+
+    (async () => {
+        const smss = new SecureMemStorageServer({port: config.secure_memory_storage.secure_memory_storage_server.port});
+        const smssw = new SecureMemStorageServerWrapper({port: config.secure_memory_storage.secure_memory_storage_server.port});
+        await smssw.init(config.secure_memory_storage.master_password);
+
+        smss.start();
+    })()
 
 } else {
     require('./server');

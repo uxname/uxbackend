@@ -1,9 +1,18 @@
 const crypto = require('crypto');
-const argon2 = require('argon2');
 const http = require('http');
 const url = require('url');
-const config = require('../config/config');
 const log = require('./logger').getLogger('secure_mem_storage');
+const request = require('request');
+
+function isLocalhost(url) {
+    return url === 'localhost' ||
+        // [::1] is the IPv6 localhost address.
+        url === '[::1]' || url === '::1' ||
+        // 127.0.0.1/8 is considered localhost for IPv4.
+        url.match(
+            /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+        )
+}
 
 class Crypto {
     /**
@@ -111,138 +120,118 @@ class Crypto {
     }
 }
 
-let secureMemStorage = {
-    access_password_hash: undefined,
-    dataMap: undefined,
-    cryptor: undefined,
-    salt: undefined
-};
+class SecureMemStorage {
+    constructor({master_password}) {
+        if (!master_password) throw Error('Master password is required');
 
-async function hashPassword(password) {
-    return await argon2.hash(secureMemStorage.salt + password);
-}
-
-async function verifyHashPassword(hash, password) {
-    return await argon2.verify(hash, secureMemStorage.salt + password);
-}
-
-function init({storage_password, access_password_hash, salt}) {
-    if (!storage_password || !access_password_hash || !salt) {
-        throw Error('Not enough parameters');
-    }
-    secureMemStorage = {
-        access_password_hash: access_password_hash,
-        dataMap: new Map(),
-        salt: salt,
-        cryptor: new Crypto({
-            encryptionKey: storage_password
-        })
-    };
-}
-
-async function setValue(key, value, access_password) {
-    if (!key || !value || !access_password) {
-        throw new Error('Not enough parameters');
+        this.master_password = master_password;
+        this.crypto = new Crypto({encryptionKey: this.master_password});
+        this.dataMap = new Map();
     }
 
-    if (await verifyHashPassword(secureMemStorage.access_password_hash, access_password)) {
-        const encrypted = await secureMemStorage.cryptor.encrypt(value);
-        secureMemStorage.dataMap.set(key, encrypted);
-    } else {
-        throw Error('Wrong access password');
+    async setValue(key, value, master_password) {
+        if (this.master_password !== master_password) throw new Error('Wrong master_password');
+        this.dataMap.set(key, await this.crypto.encrypt(value));
     }
-}
 
-function getKeys() {
-    return Array.from(secureMemStorage.dataMap.keys());
-}
-
-async function getValue(key) {
-    try {
-        return await secureMemStorage.cryptor.decrypt(secureMemStorage.dataMap.get(key));
-    } catch (err) {
-        return null;
+    async getValue(key, master_password) {
+        if (this.master_password !== master_password) throw new Error('Wrong master_password');
+        if (!this.dataMap.get(key)) throw new Error(`Key doesn't exists`);
+        return await this.crypto.decrypt(this.dataMap.get(key));
     }
-}
-
-function isLocalhost(url) {
-    return url === 'localhost' ||
-        // [::1] is the IPv6 localhost address.
-        url === '[::1]' || url === '::1' ||
-        // 127.0.0.1/8 is considered localhost for IPv4.
-        url.match(
-            /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-        )
 }
 
 class SecureMemStorageServer {
-
-    constructor({port, access_token = false}) {
-        if (!port) {
-            throw Error('Undefined port');
-        }
+    constructor({port}) {
+        const thisLink = this;
         this.port = port;
-        this.access_token = access_token;
-
-        function delay(ms) {
-            return new Promise(function (resolve, reject) {
-                setTimeout(resolve, ms);
-            });
-        }
-
         this.httpServer = http.createServer(async (req, res) => {
-            const processRequest = async function () {
-                if (!isLocalhost(req.connection.remoteAddress)) {
-                    return res.end('Only localhost accepted');
-                }
-                const request = url.parse(req.url, true);
-                const {pathname, query} = request;
-                if (pathname === '/set') {
-                    const {key, value, access_password, access_token} = query;
-                    if (this.access_token) {
-                        if (this.access_token !== access_token) {
-                            return res.end('Wrong access_token');
+            if (!isLocalhost(req.connection.remoteAddress)) return res.end('Only localhost accepted');
+            const request = url.parse(req.url, true);
+            const {pathname, query} = request;
+
+            const {master_password, key, value} = query;
+
+            switch (pathname) {
+                case '/init':
+                    if (!master_password) {
+                        res.end('master_password is required');
+                    } else {
+                        thisLink.sms = new SecureMemStorage({master_password});
+                        res.end('ok');
+                    }
+                    break;
+                case '/set':
+                    if (!thisLink.sms) {
+                        res.end('Secure memory storage was not initialized');
+                    } else {
+                        try {
+                            await thisLink.sms.setValue(key, value, master_password);
+                            res.end('ok');
+                        } catch (e) {
+                            res.end('error');
                         }
                     }
-                    try {
-                        await setValue(key, value, access_password);
-                        res.end(`Key [${key}] set successful!`);
-                    } catch (err) {
-                        res.end(`Key [${key}] set error: ${err.message}`);
+                    break;
+                case '/get':
+                    if (!thisLink.sms) {
+                        res.end('Secure memory storage was not initialized');
+                    } else {
+                        try {
+                            res.end(await thisLink.sms.getValue(key, master_password));
+                        } catch (e) {
+                            res.end('error');
+                        }
                     }
-                } else {
-                    res.end('Unknown command, please use "/set?key=abc&value=abc&access_password=abc[&access_token=abc]"')
-                }
-            }.bind(this);
-
-            await delay(3000); //manual delay to prevent bruteforce
-            await processRequest();
+                    break;
+                default:
+                    res.end('Unknown command');
+                    break;
+            }
         });
     }
 
     start() {
-        log.trace(`Starting SecureMemStorageServer at ${this.port} port`);
         this.httpServer.listen(this.port, '127.0.0.1');
     }
 
     stop() {
-        log.trace(`Stopping SecureMemStorageServer at ${this.port} port`);
         this.httpServer.close();
     }
-
 }
 
-init({
-    salt: config.secure_memory_storage.salt,
-    storage_password: config.secure_memory_storage.storage_password,
-    access_password_hash: config.secure_memory_storage.access_password_hash
-});
+class SecureMemStorageServerWrapper {
+    constructor({port}) {
+        this.port = port;
+    }
+
+    async init(master_password) {
+        request({url: `http://127.0.0.1:${this.port}/init`, qs: {master_password}}, (err, res, body) => {
+            if (err) throw new Error(err.message);
+            return body;
+        })
+    }
+
+    async setValue(key, value, master_password) {
+        return new Promise((resolve, reject) => {
+            request({url: `http://127.0.0.1:${this.port}/set`, qs: {key, value, master_password}}, (err, res, body) => {
+                if (err) return reject(err);
+                resolve(body);
+            })
+        });
+    }
+
+    async getValue(key, master_password) {
+        return new Promise((resolve, reject) => {
+            request({url: `http://127.0.0.1:${this.port}/get`, qs: {key, master_password}}, (err, res, body) => {
+                if (err) return reject(err);
+                resolve(body);
+            })
+        });
+    }
+}
 
 module.exports = {
-    SecureMemStorageServer: SecureMemStorageServer,
-    init: init,
-    getKeys: getKeys,
-    getValue: getValue,
-    setValue: setValue,
-    hashPassword: hashPassword
+    SecureMemStorageServerWrapper,
+    SecureMemStorageServer
 };

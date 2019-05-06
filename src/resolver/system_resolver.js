@@ -4,14 +4,9 @@ const config = require('../config/config');
 const os = require('os');
 const moment = require('moment');
 const prisma = require('../helper/prisma_helper').prisma;
-const sms = require('../helper/SecureMemStorage');
+const {SecureMemStorageServerWrapper} = require('../helper/SecureMemStorage');
 const machineId = require('../helper/machine_id');
-
-const smss = new sms.SecureMemStorageServer({
-    port: config.secure_memory_storage.secure_memory_storage_server.port,
-    access_token: config.secure_memory_storage.access_token
-});
-smss.start();
+const smssw = new SecureMemStorageServerWrapper({port: config.secure_memory_storage.secure_memory_storage_server.port});
 
 let pool;
 
@@ -37,15 +32,7 @@ async function systemInfo() {
         orderBy: 'updatedAt_ASC'
     }).$fragment('{ email code }');
 
-    const secure_mem_storage_keys = sms.getKeys();
-    let secure_mem_storage_values = [];
-    for (let key of secure_mem_storage_keys) {
-        secure_mem_storage_values.push({
-            key: key,
-            value: await sms.getValue(key)
-        })
-    }
-    log.error('Remove secure_mem_storage_values from production build');
+    // await smssw.setValue('test', Date.now().toString(), config.secure_memory_storage.master_password);
 
     return {
         appinfo: appinfo,
@@ -64,7 +51,7 @@ async function systemInfo() {
                 short: machineId.shortMachineId,
                 full: machineId.machineId
             },
-            '[REMOVE IN PRODUCTION] Secret values': secure_mem_storage_values //todo remove, it for show case only
+            '[REMOVE IN PRODUCTION] Secret value': await smssw.getValue('test', config.secure_memory_storage.master_password) //todo remove, it for show case only
         }
     };
 }
