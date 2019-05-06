@@ -32,7 +32,13 @@ async function systemInfo() {
         orderBy: 'updatedAt_ASC'
     }).$fragment('{ email code }');
 
-    // await smssw.setValue('test', Date.now().toString(), config.secure_memory_storage.master_password);
+    //todo remove, it for show case only
+    let secretValue = null;
+    try {
+        await smssw.setValue('test', Date.now().toString(), config.secure_memory_storage.master_password);
+        secretValue = await smssw.getValue('test', config.secure_memory_storage.master_password)
+    } catch (_) {
+    }
 
     return {
         appinfo: appinfo,
@@ -51,7 +57,7 @@ async function systemInfo() {
                 short: machineId.shortMachineId,
                 full: machineId.machineId
             },
-            '[REMOVE IN PRODUCTION] Secret value': await smssw.getValue('test', config.secure_memory_storage.master_password) //todo remove, it for show case only
+            '[REMOVE IN PRODUCTION] Secret value': secretValue
         }
     };
 }
