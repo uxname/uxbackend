@@ -1,5 +1,6 @@
-[Go to wiki main page](wiki_index.md)
-***
+[Go to wiki main page](readme.md)
+---
+
 
 # Common description
 
