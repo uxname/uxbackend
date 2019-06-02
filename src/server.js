@@ -209,5 +209,5 @@ process.on('uncaughtException', function (error) {
     await agenda.start();
     log.info('Job scheduler started successful');
 
-    log.info(`Server started successful (${config.port} port).`);
+    log.info(`Server started successful (http://0.0.0.0:${config.port} port).`);
 })();

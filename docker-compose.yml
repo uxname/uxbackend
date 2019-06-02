@@ -90,7 +90,7 @@ services:
         volumes:
             - ./data/redis:/data
     prisma:
-        image: prismagraphql/prisma:1.32.2
+        image: prismagraphql/prisma:1.33.0
         restart: always
         networks:
             - uxbackend_network
