@@ -1,0 +1,61 @@
+type Conversation {
+    id: ID! @id
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
+
+    title: String
+    creator: User! @relation(name: "ConversationCreatorRel")
+    participants: [User!]! @relation(name: "UserToConversationRel")
+    conversationType: ConversationType!
+}
+
+type ConversationParticipant {
+    id: ID! @id
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
+
+    user: User!
+    role: ConversationParticipantRole! @default(value: MEMBER)
+}
+
+enum ConversationParticipantRole {
+    MEMBER
+    ADMIN
+}
+
+enum ConversationType {
+    SINGLE
+    GROUP
+}
+
+type Message {
+    id: ID! @id
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
+
+    conversation: Conversation!
+    sender: User!
+    messageType: MessageType! @default(value: TEXT)
+    message: String!
+    attachmentThumbUrl: String
+    attachmentUrl: String
+
+    isDeleted: Boolean! @default(value: false)
+}
+
+enum MessageType {
+    TEXT
+    IMAGE
+    VIDEO
+    AUDIO
+    FILE
+}
+
+type BlockList {
+    id: ID! @id
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
+
+    user: User! @relation(name: "BlockListUserRel")
+    blockedUser: User! @relation(name: "BlockListBlockedUserRel")
+}

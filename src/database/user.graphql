@@ -12,6 +12,9 @@ type User {
     avatar: String
 
     last_login_date: DateTime
+
+    conversations: [Conversation!]! @relation(name: "UserToConversationRel")
+    contacts: [User!]!
 }
 
 type ActivationCode {

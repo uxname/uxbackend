@@ -3,6 +3,7 @@ endpoint: ${env:PRISMA_ENDPOINT}
 datamodel:
 - product.graphql
 - user.graphql
+- messenger.graphql
 
 seed:
     import: seed.graphql

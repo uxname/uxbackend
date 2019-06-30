@@ -27,6 +27,34 @@ var models = [
   {
     name: "UserRole",
     embedded: false
+  },
+  {
+    name: "Conversation",
+    embedded: false
+  },
+  {
+    name: "ConversationParticipant",
+    embedded: false
+  },
+  {
+    name: "ConversationParticipantRole",
+    embedded: false
+  },
+  {
+    name: "ConversationType",
+    embedded: false
+  },
+  {
+    name: "Message",
+    embedded: false
+  },
+  {
+    name: "MessageType",
+    embedded: false
+  },
+  {
+    name: "BlockList",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
