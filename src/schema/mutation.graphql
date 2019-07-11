@@ -28,5 +28,26 @@ type Mutation {
     upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
     deleteUser(where: UserWhereUniqueInput!): User
     deleteManyUsers(where: UserWhereInput): BatchPayload!
+
+    # Messenger
+    sendMessage(data: SendMessageInput!): Message
+    deleteMessage(messageId: ID!): Message
+
+    createConversation(data: CreateConversationInput!): Conversation
+
+    blockUser(userId: ID!): User
+    unblockUser(userId: ID!): User
 }
 
+input SendMessageInput {
+    conversationId: ID!
+    messageType: MessageType! = TEXT
+    message: String!
+    attachmentUrl: String
+}
+
+input CreateConversationInput {
+    title: String!
+    participants: [ID!]!
+    conversationType: ConversationType!
+}

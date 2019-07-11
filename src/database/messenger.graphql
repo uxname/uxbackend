@@ -7,6 +7,8 @@ type Conversation {
     creator: User! @relation(name: "ConversationCreatorRel")
     participants: [User!]! @relation(name: "UserToConversationRel")
     conversationType: ConversationType!
+
+    messages: [Message!]! @relation(name: "ConversationMessagesRel")
 }
 
 type ConversationParticipant {
@@ -33,7 +35,7 @@ type Message {
     createdAt: DateTime! @createdAt
     updatedAt: DateTime! @updatedAt
 
-    conversation: Conversation!
+    conversation: Conversation! @relation(name: "ConversationMessagesRel")
     sender: User!
     messageType: MessageType! @default(value: TEXT)
     message: String!

@@ -201,7 +201,23 @@ type AggregateActivationCode {
     count: Int!
 }
 
+type AggregateBlockList {
+    count: Int!
+}
+
 type AggregateCategory {
+    count: Int!
+}
+
+type AggregateConversation {
+    count: Int!
+}
+
+type AggregateConversationParticipant {
+    count: Int!
+}
+
+type AggregateMessage {
     count: Int!
 }
 
@@ -219,6 +235,111 @@ type AggregateUser {
 
 type BatchPayload {
     count: Long!
+}
+
+type BlockList {
+    id: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    user: User!
+    blockedUser: User!
+}
+
+type BlockListConnection {
+    pageInfo: PageInfo!
+    edges: [BlockListEdge]!
+    aggregate: AggregateBlockList!
+}
+
+input BlockListCreateInput {
+    id: ID
+    user: UserCreateOneInput!
+    blockedUser: UserCreateOneInput!
+}
+
+type BlockListEdge {
+    node: BlockList!
+    cursor: String!
+}
+
+enum BlockListOrderByInput {
+    id_ASC
+    id_DESC
+    createdAt_ASC
+    createdAt_DESC
+    updatedAt_ASC
+    updatedAt_DESC
+}
+
+type BlockListPreviousValues {
+    id: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type BlockListSubscriptionPayload {
+    mutation: MutationType!
+    node: BlockList
+    updatedFields: [String!]
+    previousValues: BlockListPreviousValues
+}
+
+input BlockListSubscriptionWhereInput {
+    mutation_in: [MutationType!]
+    updatedFields_contains: String
+    updatedFields_contains_every: [String!]
+    updatedFields_contains_some: [String!]
+    node: BlockListWhereInput
+    AND: [BlockListSubscriptionWhereInput!]
+    OR: [BlockListSubscriptionWhereInput!]
+    NOT: [BlockListSubscriptionWhereInput!]
+}
+
+input BlockListUpdateInput {
+    user: UserUpdateOneRequiredInput
+    blockedUser: UserUpdateOneRequiredInput
+}
+
+input BlockListWhereInput {
+    id: ID
+    id_not: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_gt: ID
+    id_gte: ID
+    id_contains: ID
+    id_not_contains: ID
+    id_starts_with: ID
+    id_not_starts_with: ID
+    id_ends_with: ID
+    id_not_ends_with: ID
+    createdAt: DateTime
+    createdAt_not: DateTime
+    createdAt_in: [DateTime!]
+    createdAt_not_in: [DateTime!]
+    createdAt_lt: DateTime
+    createdAt_lte: DateTime
+    createdAt_gt: DateTime
+    createdAt_gte: DateTime
+    updatedAt: DateTime
+    updatedAt_not: DateTime
+    updatedAt_in: [DateTime!]
+    updatedAt_not_in: [DateTime!]
+    updatedAt_lt: DateTime
+    updatedAt_lte: DateTime
+    updatedAt_gt: DateTime
+    updatedAt_gte: DateTime
+    user: UserWhereInput
+    blockedUser: UserWhereInput
+    AND: [BlockListWhereInput!]
+    OR: [BlockListWhereInput!]
+    NOT: [BlockListWhereInput!]
+}
+
+input BlockListWhereUniqueInput {
+    id: ID
 }
 
 type Category {
@@ -525,9 +646,764 @@ input CategoryWhereUniqueInput {
     id: ID
 }
 
+type Conversation {
+    id: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    title: String
+    creator: User!
+    participants(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+    conversationType: ConversationType!
+    messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
+}
+
+type ConversationConnection {
+    pageInfo: PageInfo!
+    edges: [ConversationEdge]!
+    aggregate: AggregateConversation!
+}
+
+input ConversationCreateInput {
+    id: ID
+    title: String
+    creator: UserCreateOneInput!
+    participants: UserCreateManyWithoutConversationsInput
+    conversationType: ConversationType!
+    messages: MessageCreateManyWithoutConversationInput
+}
+
+input ConversationCreateManyWithoutParticipantsInput {
+    create: [ConversationCreateWithoutParticipantsInput!]
+    connect: [ConversationWhereUniqueInput!]
+}
+
+input ConversationCreateOneWithoutMessagesInput {
+    create: ConversationCreateWithoutMessagesInput
+    connect: ConversationWhereUniqueInput
+}
+
+input ConversationCreateWithoutMessagesInput {
+    id: ID
+    title: String
+    creator: UserCreateOneInput!
+    participants: UserCreateManyWithoutConversationsInput
+    conversationType: ConversationType!
+}
+
+input ConversationCreateWithoutParticipantsInput {
+    id: ID
+    title: String
+    creator: UserCreateOneInput!
+    conversationType: ConversationType!
+    messages: MessageCreateManyWithoutConversationInput
+}
+
+type ConversationEdge {
+    node: Conversation!
+    cursor: String!
+}
+
+enum ConversationOrderByInput {
+    id_ASC
+    id_DESC
+    createdAt_ASC
+    createdAt_DESC
+    updatedAt_ASC
+    updatedAt_DESC
+    title_ASC
+    title_DESC
+    conversationType_ASC
+    conversationType_DESC
+}
+
+type ConversationParticipant {
+    id: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    user: User!
+    role: ConversationParticipantRole!
+}
+
+type ConversationParticipantConnection {
+    pageInfo: PageInfo!
+    edges: [ConversationParticipantEdge]!
+    aggregate: AggregateConversationParticipant!
+}
+
+input ConversationParticipantCreateInput {
+    id: ID
+    user: UserCreateOneInput!
+    role: ConversationParticipantRole
+}
+
+type ConversationParticipantEdge {
+    node: ConversationParticipant!
+    cursor: String!
+}
+
+enum ConversationParticipantOrderByInput {
+    id_ASC
+    id_DESC
+    createdAt_ASC
+    createdAt_DESC
+    updatedAt_ASC
+    updatedAt_DESC
+    role_ASC
+    role_DESC
+}
+
+type ConversationParticipantPreviousValues {
+    id: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    role: ConversationParticipantRole!
+}
+
+enum ConversationParticipantRole {
+    MEMBER
+    ADMIN
+}
+
+type ConversationParticipantSubscriptionPayload {
+    mutation: MutationType!
+    node: ConversationParticipant
+    updatedFields: [String!]
+    previousValues: ConversationParticipantPreviousValues
+}
+
+input ConversationParticipantSubscriptionWhereInput {
+    mutation_in: [MutationType!]
+    updatedFields_contains: String
+    updatedFields_contains_every: [String!]
+    updatedFields_contains_some: [String!]
+    node: ConversationParticipantWhereInput
+    AND: [ConversationParticipantSubscriptionWhereInput!]
+    OR: [ConversationParticipantSubscriptionWhereInput!]
+    NOT: [ConversationParticipantSubscriptionWhereInput!]
+}
+
+input ConversationParticipantUpdateInput {
+    user: UserUpdateOneRequiredInput
+    role: ConversationParticipantRole
+}
+
+input ConversationParticipantUpdateManyMutationInput {
+    role: ConversationParticipantRole
+}
+
+input ConversationParticipantWhereInput {
+    id: ID
+    id_not: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_gt: ID
+    id_gte: ID
+    id_contains: ID
+    id_not_contains: ID
+    id_starts_with: ID
+    id_not_starts_with: ID
+    id_ends_with: ID
+    id_not_ends_with: ID
+    createdAt: DateTime
+    createdAt_not: DateTime
+    createdAt_in: [DateTime!]
+    createdAt_not_in: [DateTime!]
+    createdAt_lt: DateTime
+    createdAt_lte: DateTime
+    createdAt_gt: DateTime
+    createdAt_gte: DateTime
+    updatedAt: DateTime
+    updatedAt_not: DateTime
+    updatedAt_in: [DateTime!]
+    updatedAt_not_in: [DateTime!]
+    updatedAt_lt: DateTime
+    updatedAt_lte: DateTime
+    updatedAt_gt: DateTime
+    updatedAt_gte: DateTime
+    user: UserWhereInput
+    role: ConversationParticipantRole
+    role_not: ConversationParticipantRole
+    role_in: [ConversationParticipantRole!]
+    role_not_in: [ConversationParticipantRole!]
+    AND: [ConversationParticipantWhereInput!]
+    OR: [ConversationParticipantWhereInput!]
+    NOT: [ConversationParticipantWhereInput!]
+}
+
+input ConversationParticipantWhereUniqueInput {
+    id: ID
+}
+
+type ConversationPreviousValues {
+    id: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    title: String
+    conversationType: ConversationType!
+}
+
+input ConversationScalarWhereInput {
+    id: ID
+    id_not: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_gt: ID
+    id_gte: ID
+    id_contains: ID
+    id_not_contains: ID
+    id_starts_with: ID
+    id_not_starts_with: ID
+    id_ends_with: ID
+    id_not_ends_with: ID
+    createdAt: DateTime
+    createdAt_not: DateTime
+    createdAt_in: [DateTime!]
+    createdAt_not_in: [DateTime!]
+    createdAt_lt: DateTime
+    createdAt_lte: DateTime
+    createdAt_gt: DateTime
+    createdAt_gte: DateTime
+    updatedAt: DateTime
+    updatedAt_not: DateTime
+    updatedAt_in: [DateTime!]
+    updatedAt_not_in: [DateTime!]
+    updatedAt_lt: DateTime
+    updatedAt_lte: DateTime
+    updatedAt_gt: DateTime
+    updatedAt_gte: DateTime
+    title: String
+    title_not: String
+    title_in: [String!]
+    title_not_in: [String!]
+    title_lt: String
+    title_lte: String
+    title_gt: String
+    title_gte: String
+    title_contains: String
+    title_not_contains: String
+    title_starts_with: String
+    title_not_starts_with: String
+    title_ends_with: String
+    title_not_ends_with: String
+    conversationType: ConversationType
+    conversationType_not: ConversationType
+    conversationType_in: [ConversationType!]
+    conversationType_not_in: [ConversationType!]
+    AND: [ConversationScalarWhereInput!]
+    OR: [ConversationScalarWhereInput!]
+    NOT: [ConversationScalarWhereInput!]
+}
+
+type ConversationSubscriptionPayload {
+    mutation: MutationType!
+    node: Conversation
+    updatedFields: [String!]
+    previousValues: ConversationPreviousValues
+}
+
+input ConversationSubscriptionWhereInput {
+    mutation_in: [MutationType!]
+    updatedFields_contains: String
+    updatedFields_contains_every: [String!]
+    updatedFields_contains_some: [String!]
+    node: ConversationWhereInput
+    AND: [ConversationSubscriptionWhereInput!]
+    OR: [ConversationSubscriptionWhereInput!]
+    NOT: [ConversationSubscriptionWhereInput!]
+}
+
+enum ConversationType {
+    SINGLE
+    GROUP
+}
+
+input ConversationUpdateInput {
+    title: String
+    creator: UserUpdateOneRequiredInput
+    participants: UserUpdateManyWithoutConversationsInput
+    conversationType: ConversationType
+    messages: MessageUpdateManyWithoutConversationInput
+}
+
+input ConversationUpdateManyDataInput {
+    title: String
+    conversationType: ConversationType
+}
+
+input ConversationUpdateManyMutationInput {
+    title: String
+    conversationType: ConversationType
+}
+
+input ConversationUpdateManyWithoutParticipantsInput {
+    create: [ConversationCreateWithoutParticipantsInput!]
+    delete: [ConversationWhereUniqueInput!]
+    connect: [ConversationWhereUniqueInput!]
+    set: [ConversationWhereUniqueInput!]
+    disconnect: [ConversationWhereUniqueInput!]
+    update: [ConversationUpdateWithWhereUniqueWithoutParticipantsInput!]
+    upsert: [ConversationUpsertWithWhereUniqueWithoutParticipantsInput!]
+    deleteMany: [ConversationScalarWhereInput!]
+    updateMany: [ConversationUpdateManyWithWhereNestedInput!]
+}
+
+input ConversationUpdateManyWithWhereNestedInput {
+    where: ConversationScalarWhereInput!
+    data: ConversationUpdateManyDataInput!
+}
+
+input ConversationUpdateOneRequiredWithoutMessagesInput {
+    create: ConversationCreateWithoutMessagesInput
+    update: ConversationUpdateWithoutMessagesDataInput
+    upsert: ConversationUpsertWithoutMessagesInput
+    connect: ConversationWhereUniqueInput
+}
+
+input ConversationUpdateWithoutMessagesDataInput {
+    title: String
+    creator: UserUpdateOneRequiredInput
+    participants: UserUpdateManyWithoutConversationsInput
+    conversationType: ConversationType
+}
+
+input ConversationUpdateWithoutParticipantsDataInput {
+    title: String
+    creator: UserUpdateOneRequiredInput
+    conversationType: ConversationType
+    messages: MessageUpdateManyWithoutConversationInput
+}
+
+input ConversationUpdateWithWhereUniqueWithoutParticipantsInput {
+    where: ConversationWhereUniqueInput!
+    data: ConversationUpdateWithoutParticipantsDataInput!
+}
+
+input ConversationUpsertWithoutMessagesInput {
+    update: ConversationUpdateWithoutMessagesDataInput!
+    create: ConversationCreateWithoutMessagesInput!
+}
+
+input ConversationUpsertWithWhereUniqueWithoutParticipantsInput {
+    where: ConversationWhereUniqueInput!
+    update: ConversationUpdateWithoutParticipantsDataInput!
+    create: ConversationCreateWithoutParticipantsInput!
+}
+
+input ConversationWhereInput {
+    id: ID
+    id_not: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_gt: ID
+    id_gte: ID
+    id_contains: ID
+    id_not_contains: ID
+    id_starts_with: ID
+    id_not_starts_with: ID
+    id_ends_with: ID
+    id_not_ends_with: ID
+    createdAt: DateTime
+    createdAt_not: DateTime
+    createdAt_in: [DateTime!]
+    createdAt_not_in: [DateTime!]
+    createdAt_lt: DateTime
+    createdAt_lte: DateTime
+    createdAt_gt: DateTime
+    createdAt_gte: DateTime
+    updatedAt: DateTime
+    updatedAt_not: DateTime
+    updatedAt_in: [DateTime!]
+    updatedAt_not_in: [DateTime!]
+    updatedAt_lt: DateTime
+    updatedAt_lte: DateTime
+    updatedAt_gt: DateTime
+    updatedAt_gte: DateTime
+    title: String
+    title_not: String
+    title_in: [String!]
+    title_not_in: [String!]
+    title_lt: String
+    title_lte: String
+    title_gt: String
+    title_gte: String
+    title_contains: String
+    title_not_contains: String
+    title_starts_with: String
+    title_not_starts_with: String
+    title_ends_with: String
+    title_not_ends_with: String
+    creator: UserWhereInput
+    participants_every: UserWhereInput
+    participants_some: UserWhereInput
+    participants_none: UserWhereInput
+    conversationType: ConversationType
+    conversationType_not: ConversationType
+    conversationType_in: [ConversationType!]
+    conversationType_not_in: [ConversationType!]
+    messages_every: MessageWhereInput
+    messages_some: MessageWhereInput
+    messages_none: MessageWhereInput
+    AND: [ConversationWhereInput!]
+    OR: [ConversationWhereInput!]
+    NOT: [ConversationWhereInput!]
+}
+
+input ConversationWhereUniqueInput {
+    id: ID
+}
+
 scalar DateTime
 
 scalar Long
+
+type Message {
+    id: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    conversation: Conversation!
+    sender: User!
+    messageType: MessageType!
+    message: String!
+    attachmentThumbUrl: String
+    attachmentUrl: String
+    isDeleted: Boolean!
+}
+
+type MessageConnection {
+    pageInfo: PageInfo!
+    edges: [MessageEdge]!
+    aggregate: AggregateMessage!
+}
+
+input MessageCreateInput {
+    id: ID
+    conversation: ConversationCreateOneWithoutMessagesInput!
+    sender: UserCreateOneInput!
+    messageType: MessageType
+    message: String!
+    attachmentThumbUrl: String
+    attachmentUrl: String
+    isDeleted: Boolean
+}
+
+input MessageCreateManyWithoutConversationInput {
+    create: [MessageCreateWithoutConversationInput!]
+    connect: [MessageWhereUniqueInput!]
+}
+
+input MessageCreateWithoutConversationInput {
+    id: ID
+    sender: UserCreateOneInput!
+    messageType: MessageType
+    message: String!
+    attachmentThumbUrl: String
+    attachmentUrl: String
+    isDeleted: Boolean
+}
+
+type MessageEdge {
+    node: Message!
+    cursor: String!
+}
+
+enum MessageOrderByInput {
+    id_ASC
+    id_DESC
+    createdAt_ASC
+    createdAt_DESC
+    updatedAt_ASC
+    updatedAt_DESC
+    messageType_ASC
+    messageType_DESC
+    message_ASC
+    message_DESC
+    attachmentThumbUrl_ASC
+    attachmentThumbUrl_DESC
+    attachmentUrl_ASC
+    attachmentUrl_DESC
+    isDeleted_ASC
+    isDeleted_DESC
+}
+
+type MessagePreviousValues {
+    id: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    messageType: MessageType!
+    message: String!
+    attachmentThumbUrl: String
+    attachmentUrl: String
+    isDeleted: Boolean!
+}
+
+input MessageScalarWhereInput {
+    id: ID
+    id_not: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_gt: ID
+    id_gte: ID
+    id_contains: ID
+    id_not_contains: ID
+    id_starts_with: ID
+    id_not_starts_with: ID
+    id_ends_with: ID
+    id_not_ends_with: ID
+    createdAt: DateTime
+    createdAt_not: DateTime
+    createdAt_in: [DateTime!]
+    createdAt_not_in: [DateTime!]
+    createdAt_lt: DateTime
+    createdAt_lte: DateTime
+    createdAt_gt: DateTime
+    createdAt_gte: DateTime
+    updatedAt: DateTime
+    updatedAt_not: DateTime
+    updatedAt_in: [DateTime!]
+    updatedAt_not_in: [DateTime!]
+    updatedAt_lt: DateTime
+    updatedAt_lte: DateTime
+    updatedAt_gt: DateTime
+    updatedAt_gte: DateTime
+    messageType: MessageType
+    messageType_not: MessageType
+    messageType_in: [MessageType!]
+    messageType_not_in: [MessageType!]
+    message: String
+    message_not: String
+    message_in: [String!]
+    message_not_in: [String!]
+    message_lt: String
+    message_lte: String
+    message_gt: String
+    message_gte: String
+    message_contains: String
+    message_not_contains: String
+    message_starts_with: String
+    message_not_starts_with: String
+    message_ends_with: String
+    message_not_ends_with: String
+    attachmentThumbUrl: String
+    attachmentThumbUrl_not: String
+    attachmentThumbUrl_in: [String!]
+    attachmentThumbUrl_not_in: [String!]
+    attachmentThumbUrl_lt: String
+    attachmentThumbUrl_lte: String
+    attachmentThumbUrl_gt: String
+    attachmentThumbUrl_gte: String
+    attachmentThumbUrl_contains: String
+    attachmentThumbUrl_not_contains: String
+    attachmentThumbUrl_starts_with: String
+    attachmentThumbUrl_not_starts_with: String
+    attachmentThumbUrl_ends_with: String
+    attachmentThumbUrl_not_ends_with: String
+    attachmentUrl: String
+    attachmentUrl_not: String
+    attachmentUrl_in: [String!]
+    attachmentUrl_not_in: [String!]
+    attachmentUrl_lt: String
+    attachmentUrl_lte: String
+    attachmentUrl_gt: String
+    attachmentUrl_gte: String
+    attachmentUrl_contains: String
+    attachmentUrl_not_contains: String
+    attachmentUrl_starts_with: String
+    attachmentUrl_not_starts_with: String
+    attachmentUrl_ends_with: String
+    attachmentUrl_not_ends_with: String
+    isDeleted: Boolean
+    isDeleted_not: Boolean
+    AND: [MessageScalarWhereInput!]
+    OR: [MessageScalarWhereInput!]
+    NOT: [MessageScalarWhereInput!]
+}
+
+type MessageSubscriptionPayload {
+    mutation: MutationType!
+    node: Message
+    updatedFields: [String!]
+    previousValues: MessagePreviousValues
+}
+
+input MessageSubscriptionWhereInput {
+    mutation_in: [MutationType!]
+    updatedFields_contains: String
+    updatedFields_contains_every: [String!]
+    updatedFields_contains_some: [String!]
+    node: MessageWhereInput
+    AND: [MessageSubscriptionWhereInput!]
+    OR: [MessageSubscriptionWhereInput!]
+    NOT: [MessageSubscriptionWhereInput!]
+}
+
+enum MessageType {
+    TEXT
+    IMAGE
+    VIDEO
+    AUDIO
+    FILE
+}
+
+input MessageUpdateInput {
+    conversation: ConversationUpdateOneRequiredWithoutMessagesInput
+    sender: UserUpdateOneRequiredInput
+    messageType: MessageType
+    message: String
+    attachmentThumbUrl: String
+    attachmentUrl: String
+    isDeleted: Boolean
+}
+
+input MessageUpdateManyDataInput {
+    messageType: MessageType
+    message: String
+    attachmentThumbUrl: String
+    attachmentUrl: String
+    isDeleted: Boolean
+}
+
+input MessageUpdateManyMutationInput {
+    messageType: MessageType
+    message: String
+    attachmentThumbUrl: String
+    attachmentUrl: String
+    isDeleted: Boolean
+}
+
+input MessageUpdateManyWithoutConversationInput {
+    create: [MessageCreateWithoutConversationInput!]
+    delete: [MessageWhereUniqueInput!]
+    connect: [MessageWhereUniqueInput!]
+    set: [MessageWhereUniqueInput!]
+    disconnect: [MessageWhereUniqueInput!]
+    update: [MessageUpdateWithWhereUniqueWithoutConversationInput!]
+    upsert: [MessageUpsertWithWhereUniqueWithoutConversationInput!]
+    deleteMany: [MessageScalarWhereInput!]
+    updateMany: [MessageUpdateManyWithWhereNestedInput!]
+}
+
+input MessageUpdateManyWithWhereNestedInput {
+    where: MessageScalarWhereInput!
+    data: MessageUpdateManyDataInput!
+}
+
+input MessageUpdateWithoutConversationDataInput {
+    sender: UserUpdateOneRequiredInput
+    messageType: MessageType
+    message: String
+    attachmentThumbUrl: String
+    attachmentUrl: String
+    isDeleted: Boolean
+}
+
+input MessageUpdateWithWhereUniqueWithoutConversationInput {
+    where: MessageWhereUniqueInput!
+    data: MessageUpdateWithoutConversationDataInput!
+}
+
+input MessageUpsertWithWhereUniqueWithoutConversationInput {
+    where: MessageWhereUniqueInput!
+    update: MessageUpdateWithoutConversationDataInput!
+    create: MessageCreateWithoutConversationInput!
+}
+
+input MessageWhereInput {
+    id: ID
+    id_not: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_gt: ID
+    id_gte: ID
+    id_contains: ID
+    id_not_contains: ID
+    id_starts_with: ID
+    id_not_starts_with: ID
+    id_ends_with: ID
+    id_not_ends_with: ID
+    createdAt: DateTime
+    createdAt_not: DateTime
+    createdAt_in: [DateTime!]
+    createdAt_not_in: [DateTime!]
+    createdAt_lt: DateTime
+    createdAt_lte: DateTime
+    createdAt_gt: DateTime
+    createdAt_gte: DateTime
+    updatedAt: DateTime
+    updatedAt_not: DateTime
+    updatedAt_in: [DateTime!]
+    updatedAt_not_in: [DateTime!]
+    updatedAt_lt: DateTime
+    updatedAt_lte: DateTime
+    updatedAt_gt: DateTime
+    updatedAt_gte: DateTime
+    conversation: ConversationWhereInput
+    sender: UserWhereInput
+    messageType: MessageType
+    messageType_not: MessageType
+    messageType_in: [MessageType!]
+    messageType_not_in: [MessageType!]
+    message: String
+    message_not: String
+    message_in: [String!]
+    message_not_in: [String!]
+    message_lt: String
+    message_lte: String
+    message_gt: String
+    message_gte: String
+    message_contains: String
+    message_not_contains: String
+    message_starts_with: String
+    message_not_starts_with: String
+    message_ends_with: String
+    message_not_ends_with: String
+    attachmentThumbUrl: String
+    attachmentThumbUrl_not: String
+    attachmentThumbUrl_in: [String!]
+    attachmentThumbUrl_not_in: [String!]
+    attachmentThumbUrl_lt: String
+    attachmentThumbUrl_lte: String
+    attachmentThumbUrl_gt: String
+    attachmentThumbUrl_gte: String
+    attachmentThumbUrl_contains: String
+    attachmentThumbUrl_not_contains: String
+    attachmentThumbUrl_starts_with: String
+    attachmentThumbUrl_not_starts_with: String
+    attachmentThumbUrl_ends_with: String
+    attachmentThumbUrl_not_ends_with: String
+    attachmentUrl: String
+    attachmentUrl_not: String
+    attachmentUrl_in: [String!]
+    attachmentUrl_not_in: [String!]
+    attachmentUrl_lt: String
+    attachmentUrl_lte: String
+    attachmentUrl_gt: String
+    attachmentUrl_gte: String
+    attachmentUrl_contains: String
+    attachmentUrl_not_contains: String
+    attachmentUrl_starts_with: String
+    attachmentUrl_not_starts_with: String
+    attachmentUrl_ends_with: String
+    attachmentUrl_not_ends_with: String
+    isDeleted: Boolean
+    isDeleted_not: Boolean
+    AND: [MessageWhereInput!]
+    OR: [MessageWhereInput!]
+    NOT: [MessageWhereInput!]
+}
+
+input MessageWhereUniqueInput {
+    id: ID
+}
 
 enum MutationType {
     CREATED
@@ -973,6 +1849,8 @@ type User {
     roles: [UserRole!]!
     avatar: String
     last_login_date: DateTime
+    conversations(where: ConversationWhereInput, orderBy: ConversationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Conversation!]
+    contacts(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
 }
 
 type UserConnection {
@@ -987,10 +1865,36 @@ input UserCreateInput {
     roles: UserCreaterolesInput
     avatar: String
     last_login_date: DateTime
+    conversations: ConversationCreateManyWithoutParticipantsInput
+    contacts: UserCreateManyInput
+}
+
+input UserCreateManyInput {
+    create: [UserCreateInput!]
+    connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateManyWithoutConversationsInput {
+    create: [UserCreateWithoutConversationsInput!]
+    connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneInput {
+    create: UserCreateInput
+    connect: UserWhereUniqueInput
 }
 
 input UserCreaterolesInput {
     set: [UserRole!]
+}
+
+input UserCreateWithoutConversationsInput {
+    id: ID
+    email: String!
+    roles: UserCreaterolesInput
+    avatar: String
+    last_login_date: DateTime
+    contacts: UserCreateManyInput
 }
 
 type UserEdge {
@@ -1029,6 +1933,78 @@ enum UserRole {
     ADMIN
 }
 
+input UserScalarWhereInput {
+    id: ID
+    id_not: ID
+    id_in: [ID!]
+    id_not_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_gt: ID
+    id_gte: ID
+    id_contains: ID
+    id_not_contains: ID
+    id_starts_with: ID
+    id_not_starts_with: ID
+    id_ends_with: ID
+    id_not_ends_with: ID
+    createdAt: DateTime
+    createdAt_not: DateTime
+    createdAt_in: [DateTime!]
+    createdAt_not_in: [DateTime!]
+    createdAt_lt: DateTime
+    createdAt_lte: DateTime
+    createdAt_gt: DateTime
+    createdAt_gte: DateTime
+    updatedAt: DateTime
+    updatedAt_not: DateTime
+    updatedAt_in: [DateTime!]
+    updatedAt_not_in: [DateTime!]
+    updatedAt_lt: DateTime
+    updatedAt_lte: DateTime
+    updatedAt_gt: DateTime
+    updatedAt_gte: DateTime
+    email: String
+    email_not: String
+    email_in: [String!]
+    email_not_in: [String!]
+    email_lt: String
+    email_lte: String
+    email_gt: String
+    email_gte: String
+    email_contains: String
+    email_not_contains: String
+    email_starts_with: String
+    email_not_starts_with: String
+    email_ends_with: String
+    email_not_ends_with: String
+    avatar: String
+    avatar_not: String
+    avatar_in: [String!]
+    avatar_not_in: [String!]
+    avatar_lt: String
+    avatar_lte: String
+    avatar_gt: String
+    avatar_gte: String
+    avatar_contains: String
+    avatar_not_contains: String
+    avatar_starts_with: String
+    avatar_not_starts_with: String
+    avatar_ends_with: String
+    avatar_not_ends_with: String
+    last_login_date: DateTime
+    last_login_date_not: DateTime
+    last_login_date_in: [DateTime!]
+    last_login_date_not_in: [DateTime!]
+    last_login_date_lt: DateTime
+    last_login_date_lte: DateTime
+    last_login_date_gt: DateTime
+    last_login_date_gte: DateTime
+    AND: [UserScalarWhereInput!]
+    OR: [UserScalarWhereInput!]
+    NOT: [UserScalarWhereInput!]
+}
+
 type UserSubscriptionPayload {
     mutation: MutationType!
     node: User
@@ -1047,11 +2023,41 @@ input UserSubscriptionWhereInput {
     NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+    email: String
+    roles: UserUpdaterolesInput
+    avatar: String
+    last_login_date: DateTime
+    conversations: ConversationUpdateManyWithoutParticipantsInput
+    contacts: UserUpdateManyInput
+}
+
 input UserUpdateInput {
     email: String
     roles: UserUpdaterolesInput
     avatar: String
     last_login_date: DateTime
+    conversations: ConversationUpdateManyWithoutParticipantsInput
+    contacts: UserUpdateManyInput
+}
+
+input UserUpdateManyDataInput {
+    email: String
+    roles: UserUpdaterolesInput
+    avatar: String
+    last_login_date: DateTime
+}
+
+input UserUpdateManyInput {
+    create: [UserCreateInput!]
+    update: [UserUpdateWithWhereUniqueNestedInput!]
+    upsert: [UserUpsertWithWhereUniqueNestedInput!]
+    delete: [UserWhereUniqueInput!]
+    connect: [UserWhereUniqueInput!]
+    set: [UserWhereUniqueInput!]
+    disconnect: [UserWhereUniqueInput!]
+    deleteMany: [UserScalarWhereInput!]
+    updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
 
 input UserUpdateManyMutationInput {
@@ -1061,8 +2067,67 @@ input UserUpdateManyMutationInput {
     last_login_date: DateTime
 }
 
+input UserUpdateManyWithoutConversationsInput {
+    create: [UserCreateWithoutConversationsInput!]
+    delete: [UserWhereUniqueInput!]
+    connect: [UserWhereUniqueInput!]
+    set: [UserWhereUniqueInput!]
+    disconnect: [UserWhereUniqueInput!]
+    update: [UserUpdateWithWhereUniqueWithoutConversationsInput!]
+    upsert: [UserUpsertWithWhereUniqueWithoutConversationsInput!]
+    deleteMany: [UserScalarWhereInput!]
+    updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
+input UserUpdateManyWithWhereNestedInput {
+    where: UserScalarWhereInput!
+    data: UserUpdateManyDataInput!
+}
+
+input UserUpdateOneRequiredInput {
+    create: UserCreateInput
+    update: UserUpdateDataInput
+    upsert: UserUpsertNestedInput
+    connect: UserWhereUniqueInput
+}
+
 input UserUpdaterolesInput {
     set: [UserRole!]
+}
+
+input UserUpdateWithoutConversationsDataInput {
+    email: String
+    roles: UserUpdaterolesInput
+    avatar: String
+    last_login_date: DateTime
+    contacts: UserUpdateManyInput
+}
+
+input UserUpdateWithWhereUniqueNestedInput {
+    where: UserWhereUniqueInput!
+    data: UserUpdateDataInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutConversationsInput {
+    where: UserWhereUniqueInput!
+    data: UserUpdateWithoutConversationsDataInput!
+}
+
+input UserUpsertNestedInput {
+    update: UserUpdateDataInput!
+    create: UserCreateInput!
+}
+
+input UserUpsertWithWhereUniqueNestedInput {
+    where: UserWhereUniqueInput!
+    update: UserUpdateDataInput!
+    create: UserCreateInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutConversationsInput {
+    where: UserWhereUniqueInput!
+    update: UserUpdateWithoutConversationsDataInput!
+    create: UserCreateWithoutConversationsInput!
 }
 
 input UserWhereInput {
@@ -1132,6 +2197,12 @@ input UserWhereInput {
     last_login_date_lte: DateTime
     last_login_date_gt: DateTime
     last_login_date_gte: DateTime
+    conversations_every: ConversationWhereInput
+    conversations_some: ConversationWhereInput
+    conversations_none: ConversationWhereInput
+    contacts_every: UserWhereInput
+    contacts_some: UserWhereInput
+    contacts_none: UserWhereInput
     AND: [UserWhereInput!]
     OR: [UserWhereInput!]
     NOT: [UserWhereInput!]

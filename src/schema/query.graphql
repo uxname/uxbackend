@@ -21,8 +21,16 @@ type Query {
 
     activationCode(where: ActivationCodeWhereUniqueInput!): ActivationCode
     activationCodes(where: ActivationCodeWhereInput, orderBy: ActivationCodeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ActivationCode]!
+    blockList(where: BlockListWhereUniqueInput!): BlockList
+    blockLists(where: BlockListWhereInput, orderBy: BlockListOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [BlockList]!
     category(where: CategoryWhereUniqueInput!): Category
     categories(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category]!
+    conversation(where: ConversationWhereUniqueInput!): Conversation
+    conversations(where: ConversationWhereInput, orderBy: ConversationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Conversation]!
+    conversationParticipant(where: ConversationParticipantWhereUniqueInput!): ConversationParticipant
+    conversationParticipants(where: ConversationParticipantWhereInput, orderBy: ConversationParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ConversationParticipant]!
+    message(where: MessageWhereUniqueInput!): Message
+    messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message]!
     product(where: ProductWhereUniqueInput!): Product
     products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
     user(where: UserWhereUniqueInput!): User

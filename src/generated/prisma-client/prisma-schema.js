@@ -618,6 +618,7 @@ type Conversation {
   creator: User!
   participants(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   conversationType: ConversationType!
+  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
 }
 
 type ConversationConnection {
@@ -632,6 +633,7 @@ input ConversationCreateInput {
   creator: UserCreateOneInput!
   participants: UserCreateManyWithoutConversationsInput
   conversationType: ConversationType!
+  messages: MessageCreateManyWithoutConversationInput
 }
 
 input ConversationCreateManyWithoutParticipantsInput {
@@ -639,9 +641,17 @@ input ConversationCreateManyWithoutParticipantsInput {
   connect: [ConversationWhereUniqueInput!]
 }
 
-input ConversationCreateOneInput {
-  create: ConversationCreateInput
+input ConversationCreateOneWithoutMessagesInput {
+  create: ConversationCreateWithoutMessagesInput
   connect: ConversationWhereUniqueInput
+}
+
+input ConversationCreateWithoutMessagesInput {
+  id: ID
+  title: String
+  creator: UserCreateOneInput!
+  participants: UserCreateManyWithoutConversationsInput
+  conversationType: ConversationType!
 }
 
 input ConversationCreateWithoutParticipantsInput {
@@ -649,6 +659,7 @@ input ConversationCreateWithoutParticipantsInput {
   title: String
   creator: UserCreateOneInput!
   conversationType: ConversationType!
+  messages: MessageCreateManyWithoutConversationInput
 }
 
 type ConversationEdge {
@@ -874,18 +885,12 @@ enum ConversationType {
   GROUP
 }
 
-input ConversationUpdateDataInput {
-  title: String
-  creator: UserUpdateOneRequiredInput
-  participants: UserUpdateManyWithoutConversationsInput
-  conversationType: ConversationType
-}
-
 input ConversationUpdateInput {
   title: String
   creator: UserUpdateOneRequiredInput
   participants: UserUpdateManyWithoutConversationsInput
   conversationType: ConversationType
+  messages: MessageUpdateManyWithoutConversationInput
 }
 
 input ConversationUpdateManyDataInput {
@@ -915,17 +920,25 @@ input ConversationUpdateManyWithWhereNestedInput {
   data: ConversationUpdateManyDataInput!
 }
 
-input ConversationUpdateOneRequiredInput {
-  create: ConversationCreateInput
-  update: ConversationUpdateDataInput
-  upsert: ConversationUpsertNestedInput
+input ConversationUpdateOneRequiredWithoutMessagesInput {
+  create: ConversationCreateWithoutMessagesInput
+  update: ConversationUpdateWithoutMessagesDataInput
+  upsert: ConversationUpsertWithoutMessagesInput
   connect: ConversationWhereUniqueInput
+}
+
+input ConversationUpdateWithoutMessagesDataInput {
+  title: String
+  creator: UserUpdateOneRequiredInput
+  participants: UserUpdateManyWithoutConversationsInput
+  conversationType: ConversationType
 }
 
 input ConversationUpdateWithoutParticipantsDataInput {
   title: String
   creator: UserUpdateOneRequiredInput
   conversationType: ConversationType
+  messages: MessageUpdateManyWithoutConversationInput
 }
 
 input ConversationUpdateWithWhereUniqueWithoutParticipantsInput {
@@ -933,9 +946,9 @@ input ConversationUpdateWithWhereUniqueWithoutParticipantsInput {
   data: ConversationUpdateWithoutParticipantsDataInput!
 }
 
-input ConversationUpsertNestedInput {
-  update: ConversationUpdateDataInput!
-  create: ConversationCreateInput!
+input ConversationUpsertWithoutMessagesInput {
+  update: ConversationUpdateWithoutMessagesDataInput!
+  create: ConversationCreateWithoutMessagesInput!
 }
 
 input ConversationUpsertWithWhereUniqueWithoutParticipantsInput {
@@ -997,6 +1010,9 @@ input ConversationWhereInput {
   conversationType_not: ConversationType
   conversationType_in: [ConversationType!]
   conversationType_not_in: [ConversationType!]
+  messages_every: MessageWhereInput
+  messages_some: MessageWhereInput
+  messages_none: MessageWhereInput
   AND: [ConversationWhereInput!]
   OR: [ConversationWhereInput!]
   NOT: [ConversationWhereInput!]
@@ -1031,7 +1047,22 @@ type MessageConnection {
 
 input MessageCreateInput {
   id: ID
-  conversation: ConversationCreateOneInput!
+  conversation: ConversationCreateOneWithoutMessagesInput!
+  sender: UserCreateOneInput!
+  messageType: MessageType
+  message: String!
+  attachmentThumbUrl: String
+  attachmentUrl: String
+  isDeleted: Boolean
+}
+
+input MessageCreateManyWithoutConversationInput {
+  create: [MessageCreateWithoutConversationInput!]
+  connect: [MessageWhereUniqueInput!]
+}
+
+input MessageCreateWithoutConversationInput {
+  id: ID
   sender: UserCreateOneInput!
   messageType: MessageType
   message: String!
@@ -1075,6 +1106,90 @@ type MessagePreviousValues {
   isDeleted: Boolean!
 }
 
+input MessageScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  messageType: MessageType
+  messageType_not: MessageType
+  messageType_in: [MessageType!]
+  messageType_not_in: [MessageType!]
+  message: String
+  message_not: String
+  message_in: [String!]
+  message_not_in: [String!]
+  message_lt: String
+  message_lte: String
+  message_gt: String
+  message_gte: String
+  message_contains: String
+  message_not_contains: String
+  message_starts_with: String
+  message_not_starts_with: String
+  message_ends_with: String
+  message_not_ends_with: String
+  attachmentThumbUrl: String
+  attachmentThumbUrl_not: String
+  attachmentThumbUrl_in: [String!]
+  attachmentThumbUrl_not_in: [String!]
+  attachmentThumbUrl_lt: String
+  attachmentThumbUrl_lte: String
+  attachmentThumbUrl_gt: String
+  attachmentThumbUrl_gte: String
+  attachmentThumbUrl_contains: String
+  attachmentThumbUrl_not_contains: String
+  attachmentThumbUrl_starts_with: String
+  attachmentThumbUrl_not_starts_with: String
+  attachmentThumbUrl_ends_with: String
+  attachmentThumbUrl_not_ends_with: String
+  attachmentUrl: String
+  attachmentUrl_not: String
+  attachmentUrl_in: [String!]
+  attachmentUrl_not_in: [String!]
+  attachmentUrl_lt: String
+  attachmentUrl_lte: String
+  attachmentUrl_gt: String
+  attachmentUrl_gte: String
+  attachmentUrl_contains: String
+  attachmentUrl_not_contains: String
+  attachmentUrl_starts_with: String
+  attachmentUrl_not_starts_with: String
+  attachmentUrl_ends_with: String
+  attachmentUrl_not_ends_with: String
+  isDeleted: Boolean
+  isDeleted_not: Boolean
+  AND: [MessageScalarWhereInput!]
+  OR: [MessageScalarWhereInput!]
+  NOT: [MessageScalarWhereInput!]
+}
+
 type MessageSubscriptionPayload {
   mutation: MutationType!
   node: Message
@@ -1102,8 +1217,16 @@ enum MessageType {
 }
 
 input MessageUpdateInput {
-  conversation: ConversationUpdateOneRequiredInput
+  conversation: ConversationUpdateOneRequiredWithoutMessagesInput
   sender: UserUpdateOneRequiredInput
+  messageType: MessageType
+  message: String
+  attachmentThumbUrl: String
+  attachmentUrl: String
+  isDeleted: Boolean
+}
+
+input MessageUpdateManyDataInput {
   messageType: MessageType
   message: String
   attachmentThumbUrl: String
@@ -1117,6 +1240,43 @@ input MessageUpdateManyMutationInput {
   attachmentThumbUrl: String
   attachmentUrl: String
   isDeleted: Boolean
+}
+
+input MessageUpdateManyWithoutConversationInput {
+  create: [MessageCreateWithoutConversationInput!]
+  delete: [MessageWhereUniqueInput!]
+  connect: [MessageWhereUniqueInput!]
+  set: [MessageWhereUniqueInput!]
+  disconnect: [MessageWhereUniqueInput!]
+  update: [MessageUpdateWithWhereUniqueWithoutConversationInput!]
+  upsert: [MessageUpsertWithWhereUniqueWithoutConversationInput!]
+  deleteMany: [MessageScalarWhereInput!]
+  updateMany: [MessageUpdateManyWithWhereNestedInput!]
+}
+
+input MessageUpdateManyWithWhereNestedInput {
+  where: MessageScalarWhereInput!
+  data: MessageUpdateManyDataInput!
+}
+
+input MessageUpdateWithoutConversationDataInput {
+  sender: UserUpdateOneRequiredInput
+  messageType: MessageType
+  message: String
+  attachmentThumbUrl: String
+  attachmentUrl: String
+  isDeleted: Boolean
+}
+
+input MessageUpdateWithWhereUniqueWithoutConversationInput {
+  where: MessageWhereUniqueInput!
+  data: MessageUpdateWithoutConversationDataInput!
+}
+
+input MessageUpsertWithWhereUniqueWithoutConversationInput {
+  where: MessageWhereUniqueInput!
+  update: MessageUpdateWithoutConversationDataInput!
+  create: MessageCreateWithoutConversationInput!
 }
 
 input MessageWhereInput {

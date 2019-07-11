@@ -3,6 +3,7 @@
 const log = require('./helper/logger').getLogger('app');
 const config = require('./config/config');
 const userResolver = require('./resolver/user');
+const messengerResolver = require('./resolver/messenger');
 const prisma = require('./helper/prisma_helper').prisma;
 const roleHelper = require('./helper/roles_helper');
 const {rule, shield, and, or, not, allow, deny} = require('graphql-shield');
@@ -12,7 +13,7 @@ const redisClient = redis.createClient(config.redis);
 const GQLError = require('./helper/GQLError');
 const product_core = require('./core/product');
 const _ = require('lodash');
-const InputShieldFilter = require('./helper/InputSheldFilter')
+const InputShieldFilter = require('./helper/InputSheldFilter');
 
 const CACHED_RESPONSE_REDIS_PREFIX = 'cached:';
 const CACHED_RESPONSE_REDIS_EXPIRE_SEC = 10;
@@ -73,6 +74,18 @@ const resolvers = {
 
         user: (root, {where}) => prisma.user(where),
         users: (root, args) => prisma.users(args),
+
+        blockList: (root, {where}) => prisma.blockList(where),
+        blockLists: (root, args) => prisma.blockLists(args),
+
+        conversation: (root, {where}) => prisma.conversation(where),
+        conversations: (root, args) => prisma.conversations(args),
+
+        conversationParticipant: (root, {where}) => prisma.conversationParticipant(where),
+        conversationParticipants: (root, args) => prisma.conversationParticipants(args),
+
+        message: (root, {where}) => prisma.message(where),
+        messages: (root, args) => prisma.messages(args),
     },
     Mutation: {
         sign_up: userResolver.signUp,
@@ -107,6 +120,12 @@ const resolvers = {
         upsertUser: (root, args) => prisma.upsertUser(args),
         deleteUser: (root, args) => prisma.deleteUser(args.where),
         deleteManyUsers: (root, args) => prisma.deleteManyUsers(args.where),
+
+        createConversation: messengerResolver.createConversation,
+        sendMessage: messengerResolver.sendMessage,
+        deleteMessage: messengerResolver.deleteMessage,
+        blockUser: messengerResolver.blockUser,
+        unblockUser: messengerResolver.unblockUser,
     },
     Category: {
         subcategories: (root, args) => prisma.category({id: root.id}).subcategories(args),
@@ -114,6 +133,19 @@ const resolvers = {
     },
     Product: {
         categories: (root, args) => prisma.product({id: root.id}).categories(args),
+    },
+    BlockList: {
+        user: (root, args) => prisma.blockList({id: root.id}).user(),
+        blockedUser: (root, args) => prisma.blockList({id: root.id}).blockedUser(),
+    },
+    Conversation: {
+        creator: (root, args) => prisma.conversation({id: root.id}).creator(),
+        participants: (root, args) => prisma.conversation({id: root.id}).participants(args),
+        messages: (root, args) => prisma.conversation({id: root.id}).messages(args)
+    },
+    Message: {
+        sender: (root, args) => prisma.message({id: root.id}).sender(),
+        conversation: (root, args) => prisma.message({id: root.id}).conversation(),
     },
     Node: { // to remove warning "Type "Node" is missing a "__resolveType" resolver. Pass false into "resolverValidationOptions.requireResolversForResolveType" to disable this warning."
         __resolveType() {

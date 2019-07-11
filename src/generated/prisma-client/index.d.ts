@@ -437,36 +437,6 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type ConversationParticipantRole = "MEMBER" | "ADMIN";
-
-export type UserRole = "USER" | "MODERATOR" | "ADMIN";
-
-export type ProductOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC"
-  | "title_ASC"
-  | "title_DESC"
-  | "description_ASC"
-  | "description_DESC";
-
-export type RestoreCodeOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC"
-  | "email_ASC"
-  | "email_DESC"
-  | "valid_until_ASC"
-  | "valid_until_DESC"
-  | "code_ASC"
-  | "code_DESC";
-
 export type CategoryOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -479,39 +449,7 @@ export type CategoryOrderByInput =
   | "description_ASC"
   | "description_DESC";
 
-export type MessageType = "TEXT" | "IMAGE" | "VIDEO" | "AUDIO" | "FILE";
-
-export type ConversationType = "SINGLE" | "GROUP";
-
-export type ConversationOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC"
-  | "title_ASC"
-  | "title_DESC"
-  | "conversationType_ASC"
-  | "conversationType_DESC";
-
-export type UserOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC"
-  | "email_ASC"
-  | "email_DESC"
-  | "password_hash_ASC"
-  | "password_hash_DESC"
-  | "password_salt_ASC"
-  | "password_salt_DESC"
-  | "avatar_ASC"
-  | "avatar_DESC"
-  | "last_login_date_ASC"
-  | "last_login_date_DESC";
+export type UserRole = "USER" | "MODERATOR" | "ADMIN";
 
 export type BlockListOrderByInput =
   | "id_ASC"
@@ -521,7 +459,7 @@ export type BlockListOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type ActivationCodeOrderByInput =
+export type RestoreCodeOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "createdAt_ASC"
@@ -553,7 +491,55 @@ export type MessageOrderByInput =
   | "isDeleted_ASC"
   | "isDeleted_DESC";
 
-export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+export type ConversationParticipantRole = "MEMBER" | "ADMIN";
+
+export type ConversationType = "SINGLE" | "GROUP";
+
+export type MessageType = "TEXT" | "IMAGE" | "VIDEO" | "AUDIO" | "FILE";
+
+export type ConversationOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "conversationType_ASC"
+  | "conversationType_DESC";
+
+export type UserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "password_hash_ASC"
+  | "password_hash_DESC"
+  | "password_salt_ASC"
+  | "password_salt_DESC"
+  | "avatar_ASC"
+  | "avatar_DESC"
+  | "last_login_date_ASC"
+  | "last_login_date_DESC";
+
+export type ActivationCodeOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "valid_until_ASC"
+  | "valid_until_DESC"
+  | "code_ASC"
+  | "code_DESC";
 
 export type ConversationParticipantOrderByInput =
   | "id_ASC"
@@ -565,10 +551,27 @@ export type ConversationParticipantOrderByInput =
   | "role_ASC"
   | "role_DESC";
 
-export interface ConversationUpdateWithoutParticipantsDataInput {
-  title?: Maybe<String>;
-  creator?: Maybe<UserUpdateOneRequiredInput>;
-  conversationType?: Maybe<ConversationType>;
+export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+
+export type ProductOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "description_ASC"
+  | "description_DESC";
+
+export interface MessageUpdateWithoutConversationDataInput {
+  sender?: Maybe<UserUpdateOneRequiredInput>;
+  messageType?: Maybe<MessageType>;
+  message?: Maybe<String>;
+  attachmentThumbUrl?: Maybe<String>;
+  attachmentUrl?: Maybe<String>;
+  isDeleted?: Maybe<Boolean>;
 }
 
 export type ActivationCodeWhereUniqueInput = AtLeastOne<{
@@ -576,136 +579,30 @@ export type ActivationCodeWhereUniqueInput = AtLeastOne<{
   email?: Maybe<String>;
 }>;
 
-export interface UserUpdateWithWhereUniqueWithoutConversationsInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateWithoutConversationsDataInput;
-}
-
-export interface CategoryUpdateManyMutationInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-}
-
-export interface UserUpdateManyWithoutConversationsInput {
-  create?: Maybe<
-    UserCreateWithoutConversationsInput[] | UserCreateWithoutConversationsInput
-  >;
-  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  update?: Maybe<
-    | UserUpdateWithWhereUniqueWithoutConversationsInput[]
-    | UserUpdateWithWhereUniqueWithoutConversationsInput
-  >;
-  upsert?: Maybe<
-    | UserUpsertWithWhereUniqueWithoutConversationsInput[]
-    | UserUpsertWithWhereUniqueWithoutConversationsInput
-  >;
-  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  updateMany?: Maybe<
-    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface UserScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
+export interface ActivationCodeUpdateInput {
   email?: Maybe<String>;
-  email_not?: Maybe<String>;
-  email_in?: Maybe<String[] | String>;
-  email_not_in?: Maybe<String[] | String>;
-  email_lt?: Maybe<String>;
-  email_lte?: Maybe<String>;
-  email_gt?: Maybe<String>;
-  email_gte?: Maybe<String>;
-  email_contains?: Maybe<String>;
-  email_not_contains?: Maybe<String>;
-  email_starts_with?: Maybe<String>;
-  email_not_starts_with?: Maybe<String>;
-  email_ends_with?: Maybe<String>;
-  email_not_ends_with?: Maybe<String>;
-  password_hash?: Maybe<String>;
-  password_hash_not?: Maybe<String>;
-  password_hash_in?: Maybe<String[] | String>;
-  password_hash_not_in?: Maybe<String[] | String>;
-  password_hash_lt?: Maybe<String>;
-  password_hash_lte?: Maybe<String>;
-  password_hash_gt?: Maybe<String>;
-  password_hash_gte?: Maybe<String>;
-  password_hash_contains?: Maybe<String>;
-  password_hash_not_contains?: Maybe<String>;
-  password_hash_starts_with?: Maybe<String>;
-  password_hash_not_starts_with?: Maybe<String>;
-  password_hash_ends_with?: Maybe<String>;
-  password_hash_not_ends_with?: Maybe<String>;
-  password_salt?: Maybe<String>;
-  password_salt_not?: Maybe<String>;
-  password_salt_in?: Maybe<String[] | String>;
-  password_salt_not_in?: Maybe<String[] | String>;
-  password_salt_lt?: Maybe<String>;
-  password_salt_lte?: Maybe<String>;
-  password_salt_gt?: Maybe<String>;
-  password_salt_gte?: Maybe<String>;
-  password_salt_contains?: Maybe<String>;
-  password_salt_not_contains?: Maybe<String>;
-  password_salt_starts_with?: Maybe<String>;
-  password_salt_not_starts_with?: Maybe<String>;
-  password_salt_ends_with?: Maybe<String>;
-  password_salt_not_ends_with?: Maybe<String>;
-  avatar?: Maybe<String>;
-  avatar_not?: Maybe<String>;
-  avatar_in?: Maybe<String[] | String>;
-  avatar_not_in?: Maybe<String[] | String>;
-  avatar_lt?: Maybe<String>;
-  avatar_lte?: Maybe<String>;
-  avatar_gt?: Maybe<String>;
-  avatar_gte?: Maybe<String>;
-  avatar_contains?: Maybe<String>;
-  avatar_not_contains?: Maybe<String>;
-  avatar_starts_with?: Maybe<String>;
-  avatar_not_starts_with?: Maybe<String>;
-  avatar_ends_with?: Maybe<String>;
-  avatar_not_ends_with?: Maybe<String>;
-  last_login_date?: Maybe<DateTimeInput>;
-  last_login_date_not?: Maybe<DateTimeInput>;
-  last_login_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  last_login_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  last_login_date_lt?: Maybe<DateTimeInput>;
-  last_login_date_lte?: Maybe<DateTimeInput>;
-  last_login_date_gt?: Maybe<DateTimeInput>;
-  last_login_date_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  valid_until?: Maybe<DateTimeInput>;
+  code?: Maybe<String>;
+}
+
+export interface ConversationCreateInput {
+  id?: Maybe<ID_Input>;
+  title?: Maybe<String>;
+  creator: UserCreateOneInput;
+  participants?: Maybe<UserCreateManyWithoutConversationsInput>;
+  conversationType: ConversationType;
+  messages?: Maybe<MessageCreateManyWithoutConversationInput>;
+}
+
+export interface ActivationCodeUpdateManyMutationInput {
+  email?: Maybe<String>;
+  valid_until?: Maybe<DateTimeInput>;
+  code?: Maybe<String>;
+}
+
+export interface ConversationUpdateManyDataInput {
+  title?: Maybe<String>;
+  conversationType?: Maybe<ConversationType>;
 }
 
 export interface ConversationUpdateInput {
@@ -713,6 +610,7 @@ export interface ConversationUpdateInput {
   creator?: Maybe<UserUpdateOneRequiredInput>;
   participants?: Maybe<UserUpdateManyWithoutConversationsInput>;
   conversationType?: Maybe<ConversationType>;
+  messages?: Maybe<MessageUpdateManyWithoutConversationInput>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -726,21 +624,73 @@ export interface UserSubscriptionWhereInput {
   NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
-export interface RestoreCodeSubscriptionWhereInput {
+export interface UserCreateWithoutConversationsInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  roles?: Maybe<UserCreaterolesInput>;
+  password_hash: String;
+  password_salt: String;
+  avatar?: Maybe<String>;
+  last_login_date?: Maybe<DateTimeInput>;
+  contacts?: Maybe<UserCreateManyInput>;
+}
+
+export type BlockListWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface BlockListCreateInput {
+  id?: Maybe<ID_Input>;
+  user: UserCreateOneInput;
+  blockedUser: UserCreateOneInput;
+}
+
+export interface ProductSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<RestoreCodeWhereInput>;
+  node?: Maybe<ProductWhereInput>;
+  AND?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
+  OR?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
+  NOT?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
+}
+
+export interface UserCreateOneInput {
+  create?: Maybe<UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface ConversationParticipantSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ConversationParticipantWhereInput>;
   AND?: Maybe<
-    RestoreCodeSubscriptionWhereInput[] | RestoreCodeSubscriptionWhereInput
+    | ConversationParticipantSubscriptionWhereInput[]
+    | ConversationParticipantSubscriptionWhereInput
   >;
   OR?: Maybe<
-    RestoreCodeSubscriptionWhereInput[] | RestoreCodeSubscriptionWhereInput
+    | ConversationParticipantSubscriptionWhereInput[]
+    | ConversationParticipantSubscriptionWhereInput
   >;
   NOT?: Maybe<
-    RestoreCodeSubscriptionWhereInput[] | RestoreCodeSubscriptionWhereInput
+    | ConversationParticipantSubscriptionWhereInput[]
+    | ConversationParticipantSubscriptionWhereInput
   >;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  roles?: Maybe<UserCreaterolesInput>;
+  password_hash: String;
+  password_salt: String;
+  avatar?: Maybe<String>;
+  last_login_date?: Maybe<DateTimeInput>;
+  conversations?: Maybe<ConversationCreateManyWithoutParticipantsInput>;
+  contacts?: Maybe<UserCreateManyInput>;
 }
 
 export interface BlockListWhereInput {
@@ -781,58 +731,8 @@ export interface BlockListWhereInput {
   NOT?: Maybe<BlockListWhereInput[] | BlockListWhereInput>;
 }
 
-export interface ActivationCodeCreateInput {
-  id?: Maybe<ID_Input>;
-  email: String;
-  valid_until: DateTimeInput;
-  code: String;
-}
-
-export interface ConversationParticipantSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ConversationParticipantWhereInput>;
-  AND?: Maybe<
-    | ConversationParticipantSubscriptionWhereInput[]
-    | ConversationParticipantSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    | ConversationParticipantSubscriptionWhereInput[]
-    | ConversationParticipantSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    | ConversationParticipantSubscriptionWhereInput[]
-    | ConversationParticipantSubscriptionWhereInput
-  >;
-}
-
-export interface ActivationCodeUpdateInput {
-  email?: Maybe<String>;
-  valid_until?: Maybe<DateTimeInput>;
-  code?: Maybe<String>;
-}
-
-export interface CategorySubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<CategoryWhereInput>;
-  AND?: Maybe<
-    CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput
-  >;
-  OR?: Maybe<CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput>;
-  NOT?: Maybe<
-    CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput
-  >;
-}
-
-export interface ActivationCodeUpdateManyMutationInput {
-  email?: Maybe<String>;
-  valid_until?: Maybe<DateTimeInput>;
-  code?: Maybe<String>;
+export interface UserCreaterolesInput {
+  set?: Maybe<UserRole[] | UserRole>;
 }
 
 export interface BlockListSubscriptionWhereInput {
@@ -852,15 +752,50 @@ export interface BlockListSubscriptionWhereInput {
   >;
 }
 
-export interface UserCreateWithoutConversationsInput {
-  id?: Maybe<ID_Input>;
-  email: String;
-  roles?: Maybe<UserCreaterolesInput>;
-  password_hash: String;
-  password_salt: String;
+export interface ConversationCreateManyWithoutParticipantsInput {
+  create?: Maybe<
+    | ConversationCreateWithoutParticipantsInput[]
+    | ConversationCreateWithoutParticipantsInput
+  >;
+  connect?: Maybe<
+    ConversationWhereUniqueInput[] | ConversationWhereUniqueInput
+  >;
+}
+
+export interface UserUpdateManyMutationInput {
+  email?: Maybe<String>;
+  roles?: Maybe<UserUpdaterolesInput>;
+  password_hash?: Maybe<String>;
+  password_salt?: Maybe<String>;
   avatar?: Maybe<String>;
   last_login_date?: Maybe<DateTimeInput>;
-  contacts?: Maybe<UserCreateManyInput>;
+}
+
+export interface ConversationCreateWithoutParticipantsInput {
+  id?: Maybe<ID_Input>;
+  title?: Maybe<String>;
+  creator: UserCreateOneInput;
+  conversationType: ConversationType;
+  messages?: Maybe<MessageCreateManyWithoutConversationInput>;
+}
+
+export interface UserUpdateInput {
+  email?: Maybe<String>;
+  roles?: Maybe<UserUpdaterolesInput>;
+  password_hash?: Maybe<String>;
+  password_salt?: Maybe<String>;
+  avatar?: Maybe<String>;
+  last_login_date?: Maybe<DateTimeInput>;
+  conversations?: Maybe<ConversationUpdateManyWithoutParticipantsInput>;
+  contacts?: Maybe<UserUpdateManyInput>;
+}
+
+export interface MessageCreateManyWithoutConversationInput {
+  create?: Maybe<
+    | MessageCreateWithoutConversationInput[]
+    | MessageCreateWithoutConversationInput
+  >;
+  connect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
 }
 
 export interface ProductWhereInput {
@@ -930,56 +865,25 @@ export interface ProductWhereInput {
   NOT?: Maybe<ProductWhereInput[] | ProductWhereInput>;
 }
 
-export interface UserCreateManyWithoutConversationsInput {
-  create?: Maybe<
-    UserCreateWithoutConversationsInput[] | UserCreateWithoutConversationsInput
-  >;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-}
-
-export interface UserUpdateManyMutationInput {
-  email?: Maybe<String>;
-  roles?: Maybe<UserUpdaterolesInput>;
-  password_hash?: Maybe<String>;
-  password_salt?: Maybe<String>;
-  avatar?: Maybe<String>;
-  last_login_date?: Maybe<DateTimeInput>;
-}
-
-export interface BlockListCreateInput {
+export interface MessageCreateWithoutConversationInput {
   id?: Maybe<ID_Input>;
-  user: UserCreateOneInput;
-  blockedUser: UserCreateOneInput;
+  sender: UserCreateOneInput;
+  messageType?: Maybe<MessageType>;
+  message: String;
+  attachmentThumbUrl?: Maybe<String>;
+  attachmentUrl?: Maybe<String>;
+  isDeleted?: Maybe<Boolean>;
 }
 
-export interface RestoreCodeUpdateManyMutationInput {
+export interface RestoreCodeUpdateInput {
   email?: Maybe<String>;
   valid_until?: Maybe<DateTimeInput>;
   code?: Maybe<String>;
 }
 
-export interface UserCreateOneInput {
-  create?: Maybe<UserCreateInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface RestoreCodeCreateInput {
-  id?: Maybe<ID_Input>;
-  email: String;
-  valid_until: DateTimeInput;
-  code: String;
-}
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  email: String;
-  roles?: Maybe<UserCreaterolesInput>;
-  password_hash: String;
-  password_salt: String;
-  avatar?: Maybe<String>;
-  last_login_date?: Maybe<DateTimeInput>;
-  conversations?: Maybe<ConversationCreateManyWithoutParticipantsInput>;
-  contacts?: Maybe<UserCreateManyInput>;
+export interface UserCreateManyInput {
+  create?: Maybe<UserCreateInput[] | UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
 }
 
 export interface ProductUpdateManyMutationInput {
@@ -987,8 +891,9 @@ export interface ProductUpdateManyMutationInput {
   description?: Maybe<String>;
 }
 
-export interface UserCreaterolesInput {
-  set?: Maybe<UserRole[] | UserRole>;
+export interface BlockListUpdateInput {
+  user?: Maybe<UserUpdateOneRequiredInput>;
+  blockedUser?: Maybe<UserUpdateOneRequiredInput>;
 }
 
 export interface CategoryUpdateWithoutProductsDataInput {
@@ -997,14 +902,11 @@ export interface CategoryUpdateWithoutProductsDataInput {
   subcategories?: Maybe<CategoryUpdateManyInput>;
 }
 
-export interface ConversationCreateManyWithoutParticipantsInput {
-  create?: Maybe<
-    | ConversationCreateWithoutParticipantsInput[]
-    | ConversationCreateWithoutParticipantsInput
-  >;
-  connect?: Maybe<
-    ConversationWhereUniqueInput[] | ConversationWhereUniqueInput
-  >;
+export interface UserUpdateOneRequiredInput {
+  create?: Maybe<UserCreateInput>;
+  update?: Maybe<UserUpdateDataInput>;
+  upsert?: Maybe<UserUpsertNestedInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
 export interface CategoryUpdateWithWhereUniqueWithoutProductsInput {
@@ -1012,11 +914,62 @@ export interface CategoryUpdateWithWhereUniqueWithoutProductsInput {
   data: CategoryUpdateWithoutProductsDataInput;
 }
 
-export interface ConversationCreateWithoutParticipantsInput {
-  id?: Maybe<ID_Input>;
+export interface UserUpdateDataInput {
+  email?: Maybe<String>;
+  roles?: Maybe<UserUpdaterolesInput>;
+  password_hash?: Maybe<String>;
+  password_salt?: Maybe<String>;
+  avatar?: Maybe<String>;
+  last_login_date?: Maybe<DateTimeInput>;
+  conversations?: Maybe<ConversationUpdateManyWithoutParticipantsInput>;
+  contacts?: Maybe<UserUpdateManyInput>;
+}
+
+export interface ProductUpdateInput {
   title?: Maybe<String>;
-  creator: UserCreateOneInput;
-  conversationType: ConversationType;
+  description?: Maybe<String>;
+  categories?: Maybe<CategoryUpdateManyWithoutProductsInput>;
+}
+
+export interface UserUpdaterolesInput {
+  set?: Maybe<UserRole[] | UserRole>;
+}
+
+export interface CategoryCreateWithoutProductsInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description?: Maybe<String>;
+  subcategories?: Maybe<CategoryCreateManyInput>;
+}
+
+export interface ConversationUpdateManyWithoutParticipantsInput {
+  create?: Maybe<
+    | ConversationCreateWithoutParticipantsInput[]
+    | ConversationCreateWithoutParticipantsInput
+  >;
+  delete?: Maybe<ConversationWhereUniqueInput[] | ConversationWhereUniqueInput>;
+  connect?: Maybe<
+    ConversationWhereUniqueInput[] | ConversationWhereUniqueInput
+  >;
+  set?: Maybe<ConversationWhereUniqueInput[] | ConversationWhereUniqueInput>;
+  disconnect?: Maybe<
+    ConversationWhereUniqueInput[] | ConversationWhereUniqueInput
+  >;
+  update?: Maybe<
+    | ConversationUpdateWithWhereUniqueWithoutParticipantsInput[]
+    | ConversationUpdateWithWhereUniqueWithoutParticipantsInput
+  >;
+  upsert?: Maybe<
+    | ConversationUpsertWithWhereUniqueWithoutParticipantsInput[]
+    | ConversationUpsertWithWhereUniqueWithoutParticipantsInput
+  >;
+  deleteMany?: Maybe<
+    ConversationScalarWhereInput[] | ConversationScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | ConversationUpdateManyWithWhereNestedInput[]
+    | ConversationUpdateManyWithWhereNestedInput
+  >;
 }
 
 export interface ConversationParticipantWhereInput {
@@ -1068,21 +1021,9 @@ export interface ConversationParticipantWhereInput {
   >;
 }
 
-export interface UserCreateManyInput {
-  create?: Maybe<UserCreateInput[] | UserCreateInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-}
-
-export interface CategoryCreateWithoutProductsInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  description?: Maybe<String>;
-  subcategories?: Maybe<CategoryCreateManyInput>;
-}
-
-export interface BlockListUpdateInput {
-  user?: Maybe<UserUpdateOneRequiredInput>;
-  blockedUser?: Maybe<UserUpdateOneRequiredInput>;
+export interface ConversationUpdateWithWhereUniqueWithoutParticipantsInput {
+  where: ConversationWhereUniqueInput;
+  data: ConversationUpdateWithoutParticipantsDataInput;
 }
 
 export interface ProductCreateInput {
@@ -1092,14 +1033,57 @@ export interface ProductCreateInput {
   categories?: Maybe<CategoryCreateManyWithoutProductsInput>;
 }
 
-export interface UserUpdateOneRequiredInput {
-  create?: Maybe<UserCreateInput>;
-  update?: Maybe<UserUpdateDataInput>;
-  upsert?: Maybe<UserUpsertNestedInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface ConversationUpdateWithoutParticipantsDataInput {
+  title?: Maybe<String>;
+  creator?: Maybe<UserUpdateOneRequiredInput>;
+  conversationType?: Maybe<ConversationType>;
+  messages?: Maybe<MessageUpdateManyWithoutConversationInput>;
 }
 
-export interface MessageUpdateManyMutationInput {
+export interface ConversationUpsertWithoutMessagesInput {
+  update: ConversationUpdateWithoutMessagesDataInput;
+  create: ConversationCreateWithoutMessagesInput;
+}
+
+export interface MessageUpdateManyWithoutConversationInput {
+  create?: Maybe<
+    | MessageCreateWithoutConversationInput[]
+    | MessageCreateWithoutConversationInput
+  >;
+  delete?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  connect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  set?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  disconnect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  update?: Maybe<
+    | MessageUpdateWithWhereUniqueWithoutConversationInput[]
+    | MessageUpdateWithWhereUniqueWithoutConversationInput
+  >;
+  upsert?: Maybe<
+    | MessageUpsertWithWhereUniqueWithoutConversationInput[]
+    | MessageUpsertWithWhereUniqueWithoutConversationInput
+  >;
+  deleteMany?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
+  updateMany?: Maybe<
+    | MessageUpdateManyWithWhereNestedInput[]
+    | MessageUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ConversationUpdateWithoutMessagesDataInput {
+  title?: Maybe<String>;
+  creator?: Maybe<UserUpdateOneRequiredInput>;
+  participants?: Maybe<UserUpdateManyWithoutConversationsInput>;
+  conversationType?: Maybe<ConversationType>;
+}
+
+export interface MessageUpdateWithWhereUniqueWithoutConversationInput {
+  where: MessageWhereUniqueInput;
+  data: MessageUpdateWithoutConversationDataInput;
+}
+
+export interface MessageUpdateInput {
+  conversation?: Maybe<ConversationUpdateOneRequiredWithoutMessagesInput>;
+  sender?: Maybe<UserUpdateOneRequiredInput>;
   messageType?: Maybe<MessageType>;
   message?: Maybe<String>;
   attachmentThumbUrl?: Maybe<String>;
@@ -1107,18 +1091,39 @@ export interface MessageUpdateManyMutationInput {
   isDeleted?: Maybe<Boolean>;
 }
 
-export interface UserUpdateDataInput {
-  email?: Maybe<String>;
-  roles?: Maybe<UserUpdaterolesInput>;
-  password_hash?: Maybe<String>;
-  password_salt?: Maybe<String>;
-  avatar?: Maybe<String>;
-  last_login_date?: Maybe<DateTimeInput>;
-  conversations?: Maybe<ConversationUpdateManyWithoutParticipantsInput>;
-  contacts?: Maybe<UserUpdateManyInput>;
+export interface UserCreateManyWithoutConversationsInput {
+  create?: Maybe<
+    UserCreateWithoutConversationsInput[] | UserCreateWithoutConversationsInput
+  >;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
 }
 
-export interface MessageWhereInput {
+export interface ConversationCreateWithoutMessagesInput {
+  id?: Maybe<ID_Input>;
+  title?: Maybe<String>;
+  creator: UserCreateOneInput;
+  participants?: Maybe<UserCreateManyWithoutConversationsInput>;
+  conversationType: ConversationType;
+}
+
+export interface MessageUpsertWithWhereUniqueWithoutConversationInput {
+  where: MessageWhereUniqueInput;
+  update: MessageUpdateWithoutConversationDataInput;
+  create: MessageCreateWithoutConversationInput;
+}
+
+export interface MessageCreateInput {
+  id?: Maybe<ID_Input>;
+  conversation: ConversationCreateOneWithoutMessagesInput;
+  sender: UserCreateOneInput;
+  messageType?: Maybe<MessageType>;
+  message: String;
+  attachmentThumbUrl?: Maybe<String>;
+  attachmentUrl?: Maybe<String>;
+  isDeleted?: Maybe<Boolean>;
+}
+
+export interface MessageScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -1149,8 +1154,6 @@ export interface MessageWhereInput {
   updatedAt_lte?: Maybe<DateTimeInput>;
   updatedAt_gt?: Maybe<DateTimeInput>;
   updatedAt_gte?: Maybe<DateTimeInput>;
-  conversation?: Maybe<ConversationWhereInput>;
-  sender?: Maybe<UserWhereInput>;
   messageType?: Maybe<MessageType>;
   messageType_not?: Maybe<MessageType>;
   messageType_in?: Maybe<MessageType[] | MessageType>;
@@ -1199,55 +1202,26 @@ export interface MessageWhereInput {
   attachmentUrl_not_ends_with?: Maybe<String>;
   isDeleted?: Maybe<Boolean>;
   isDeleted_not?: Maybe<Boolean>;
-  AND?: Maybe<MessageWhereInput[] | MessageWhereInput>;
-  OR?: Maybe<MessageWhereInput[] | MessageWhereInput>;
-  NOT?: Maybe<MessageWhereInput[] | MessageWhereInput>;
+  AND?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
+  OR?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
+  NOT?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
 }
 
-export interface UserUpdaterolesInput {
-  set?: Maybe<UserRole[] | UserRole>;
+export interface ConversationParticipantUpdateManyMutationInput {
+  role?: Maybe<ConversationParticipantRole>;
 }
 
-export interface ConversationUpdateDataInput {
-  title?: Maybe<String>;
-  creator?: Maybe<UserUpdateOneRequiredInput>;
-  participants?: Maybe<UserUpdateManyWithoutConversationsInput>;
-  conversationType?: Maybe<ConversationType>;
+export interface MessageUpdateManyWithWhereNestedInput {
+  where: MessageScalarWhereInput;
+  data: MessageUpdateManyDataInput;
 }
 
-export interface ConversationUpdateManyWithoutParticipantsInput {
-  create?: Maybe<
-    | ConversationCreateWithoutParticipantsInput[]
-    | ConversationCreateWithoutParticipantsInput
-  >;
-  delete?: Maybe<ConversationWhereUniqueInput[] | ConversationWhereUniqueInput>;
-  connect?: Maybe<
-    ConversationWhereUniqueInput[] | ConversationWhereUniqueInput
-  >;
-  set?: Maybe<ConversationWhereUniqueInput[] | ConversationWhereUniqueInput>;
-  disconnect?: Maybe<
-    ConversationWhereUniqueInput[] | ConversationWhereUniqueInput
-  >;
-  update?: Maybe<
-    | ConversationUpdateWithWhereUniqueWithoutParticipantsInput[]
-    | ConversationUpdateWithWhereUniqueWithoutParticipantsInput
-  >;
-  upsert?: Maybe<
-    | ConversationUpsertWithWhereUniqueWithoutParticipantsInput[]
-    | ConversationUpsertWithWhereUniqueWithoutParticipantsInput
-  >;
-  deleteMany?: Maybe<
-    ConversationScalarWhereInput[] | ConversationScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | ConversationUpdateManyWithWhereNestedInput[]
-    | ConversationUpdateManyWithWhereNestedInput
-  >;
+export interface ConversationParticipantUpdateInput {
+  user?: Maybe<UserUpdateOneRequiredInput>;
+  role?: Maybe<ConversationParticipantRole>;
 }
 
-export interface MessageUpdateInput {
-  conversation?: Maybe<ConversationUpdateOneRequiredInput>;
-  sender?: Maybe<UserUpdateOneRequiredInput>;
+export interface MessageUpdateManyDataInput {
   messageType?: Maybe<MessageType>;
   message?: Maybe<String>;
   attachmentThumbUrl?: Maybe<String>;
@@ -1255,26 +1229,9 @@ export interface MessageUpdateInput {
   isDeleted?: Maybe<Boolean>;
 }
 
-export interface ConversationUpdateWithWhereUniqueWithoutParticipantsInput {
-  where: ConversationWhereUniqueInput;
-  data: ConversationUpdateWithoutParticipantsDataInput;
-}
-
-export interface ConversationCreateOneInput {
-  create?: Maybe<ConversationCreateInput>;
-  connect?: Maybe<ConversationWhereUniqueInput>;
-}
-
-export interface ConversationCreateInput {
-  id?: Maybe<ID_Input>;
+export interface ConversationUpdateManyMutationInput {
   title?: Maybe<String>;
-  creator: UserCreateOneInput;
-  participants?: Maybe<UserCreateManyWithoutConversationsInput>;
-  conversationType: ConversationType;
-}
-
-export interface ConversationParticipantUpdateManyMutationInput {
-  role?: Maybe<ConversationParticipantRole>;
+  conversationType?: Maybe<ConversationType>;
 }
 
 export interface ConversationUpsertWithWhereUniqueWithoutParticipantsInput {
@@ -1283,10 +1240,11 @@ export interface ConversationUpsertWithWhereUniqueWithoutParticipantsInput {
   create: ConversationCreateWithoutParticipantsInput;
 }
 
-export interface ConversationParticipantUpdateInput {
-  user?: Maybe<UserUpdateOneRequiredInput>;
-  role?: Maybe<ConversationParticipantRole>;
-}
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+  password_salt?: Maybe<String>;
+}>;
 
 export interface ConversationScalarWhereInput {
   id?: Maybe<ID_Input>;
@@ -1342,663 +1300,14 @@ export interface ConversationScalarWhereInput {
   NOT?: Maybe<ConversationScalarWhereInput[] | ConversationScalarWhereInput>;
 }
 
-export interface ConversationParticipantCreateInput {
-  id?: Maybe<ID_Input>;
-  user: UserCreateOneInput;
-  role?: Maybe<ConversationParticipantRole>;
+export interface UserUpdateWithWhereUniqueWithoutConversationsInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutConversationsDataInput;
 }
 
 export interface ConversationUpdateManyWithWhereNestedInput {
   where: ConversationScalarWhereInput;
   data: ConversationUpdateManyDataInput;
-}
-
-export interface UserUpsertWithWhereUniqueWithoutConversationsInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateWithoutConversationsDataInput;
-  create: UserCreateWithoutConversationsInput;
-}
-
-export interface ConversationUpdateManyDataInput {
-  title?: Maybe<String>;
-  conversationType?: Maybe<ConversationType>;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-  password_salt?: Maybe<String>;
-}>;
-
-export interface UserUpdateManyInput {
-  create?: Maybe<UserCreateInput[] | UserCreateInput>;
-  update?: Maybe<
-    | UserUpdateWithWhereUniqueNestedInput[]
-    | UserUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | UserUpsertWithWhereUniqueNestedInput[]
-    | UserUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  updateMany?: Maybe<
-    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
-  >;
-}
-
-export type BlockListWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface UserUpdateWithWhereUniqueNestedInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateDataInput;
-}
-
-export interface MessageSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<MessageWhereInput>;
-  AND?: Maybe<MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput>;
-  OR?: Maybe<MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput>;
-  NOT?: Maybe<MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput>;
-}
-
-export interface UserUpsertWithWhereUniqueNestedInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
-}
-
-export type CategoryWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface ConversationWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  title?: Maybe<String>;
-  title_not?: Maybe<String>;
-  title_in?: Maybe<String[] | String>;
-  title_not_in?: Maybe<String[] | String>;
-  title_lt?: Maybe<String>;
-  title_lte?: Maybe<String>;
-  title_gt?: Maybe<String>;
-  title_gte?: Maybe<String>;
-  title_contains?: Maybe<String>;
-  title_not_contains?: Maybe<String>;
-  title_starts_with?: Maybe<String>;
-  title_not_starts_with?: Maybe<String>;
-  title_ends_with?: Maybe<String>;
-  title_not_ends_with?: Maybe<String>;
-  creator?: Maybe<UserWhereInput>;
-  participants_every?: Maybe<UserWhereInput>;
-  participants_some?: Maybe<UserWhereInput>;
-  participants_none?: Maybe<UserWhereInput>;
-  conversationType?: Maybe<ConversationType>;
-  conversationType_not?: Maybe<ConversationType>;
-  conversationType_in?: Maybe<ConversationType[] | ConversationType>;
-  conversationType_not_in?: Maybe<ConversationType[] | ConversationType>;
-  AND?: Maybe<ConversationWhereInput[] | ConversationWhereInput>;
-  OR?: Maybe<ConversationWhereInput[] | ConversationWhereInput>;
-  NOT?: Maybe<ConversationWhereInput[] | ConversationWhereInput>;
-}
-
-export interface ActivationCodeSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ActivationCodeWhereInput>;
-  AND?: Maybe<
-    | ActivationCodeSubscriptionWhereInput[]
-    | ActivationCodeSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    | ActivationCodeSubscriptionWhereInput[]
-    | ActivationCodeSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    | ActivationCodeSubscriptionWhereInput[]
-    | ActivationCodeSubscriptionWhereInput
-  >;
-}
-
-export interface UserUpdateManyWithWhereNestedInput {
-  where: UserScalarWhereInput;
-  data: UserUpdateManyDataInput;
-}
-
-export interface RestoreCodeUpdateInput {
-  email?: Maybe<String>;
-  valid_until?: Maybe<DateTimeInput>;
-  code?: Maybe<String>;
-}
-
-export interface UserUpdateManyDataInput {
-  email?: Maybe<String>;
-  roles?: Maybe<UserUpdaterolesInput>;
-  password_hash?: Maybe<String>;
-  password_salt?: Maybe<String>;
-  avatar?: Maybe<String>;
-  last_login_date?: Maybe<DateTimeInput>;
-}
-
-export interface CategoryUpsertWithWhereUniqueWithoutProductsInput {
-  where: CategoryWhereUniqueInput;
-  update: CategoryUpdateWithoutProductsDataInput;
-  create: CategoryCreateWithoutProductsInput;
-}
-
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
-}
-
-export interface CategoryUpdateManyWithoutProductsInput {
-  create?: Maybe<
-    CategoryCreateWithoutProductsInput[] | CategoryCreateWithoutProductsInput
-  >;
-  delete?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-  connect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-  set?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-  disconnect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-  update?: Maybe<
-    | CategoryUpdateWithWhereUniqueWithoutProductsInput[]
-    | CategoryUpdateWithWhereUniqueWithoutProductsInput
-  >;
-  upsert?: Maybe<
-    | CategoryUpsertWithWhereUniqueWithoutProductsInput[]
-    | CategoryUpsertWithWhereUniqueWithoutProductsInput
-  >;
-  deleteMany?: Maybe<CategoryScalarWhereInput[] | CategoryScalarWhereInput>;
-  updateMany?: Maybe<
-    | CategoryUpdateManyWithWhereNestedInput[]
-    | CategoryUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface CategoryCreateInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  description?: Maybe<String>;
-  subcategories?: Maybe<CategoryCreateManyInput>;
-  products?: Maybe<ProductCreateManyWithoutCategoriesInput>;
-}
-
-export interface CategoryCreateManyWithoutProductsInput {
-  create?: Maybe<
-    CategoryCreateWithoutProductsInput[] | CategoryCreateWithoutProductsInput
-  >;
-  connect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-}
-
-export interface CategoryCreateManyInput {
-  create?: Maybe<CategoryCreateInput[] | CategoryCreateInput>;
-  connect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-}
-
-export interface ActivationCodeWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  email?: Maybe<String>;
-  email_not?: Maybe<String>;
-  email_in?: Maybe<String[] | String>;
-  email_not_in?: Maybe<String[] | String>;
-  email_lt?: Maybe<String>;
-  email_lte?: Maybe<String>;
-  email_gt?: Maybe<String>;
-  email_gte?: Maybe<String>;
-  email_contains?: Maybe<String>;
-  email_not_contains?: Maybe<String>;
-  email_starts_with?: Maybe<String>;
-  email_not_starts_with?: Maybe<String>;
-  email_ends_with?: Maybe<String>;
-  email_not_ends_with?: Maybe<String>;
-  valid_until?: Maybe<DateTimeInput>;
-  valid_until_not?: Maybe<DateTimeInput>;
-  valid_until_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  valid_until_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  valid_until_lt?: Maybe<DateTimeInput>;
-  valid_until_lte?: Maybe<DateTimeInput>;
-  valid_until_gt?: Maybe<DateTimeInput>;
-  valid_until_gte?: Maybe<DateTimeInput>;
-  code?: Maybe<String>;
-  code_not?: Maybe<String>;
-  code_in?: Maybe<String[] | String>;
-  code_not_in?: Maybe<String[] | String>;
-  code_lt?: Maybe<String>;
-  code_lte?: Maybe<String>;
-  code_gt?: Maybe<String>;
-  code_gte?: Maybe<String>;
-  code_contains?: Maybe<String>;
-  code_not_contains?: Maybe<String>;
-  code_starts_with?: Maybe<String>;
-  code_not_starts_with?: Maybe<String>;
-  code_ends_with?: Maybe<String>;
-  code_not_ends_with?: Maybe<String>;
-  AND?: Maybe<ActivationCodeWhereInput[] | ActivationCodeWhereInput>;
-  OR?: Maybe<ActivationCodeWhereInput[] | ActivationCodeWhereInput>;
-  NOT?: Maybe<ActivationCodeWhereInput[] | ActivationCodeWhereInput>;
-}
-
-export interface ProductCreateManyWithoutCategoriesInput {
-  create?: Maybe<
-    ProductCreateWithoutCategoriesInput[] | ProductCreateWithoutCategoriesInput
-  >;
-  connect?: Maybe<ProductWhereUniqueInput[] | ProductWhereUniqueInput>;
-}
-
-export interface ConversationUpdateOneRequiredInput {
-  create?: Maybe<ConversationCreateInput>;
-  update?: Maybe<ConversationUpdateDataInput>;
-  upsert?: Maybe<ConversationUpsertNestedInput>;
-  connect?: Maybe<ConversationWhereUniqueInput>;
-}
-
-export interface ProductCreateWithoutCategoriesInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  description?: Maybe<String>;
-}
-
-export interface MessageCreateInput {
-  id?: Maybe<ID_Input>;
-  conversation: ConversationCreateOneInput;
-  sender: UserCreateOneInput;
-  messageType?: Maybe<MessageType>;
-  message: String;
-  attachmentThumbUrl?: Maybe<String>;
-  attachmentUrl?: Maybe<String>;
-  isDeleted?: Maybe<Boolean>;
-}
-
-export interface CategoryUpdateInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  subcategories?: Maybe<CategoryUpdateManyInput>;
-  products?: Maybe<ProductUpdateManyWithoutCategoriesInput>;
-}
-
-export interface RestoreCodeWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  email?: Maybe<String>;
-  email_not?: Maybe<String>;
-  email_in?: Maybe<String[] | String>;
-  email_not_in?: Maybe<String[] | String>;
-  email_lt?: Maybe<String>;
-  email_lte?: Maybe<String>;
-  email_gt?: Maybe<String>;
-  email_gte?: Maybe<String>;
-  email_contains?: Maybe<String>;
-  email_not_contains?: Maybe<String>;
-  email_starts_with?: Maybe<String>;
-  email_not_starts_with?: Maybe<String>;
-  email_ends_with?: Maybe<String>;
-  email_not_ends_with?: Maybe<String>;
-  valid_until?: Maybe<DateTimeInput>;
-  valid_until_not?: Maybe<DateTimeInput>;
-  valid_until_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  valid_until_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  valid_until_lt?: Maybe<DateTimeInput>;
-  valid_until_lte?: Maybe<DateTimeInput>;
-  valid_until_gt?: Maybe<DateTimeInput>;
-  valid_until_gte?: Maybe<DateTimeInput>;
-  code?: Maybe<String>;
-  code_not?: Maybe<String>;
-  code_in?: Maybe<String[] | String>;
-  code_not_in?: Maybe<String[] | String>;
-  code_lt?: Maybe<String>;
-  code_lte?: Maybe<String>;
-  code_gt?: Maybe<String>;
-  code_gte?: Maybe<String>;
-  code_contains?: Maybe<String>;
-  code_not_contains?: Maybe<String>;
-  code_starts_with?: Maybe<String>;
-  code_not_starts_with?: Maybe<String>;
-  code_ends_with?: Maybe<String>;
-  code_not_ends_with?: Maybe<String>;
-  AND?: Maybe<RestoreCodeWhereInput[] | RestoreCodeWhereInput>;
-  OR?: Maybe<RestoreCodeWhereInput[] | RestoreCodeWhereInput>;
-  NOT?: Maybe<RestoreCodeWhereInput[] | RestoreCodeWhereInput>;
-}
-
-export interface CategoryUpdateManyInput {
-  create?: Maybe<CategoryCreateInput[] | CategoryCreateInput>;
-  update?: Maybe<
-    | CategoryUpdateWithWhereUniqueNestedInput[]
-    | CategoryUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | CategoryUpsertWithWhereUniqueNestedInput[]
-    | CategoryUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-  connect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-  set?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-  disconnect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-  deleteMany?: Maybe<CategoryScalarWhereInput[] | CategoryScalarWhereInput>;
-  updateMany?: Maybe<
-    | CategoryUpdateManyWithWhereNestedInput[]
-    | CategoryUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface UserUpdateWithoutConversationsDataInput {
-  email?: Maybe<String>;
-  roles?: Maybe<UserUpdaterolesInput>;
-  password_hash?: Maybe<String>;
-  password_salt?: Maybe<String>;
-  avatar?: Maybe<String>;
-  last_login_date?: Maybe<DateTimeInput>;
-  contacts?: Maybe<UserUpdateManyInput>;
-}
-
-export interface CategoryUpdateWithWhereUniqueNestedInput {
-  where: CategoryWhereUniqueInput;
-  data: CategoryUpdateDataInput;
-}
-
-export interface ProductSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ProductWhereInput>;
-  AND?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
-  OR?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
-  NOT?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
-}
-
-export interface CategoryUpdateDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  subcategories?: Maybe<CategoryUpdateManyInput>;
-  products?: Maybe<ProductUpdateManyWithoutCategoriesInput>;
-}
-
-export interface CategoryWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  title?: Maybe<String>;
-  title_not?: Maybe<String>;
-  title_in?: Maybe<String[] | String>;
-  title_not_in?: Maybe<String[] | String>;
-  title_lt?: Maybe<String>;
-  title_lte?: Maybe<String>;
-  title_gt?: Maybe<String>;
-  title_gte?: Maybe<String>;
-  title_contains?: Maybe<String>;
-  title_not_contains?: Maybe<String>;
-  title_starts_with?: Maybe<String>;
-  title_not_starts_with?: Maybe<String>;
-  title_ends_with?: Maybe<String>;
-  title_not_ends_with?: Maybe<String>;
-  description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  subcategories_every?: Maybe<CategoryWhereInput>;
-  subcategories_some?: Maybe<CategoryWhereInput>;
-  subcategories_none?: Maybe<CategoryWhereInput>;
-  products_every?: Maybe<ProductWhereInput>;
-  products_some?: Maybe<ProductWhereInput>;
-  products_none?: Maybe<ProductWhereInput>;
-  AND?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
-  OR?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
-  NOT?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
-}
-
-export interface ProductUpdateManyWithoutCategoriesInput {
-  create?: Maybe<
-    ProductCreateWithoutCategoriesInput[] | ProductCreateWithoutCategoriesInput
-  >;
-  delete?: Maybe<ProductWhereUniqueInput[] | ProductWhereUniqueInput>;
-  connect?: Maybe<ProductWhereUniqueInput[] | ProductWhereUniqueInput>;
-  set?: Maybe<ProductWhereUniqueInput[] | ProductWhereUniqueInput>;
-  disconnect?: Maybe<ProductWhereUniqueInput[] | ProductWhereUniqueInput>;
-  update?: Maybe<
-    | ProductUpdateWithWhereUniqueWithoutCategoriesInput[]
-    | ProductUpdateWithWhereUniqueWithoutCategoriesInput
-  >;
-  upsert?: Maybe<
-    | ProductUpsertWithWhereUniqueWithoutCategoriesInput[]
-    | ProductUpsertWithWhereUniqueWithoutCategoriesInput
-  >;
-  deleteMany?: Maybe<ProductScalarWhereInput[] | ProductScalarWhereInput>;
-  updateMany?: Maybe<
-    | ProductUpdateManyWithWhereNestedInput[]
-    | ProductUpdateManyWithWhereNestedInput
-  >;
-}
-
-export type ConversationWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface ProductUpdateWithWhereUniqueWithoutCategoriesInput {
-  where: ProductWhereUniqueInput;
-  data: ProductUpdateWithoutCategoriesDataInput;
-}
-
-export interface ProductUpdateInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  categories?: Maybe<CategoryUpdateManyWithoutProductsInput>;
-}
-
-export interface ProductUpdateWithoutCategoriesDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-}
-
-export interface ConversationUpsertNestedInput {
-  update: ConversationUpdateDataInput;
-  create: ConversationCreateInput;
-}
-
-export interface ProductUpsertWithWhereUniqueWithoutCategoriesInput {
-  where: ProductWhereUniqueInput;
-  update: ProductUpdateWithoutCategoriesDataInput;
-  create: ProductCreateWithoutCategoriesInput;
-}
-
-export type RestoreCodeWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-}>;
-
-export interface ProductScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  title?: Maybe<String>;
-  title_not?: Maybe<String>;
-  title_in?: Maybe<String[] | String>;
-  title_not_in?: Maybe<String[] | String>;
-  title_lt?: Maybe<String>;
-  title_lte?: Maybe<String>;
-  title_gt?: Maybe<String>;
-  title_gte?: Maybe<String>;
-  title_contains?: Maybe<String>;
-  title_not_contains?: Maybe<String>;
-  title_starts_with?: Maybe<String>;
-  title_not_starts_with?: Maybe<String>;
-  title_ends_with?: Maybe<String>;
-  title_not_ends_with?: Maybe<String>;
-  description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  AND?: Maybe<ProductScalarWhereInput[] | ProductScalarWhereInput>;
-  OR?: Maybe<ProductScalarWhereInput[] | ProductScalarWhereInput>;
-  NOT?: Maybe<ProductScalarWhereInput[] | ProductScalarWhereInput>;
 }
 
 export interface UserWhereInput {
@@ -2107,20 +1416,780 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface ProductUpdateManyWithWhereNestedInput {
-  where: ProductScalarWhereInput;
-  data: ProductUpdateManyDataInput;
+export interface ConversationWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  creator?: Maybe<UserWhereInput>;
+  participants_every?: Maybe<UserWhereInput>;
+  participants_some?: Maybe<UserWhereInput>;
+  participants_none?: Maybe<UserWhereInput>;
+  conversationType?: Maybe<ConversationType>;
+  conversationType_not?: Maybe<ConversationType>;
+  conversationType_in?: Maybe<ConversationType[] | ConversationType>;
+  conversationType_not_in?: Maybe<ConversationType[] | ConversationType>;
+  messages_every?: Maybe<MessageWhereInput>;
+  messages_some?: Maybe<MessageWhereInput>;
+  messages_none?: Maybe<MessageWhereInput>;
+  AND?: Maybe<ConversationWhereInput[] | ConversationWhereInput>;
+  OR?: Maybe<ConversationWhereInput[] | ConversationWhereInput>;
+  NOT?: Maybe<ConversationWhereInput[] | ConversationWhereInput>;
 }
 
-export interface UserUpdateInput {
+export interface RestoreCodeSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<RestoreCodeWhereInput>;
+  AND?: Maybe<
+    RestoreCodeSubscriptionWhereInput[] | RestoreCodeSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    RestoreCodeSubscriptionWhereInput[] | RestoreCodeSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    RestoreCodeSubscriptionWhereInput[] | RestoreCodeSubscriptionWhereInput
+  >;
+}
+
+export interface UserUpdateManyInput {
+  create?: Maybe<UserCreateInput[] | UserCreateInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueNestedInput[]
+    | UserUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueNestedInput[]
+    | UserUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ConversationSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ConversationWhereInput>;
+  AND?: Maybe<
+    ConversationSubscriptionWhereInput[] | ConversationSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    ConversationSubscriptionWhereInput[] | ConversationSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    ConversationSubscriptionWhereInput[] | ConversationSubscriptionWhereInput
+  >;
+}
+
+export interface UserUpdateWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateDataInput;
+}
+
+export interface ActivationCodeSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ActivationCodeWhereInput>;
+  AND?: Maybe<
+    | ActivationCodeSubscriptionWhereInput[]
+    | ActivationCodeSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    | ActivationCodeSubscriptionWhereInput[]
+    | ActivationCodeSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    | ActivationCodeSubscriptionWhereInput[]
+    | ActivationCodeSubscriptionWhereInput
+  >;
+}
+
+export interface UserUpsertWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface CategoryWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  subcategories_every?: Maybe<CategoryWhereInput>;
+  subcategories_some?: Maybe<CategoryWhereInput>;
+  subcategories_none?: Maybe<CategoryWhereInput>;
+  products_every?: Maybe<ProductWhereInput>;
+  products_some?: Maybe<ProductWhereInput>;
+  products_none?: Maybe<ProductWhereInput>;
+  AND?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
+  OR?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
+  NOT?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
+}
+
+export interface UserScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  password_hash?: Maybe<String>;
+  password_hash_not?: Maybe<String>;
+  password_hash_in?: Maybe<String[] | String>;
+  password_hash_not_in?: Maybe<String[] | String>;
+  password_hash_lt?: Maybe<String>;
+  password_hash_lte?: Maybe<String>;
+  password_hash_gt?: Maybe<String>;
+  password_hash_gte?: Maybe<String>;
+  password_hash_contains?: Maybe<String>;
+  password_hash_not_contains?: Maybe<String>;
+  password_hash_starts_with?: Maybe<String>;
+  password_hash_not_starts_with?: Maybe<String>;
+  password_hash_ends_with?: Maybe<String>;
+  password_hash_not_ends_with?: Maybe<String>;
+  password_salt?: Maybe<String>;
+  password_salt_not?: Maybe<String>;
+  password_salt_in?: Maybe<String[] | String>;
+  password_salt_not_in?: Maybe<String[] | String>;
+  password_salt_lt?: Maybe<String>;
+  password_salt_lte?: Maybe<String>;
+  password_salt_gt?: Maybe<String>;
+  password_salt_gte?: Maybe<String>;
+  password_salt_contains?: Maybe<String>;
+  password_salt_not_contains?: Maybe<String>;
+  password_salt_starts_with?: Maybe<String>;
+  password_salt_not_starts_with?: Maybe<String>;
+  password_salt_ends_with?: Maybe<String>;
+  password_salt_not_ends_with?: Maybe<String>;
+  avatar?: Maybe<String>;
+  avatar_not?: Maybe<String>;
+  avatar_in?: Maybe<String[] | String>;
+  avatar_not_in?: Maybe<String[] | String>;
+  avatar_lt?: Maybe<String>;
+  avatar_lte?: Maybe<String>;
+  avatar_gt?: Maybe<String>;
+  avatar_gte?: Maybe<String>;
+  avatar_contains?: Maybe<String>;
+  avatar_not_contains?: Maybe<String>;
+  avatar_starts_with?: Maybe<String>;
+  avatar_not_starts_with?: Maybe<String>;
+  avatar_ends_with?: Maybe<String>;
+  avatar_not_ends_with?: Maybe<String>;
+  last_login_date?: Maybe<DateTimeInput>;
+  last_login_date_not?: Maybe<DateTimeInput>;
+  last_login_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  last_login_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  last_login_date_lt?: Maybe<DateTimeInput>;
+  last_login_date_lte?: Maybe<DateTimeInput>;
+  last_login_date_gt?: Maybe<DateTimeInput>;
+  last_login_date_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+}
+
+export interface RestoreCodeCreateInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  valid_until: DateTimeInput;
+  code: String;
+}
+
+export interface UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput;
+  data: UserUpdateManyDataInput;
+}
+
+export type ConversationWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface UserUpdateManyDataInput {
   email?: Maybe<String>;
   roles?: Maybe<UserUpdaterolesInput>;
   password_hash?: Maybe<String>;
   password_salt?: Maybe<String>;
   avatar?: Maybe<String>;
   last_login_date?: Maybe<DateTimeInput>;
-  conversations?: Maybe<ConversationUpdateManyWithoutParticipantsInput>;
+}
+
+export type ConversationParticipantWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface CategoryCreateManyWithoutProductsInput {
+  create?: Maybe<
+    CategoryCreateWithoutProductsInput[] | CategoryCreateWithoutProductsInput
+  >;
+  connect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
+}
+
+export interface CategoryCreateInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description?: Maybe<String>;
+  subcategories?: Maybe<CategoryCreateManyInput>;
+  products?: Maybe<ProductCreateManyWithoutCategoriesInput>;
+}
+
+export type MessageWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface CategoryCreateManyInput {
+  create?: Maybe<CategoryCreateInput[] | CategoryCreateInput>;
+  connect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
+}
+
+export type ProductWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface ProductCreateManyWithoutCategoriesInput {
+  create?: Maybe<
+    ProductCreateWithoutCategoriesInput[] | ProductCreateWithoutCategoriesInput
+  >;
+  connect?: Maybe<ProductWhereUniqueInput[] | ProductWhereUniqueInput>;
+}
+
+export type RestoreCodeWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+}>;
+
+export interface ProductCreateWithoutCategoriesInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description?: Maybe<String>;
+}
+
+export interface ConversationParticipantCreateInput {
+  id?: Maybe<ID_Input>;
+  user: UserCreateOneInput;
+  role?: Maybe<ConversationParticipantRole>;
+}
+
+export interface CategoryUpdateInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  subcategories?: Maybe<CategoryUpdateManyInput>;
+  products?: Maybe<ProductUpdateManyWithoutCategoriesInput>;
+}
+
+export interface UserUpdateWithoutConversationsDataInput {
+  email?: Maybe<String>;
+  roles?: Maybe<UserUpdaterolesInput>;
+  password_hash?: Maybe<String>;
+  password_salt?: Maybe<String>;
+  avatar?: Maybe<String>;
+  last_login_date?: Maybe<DateTimeInput>;
   contacts?: Maybe<UserUpdateManyInput>;
+}
+
+export interface CategoryUpdateManyInput {
+  create?: Maybe<CategoryCreateInput[] | CategoryCreateInput>;
+  update?: Maybe<
+    | CategoryUpdateWithWhereUniqueNestedInput[]
+    | CategoryUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | CategoryUpsertWithWhereUniqueNestedInput[]
+    | CategoryUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
+  connect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
+  set?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
+  disconnect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
+  deleteMany?: Maybe<CategoryScalarWhereInput[] | CategoryScalarWhereInput>;
+  updateMany?: Maybe<
+    | CategoryUpdateManyWithWhereNestedInput[]
+    | CategoryUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ActivationCodeCreateInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  valid_until: DateTimeInput;
+  code: String;
+}
+
+export interface CategoryUpdateWithWhereUniqueNestedInput {
+  where: CategoryWhereUniqueInput;
+  data: CategoryUpdateDataInput;
+}
+
+export interface MessageSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<MessageWhereInput>;
+  AND?: Maybe<MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput>;
+  OR?: Maybe<MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput>;
+  NOT?: Maybe<MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput>;
+}
+
+export interface CategoryUpdateDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  subcategories?: Maybe<CategoryUpdateManyInput>;
+  products?: Maybe<ProductUpdateManyWithoutCategoriesInput>;
+}
+
+export type CategoryWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface ProductUpdateManyWithoutCategoriesInput {
+  create?: Maybe<
+    ProductCreateWithoutCategoriesInput[] | ProductCreateWithoutCategoriesInput
+  >;
+  delete?: Maybe<ProductWhereUniqueInput[] | ProductWhereUniqueInput>;
+  connect?: Maybe<ProductWhereUniqueInput[] | ProductWhereUniqueInput>;
+  set?: Maybe<ProductWhereUniqueInput[] | ProductWhereUniqueInput>;
+  disconnect?: Maybe<ProductWhereUniqueInput[] | ProductWhereUniqueInput>;
+  update?: Maybe<
+    | ProductUpdateWithWhereUniqueWithoutCategoriesInput[]
+    | ProductUpdateWithWhereUniqueWithoutCategoriesInput
+  >;
+  upsert?: Maybe<
+    | ProductUpsertWithWhereUniqueWithoutCategoriesInput[]
+    | ProductUpsertWithWhereUniqueWithoutCategoriesInput
+  >;
+  deleteMany?: Maybe<ProductScalarWhereInput[] | ProductScalarWhereInput>;
+  updateMany?: Maybe<
+    | ProductUpdateManyWithWhereNestedInput[]
+    | ProductUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface CategoryUpsertWithWhereUniqueWithoutProductsInput {
+  where: CategoryWhereUniqueInput;
+  update: CategoryUpdateWithoutProductsDataInput;
+  create: CategoryCreateWithoutProductsInput;
+}
+
+export interface ProductUpdateWithWhereUniqueWithoutCategoriesInput {
+  where: ProductWhereUniqueInput;
+  data: ProductUpdateWithoutCategoriesDataInput;
+}
+
+export interface ActivationCodeWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  valid_until?: Maybe<DateTimeInput>;
+  valid_until_not?: Maybe<DateTimeInput>;
+  valid_until_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  valid_until_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  valid_until_lt?: Maybe<DateTimeInput>;
+  valid_until_lte?: Maybe<DateTimeInput>;
+  valid_until_gt?: Maybe<DateTimeInput>;
+  valid_until_gte?: Maybe<DateTimeInput>;
+  code?: Maybe<String>;
+  code_not?: Maybe<String>;
+  code_in?: Maybe<String[] | String>;
+  code_not_in?: Maybe<String[] | String>;
+  code_lt?: Maybe<String>;
+  code_lte?: Maybe<String>;
+  code_gt?: Maybe<String>;
+  code_gte?: Maybe<String>;
+  code_contains?: Maybe<String>;
+  code_not_contains?: Maybe<String>;
+  code_starts_with?: Maybe<String>;
+  code_not_starts_with?: Maybe<String>;
+  code_ends_with?: Maybe<String>;
+  code_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ActivationCodeWhereInput[] | ActivationCodeWhereInput>;
+  OR?: Maybe<ActivationCodeWhereInput[] | ActivationCodeWhereInput>;
+  NOT?: Maybe<ActivationCodeWhereInput[] | ActivationCodeWhereInput>;
+}
+
+export interface ProductUpdateWithoutCategoriesDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+}
+
+export interface ConversationUpdateOneRequiredWithoutMessagesInput {
+  create?: Maybe<ConversationCreateWithoutMessagesInput>;
+  update?: Maybe<ConversationUpdateWithoutMessagesDataInput>;
+  upsert?: Maybe<ConversationUpsertWithoutMessagesInput>;
+  connect?: Maybe<ConversationWhereUniqueInput>;
+}
+
+export interface ProductUpsertWithWhereUniqueWithoutCategoriesInput {
+  where: ProductWhereUniqueInput;
+  update: ProductUpdateWithoutCategoriesDataInput;
+  create: ProductCreateWithoutCategoriesInput;
+}
+
+export interface RestoreCodeWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  valid_until?: Maybe<DateTimeInput>;
+  valid_until_not?: Maybe<DateTimeInput>;
+  valid_until_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  valid_until_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  valid_until_lt?: Maybe<DateTimeInput>;
+  valid_until_lte?: Maybe<DateTimeInput>;
+  valid_until_gt?: Maybe<DateTimeInput>;
+  valid_until_gte?: Maybe<DateTimeInput>;
+  code?: Maybe<String>;
+  code_not?: Maybe<String>;
+  code_in?: Maybe<String[] | String>;
+  code_not_in?: Maybe<String[] | String>;
+  code_lt?: Maybe<String>;
+  code_lte?: Maybe<String>;
+  code_gt?: Maybe<String>;
+  code_gte?: Maybe<String>;
+  code_contains?: Maybe<String>;
+  code_not_contains?: Maybe<String>;
+  code_starts_with?: Maybe<String>;
+  code_not_starts_with?: Maybe<String>;
+  code_ends_with?: Maybe<String>;
+  code_not_ends_with?: Maybe<String>;
+  AND?: Maybe<RestoreCodeWhereInput[] | RestoreCodeWhereInput>;
+  OR?: Maybe<RestoreCodeWhereInput[] | RestoreCodeWhereInput>;
+  NOT?: Maybe<RestoreCodeWhereInput[] | RestoreCodeWhereInput>;
+}
+
+export interface ProductScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ProductScalarWhereInput[] | ProductScalarWhereInput>;
+  OR?: Maybe<ProductScalarWhereInput[] | ProductScalarWhereInput>;
+  NOT?: Maybe<ProductScalarWhereInput[] | ProductScalarWhereInput>;
+}
+
+export interface UserUpdateManyWithoutConversationsInput {
+  create?: Maybe<
+    UserCreateWithoutConversationsInput[] | UserCreateWithoutConversationsInput
+  >;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueWithoutConversationsInput[]
+    | UserUpdateWithWhereUniqueWithoutConversationsInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueWithoutConversationsInput[]
+    | UserUpsertWithWhereUniqueWithoutConversationsInput
+  >;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ProductUpdateManyWithWhereNestedInput {
+  where: ProductScalarWhereInput;
+  data: ProductUpdateManyDataInput;
+}
+
+export interface CategorySubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CategoryWhereInput>;
+  AND?: Maybe<
+    CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput
+  >;
+  OR?: Maybe<CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput>;
+  NOT?: Maybe<
+    CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput
+  >;
 }
 
 export interface ProductUpdateManyDataInput {
@@ -2128,9 +2197,44 @@ export interface ProductUpdateManyDataInput {
   description?: Maybe<String>;
 }
 
-export type MessageWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
+export interface CategoryUpdateManyWithoutProductsInput {
+  create?: Maybe<
+    CategoryCreateWithoutProductsInput[] | CategoryCreateWithoutProductsInput
+  >;
+  delete?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
+  connect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
+  set?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
+  disconnect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
+  update?: Maybe<
+    | CategoryUpdateWithWhereUniqueWithoutProductsInput[]
+    | CategoryUpdateWithWhereUniqueWithoutProductsInput
+  >;
+  upsert?: Maybe<
+    | CategoryUpsertWithWhereUniqueWithoutProductsInput[]
+    | CategoryUpsertWithWhereUniqueWithoutProductsInput
+  >;
+  deleteMany?: Maybe<CategoryScalarWhereInput[] | CategoryScalarWhereInput>;
+  updateMany?: Maybe<
+    | CategoryUpdateManyWithWhereNestedInput[]
+    | CategoryUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface CategoryUpsertWithWhereUniqueNestedInput {
+  where: CategoryWhereUniqueInput;
+  update: CategoryUpdateDataInput;
+  create: CategoryCreateInput;
+}
+
+export interface ConversationCreateOneWithoutMessagesInput {
+  create?: Maybe<ConversationCreateWithoutMessagesInput>;
+  connect?: Maybe<ConversationWhereUniqueInput>;
+}
+
+export interface CategoryUpdateManyMutationInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+}
 
 export interface CategoryUpdateManyDataInput {
   title?: Maybe<String>;
@@ -2206,40 +2310,110 @@ export interface CategoryScalarWhereInput {
   NOT?: Maybe<CategoryScalarWhereInput[] | CategoryScalarWhereInput>;
 }
 
-export interface CategoryUpsertWithWhereUniqueNestedInput {
-  where: CategoryWhereUniqueInput;
-  update: CategoryUpdateDataInput;
-  create: CategoryCreateInput;
+export interface UserUpsertWithWhereUniqueWithoutConversationsInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutConversationsDataInput;
+  create: UserCreateWithoutConversationsInput;
 }
 
-export type ProductWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export type ConversationParticipantWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface ConversationSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ConversationWhereInput>;
-  AND?: Maybe<
-    ConversationSubscriptionWhereInput[] | ConversationSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    ConversationSubscriptionWhereInput[] | ConversationSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    ConversationSubscriptionWhereInput[] | ConversationSubscriptionWhereInput
-  >;
+export interface MessageUpdateManyMutationInput {
+  messageType?: Maybe<MessageType>;
+  message?: Maybe<String>;
+  attachmentThumbUrl?: Maybe<String>;
+  attachmentUrl?: Maybe<String>;
+  isDeleted?: Maybe<Boolean>;
 }
 
-export interface ConversationUpdateManyMutationInput {
-  title?: Maybe<String>;
-  conversationType?: Maybe<ConversationType>;
+export interface RestoreCodeUpdateManyMutationInput {
+  email?: Maybe<String>;
+  valid_until?: Maybe<DateTimeInput>;
+  code?: Maybe<String>;
+}
+
+export interface MessageWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  conversation?: Maybe<ConversationWhereInput>;
+  sender?: Maybe<UserWhereInput>;
+  messageType?: Maybe<MessageType>;
+  messageType_not?: Maybe<MessageType>;
+  messageType_in?: Maybe<MessageType[] | MessageType>;
+  messageType_not_in?: Maybe<MessageType[] | MessageType>;
+  message?: Maybe<String>;
+  message_not?: Maybe<String>;
+  message_in?: Maybe<String[] | String>;
+  message_not_in?: Maybe<String[] | String>;
+  message_lt?: Maybe<String>;
+  message_lte?: Maybe<String>;
+  message_gt?: Maybe<String>;
+  message_gte?: Maybe<String>;
+  message_contains?: Maybe<String>;
+  message_not_contains?: Maybe<String>;
+  message_starts_with?: Maybe<String>;
+  message_not_starts_with?: Maybe<String>;
+  message_ends_with?: Maybe<String>;
+  message_not_ends_with?: Maybe<String>;
+  attachmentThumbUrl?: Maybe<String>;
+  attachmentThumbUrl_not?: Maybe<String>;
+  attachmentThumbUrl_in?: Maybe<String[] | String>;
+  attachmentThumbUrl_not_in?: Maybe<String[] | String>;
+  attachmentThumbUrl_lt?: Maybe<String>;
+  attachmentThumbUrl_lte?: Maybe<String>;
+  attachmentThumbUrl_gt?: Maybe<String>;
+  attachmentThumbUrl_gte?: Maybe<String>;
+  attachmentThumbUrl_contains?: Maybe<String>;
+  attachmentThumbUrl_not_contains?: Maybe<String>;
+  attachmentThumbUrl_starts_with?: Maybe<String>;
+  attachmentThumbUrl_not_starts_with?: Maybe<String>;
+  attachmentThumbUrl_ends_with?: Maybe<String>;
+  attachmentThumbUrl_not_ends_with?: Maybe<String>;
+  attachmentUrl?: Maybe<String>;
+  attachmentUrl_not?: Maybe<String>;
+  attachmentUrl_in?: Maybe<String[] | String>;
+  attachmentUrl_not_in?: Maybe<String[] | String>;
+  attachmentUrl_lt?: Maybe<String>;
+  attachmentUrl_lte?: Maybe<String>;
+  attachmentUrl_gt?: Maybe<String>;
+  attachmentUrl_gte?: Maybe<String>;
+  attachmentUrl_contains?: Maybe<String>;
+  attachmentUrl_not_contains?: Maybe<String>;
+  attachmentUrl_starts_with?: Maybe<String>;
+  attachmentUrl_not_starts_with?: Maybe<String>;
+  attachmentUrl_ends_with?: Maybe<String>;
+  attachmentUrl_not_ends_with?: Maybe<String>;
+  isDeleted?: Maybe<Boolean>;
+  isDeleted_not?: Maybe<Boolean>;
+  AND?: Maybe<MessageWhereInput[] | MessageWhereInput>;
+  OR?: Maybe<MessageWhereInput[] | MessageWhereInput>;
+  NOT?: Maybe<MessageWhereInput[] | MessageWhereInput>;
 }
 
 export interface NodeNode {
@@ -2286,25 +2460,25 @@ export interface UserPreviousValuesSubscription
   last_login_date: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface CategoryConnection {
+export interface ActivationCodeConnection {
   pageInfo: PageInfo;
-  edges: CategoryEdge[];
+  edges: ActivationCodeEdge[];
 }
 
-export interface CategoryConnectionPromise
-  extends Promise<CategoryConnection>,
+export interface ActivationCodeConnectionPromise
+  extends Promise<ActivationCodeConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CategoryEdge>>() => T;
-  aggregate: <T = AggregateCategoryPromise>() => T;
+  edges: <T = FragmentableArray<ActivationCodeEdge>>() => T;
+  aggregate: <T = AggregateActivationCodePromise>() => T;
 }
 
-export interface CategoryConnectionSubscription
-  extends Promise<AsyncIterator<CategoryConnection>>,
+export interface ActivationCodeConnectionSubscription
+  extends Promise<AsyncIterator<ActivationCodeConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CategoryEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCategorySubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ActivationCodeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateActivationCodeSubscription>() => T;
 }
 
 export interface User {
@@ -2413,7 +2587,7 @@ export interface UserNullablePromise
   }) => T;
 }
 
-export interface Product {
+export interface Category {
   id: ID_Output;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -2421,13 +2595,13 @@ export interface Product {
   description?: String;
 }
 
-export interface ProductPromise extends Promise<Product>, Fragmentable {
+export interface CategoryPromise extends Promise<Category>, Fragmentable {
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
   title: () => Promise<String>;
   description: () => Promise<String>;
-  categories: <T = FragmentableArray<Category>>(args?: {
+  subcategories: <T = FragmentableArray<Category>>(args?: {
     where?: CategoryWhereInput;
     orderBy?: CategoryOrderByInput;
     skip?: Int;
@@ -2436,17 +2610,26 @@ export interface ProductPromise extends Promise<Product>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  products: <T = FragmentableArray<Product>>(args?: {
+    where?: ProductWhereInput;
+    orderBy?: ProductOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
-export interface ProductSubscription
-  extends Promise<AsyncIterator<Product>>,
+export interface CategorySubscription
+  extends Promise<AsyncIterator<Category>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   title: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
-  categories: <T = Promise<AsyncIterator<CategorySubscription>>>(args?: {
+  subcategories: <T = Promise<AsyncIterator<CategorySubscription>>>(args?: {
     where?: CategoryWhereInput;
     orderBy?: CategoryOrderByInput;
     skip?: Int;
@@ -2455,19 +2638,37 @@ export interface ProductSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  products: <T = Promise<AsyncIterator<ProductSubscription>>>(args?: {
+    where?: ProductWhereInput;
+    orderBy?: ProductOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
-export interface ProductNullablePromise
-  extends Promise<Product | null>,
+export interface CategoryNullablePromise
+  extends Promise<Category | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
   title: () => Promise<String>;
   description: () => Promise<String>;
-  categories: <T = FragmentableArray<Category>>(args?: {
+  subcategories: <T = FragmentableArray<Category>>(args?: {
     where?: CategoryWhereInput;
     orderBy?: CategoryOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  products: <T = FragmentableArray<Product>>(args?: {
+    where?: ProductWhereInput;
+    orderBy?: ProductOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -2492,27 +2693,20 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
+export interface AggregateBlockList {
+  count: Int;
 }
 
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
+export interface AggregateBlockListPromise
+  extends Promise<AggregateBlockList>,
     Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<Int>;
+}
+
+export interface AggregateBlockListSubscription
+  extends Promise<AsyncIterator<AggregateBlockList>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface UserEdge {
@@ -2532,88 +2726,39 @@ export interface UserEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateUser {
+export interface BlockListEdge {
+  node: BlockList;
+  cursor: String;
+}
+
+export interface BlockListEdgePromise
+  extends Promise<BlockListEdge>,
+    Fragmentable {
+  node: <T = BlockListPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface BlockListEdgeSubscription
+  extends Promise<AsyncIterator<BlockListEdge>>,
+    Fragmentable {
+  node: <T = BlockListSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateRestoreCode {
   count: Int;
 }
 
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
+export interface AggregateRestoreCodePromise
+  extends Promise<AggregateRestoreCode>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
+export interface AggregateRestoreCodeSubscription
+  extends Promise<AsyncIterator<AggregateRestoreCode>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface Conversation {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-  title?: String;
-  conversationType: ConversationType;
-}
-
-export interface ConversationPromise
-  extends Promise<Conversation>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  title: () => Promise<String>;
-  creator: <T = UserPromise>() => T;
-  participants: <T = FragmentableArray<User>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  conversationType: () => Promise<ConversationType>;
-}
-
-export interface ConversationSubscription
-  extends Promise<AsyncIterator<Conversation>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  title: () => Promise<AsyncIterator<String>>;
-  creator: <T = UserSubscription>() => T;
-  participants: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  conversationType: () => Promise<AsyncIterator<ConversationType>>;
-}
-
-export interface ConversationNullablePromise
-  extends Promise<Conversation | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  title: () => Promise<String>;
-  creator: <T = UserPromise>() => T;
-  participants: <T = FragmentableArray<User>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  conversationType: () => Promise<ConversationType>;
 }
 
 export interface UserConnection {
@@ -2637,18 +2782,18 @@ export interface UserConnectionSubscription
   aggregate: <T = AggregateUserSubscription>() => T;
 }
 
-export interface AggregateRestoreCode {
+export interface AggregateActivationCode {
   count: Int;
 }
 
-export interface AggregateRestoreCodePromise
-  extends Promise<AggregateRestoreCode>,
+export interface AggregateActivationCodePromise
+  extends Promise<AggregateActivationCode>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateRestoreCodeSubscription
-  extends Promise<AsyncIterator<AggregateRestoreCode>>,
+export interface AggregateActivationCodeSubscription
+  extends Promise<AsyncIterator<AggregateActivationCode>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -2670,6 +2815,27 @@ export interface RestoreCodeEdgeSubscription
     Fragmentable {
   node: <T = RestoreCodeSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface RestoreCodeConnection {
+  pageInfo: PageInfo;
+  edges: RestoreCodeEdge[];
+}
+
+export interface RestoreCodeConnectionPromise
+  extends Promise<RestoreCodeConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<RestoreCodeEdge>>() => T;
+  aggregate: <T = AggregateRestoreCodePromise>() => T;
+}
+
+export interface RestoreCodeConnectionSubscription
+  extends Promise<AsyncIterator<RestoreCodeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<RestoreCodeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateRestoreCodeSubscription>() => T;
 }
 
 export interface ActivationCode {
@@ -2712,31 +2878,6 @@ export interface ActivationCodeNullablePromise
   email: () => Promise<String>;
   valid_until: () => Promise<DateTimeOutput>;
   code: () => Promise<String>;
-}
-
-export interface RestoreCodeSubscriptionPayload {
-  mutation: MutationType;
-  node: RestoreCode;
-  updatedFields: String[];
-  previousValues: RestoreCodePreviousValues;
-}
-
-export interface RestoreCodeSubscriptionPayloadPromise
-  extends Promise<RestoreCodeSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = RestoreCodePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = RestoreCodePreviousValuesPromise>() => T;
-}
-
-export interface RestoreCodeSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<RestoreCodeSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = RestoreCodeSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = RestoreCodePreviousValuesSubscription>() => T;
 }
 
 export interface AggregateProduct {
@@ -2849,119 +2990,41 @@ export interface MessageEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface Category {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-  title: String;
-  description?: String;
+export interface BlockListConnection {
+  pageInfo: PageInfo;
+  edges: BlockListEdge[];
 }
 
-export interface CategoryPromise extends Promise<Category>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  subcategories: <T = FragmentableArray<Category>>(args?: {
-    where?: CategoryWhereInput;
-    orderBy?: CategoryOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  products: <T = FragmentableArray<Product>>(args?: {
-    where?: ProductWhereInput;
-    orderBy?: ProductOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface CategorySubscription
-  extends Promise<AsyncIterator<Category>>,
+export interface BlockListConnectionPromise
+  extends Promise<BlockListConnection>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  title: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  subcategories: <T = Promise<AsyncIterator<CategorySubscription>>>(args?: {
-    where?: CategoryWhereInput;
-    orderBy?: CategoryOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  products: <T = Promise<AsyncIterator<ProductSubscription>>>(args?: {
-    where?: ProductWhereInput;
-    orderBy?: ProductOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<BlockListEdge>>() => T;
+  aggregate: <T = AggregateBlockListPromise>() => T;
 }
 
-export interface CategoryNullablePromise
-  extends Promise<Category | null>,
+export interface BlockListConnectionSubscription
+  extends Promise<AsyncIterator<BlockListConnection>>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  subcategories: <T = FragmentableArray<Category>>(args?: {
-    where?: CategoryWhereInput;
-    orderBy?: CategoryOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  products: <T = FragmentableArray<Product>>(args?: {
-    where?: ProductWhereInput;
-    orderBy?: ProductOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<BlockListEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateBlockListSubscription>() => T;
 }
 
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
+export interface AggregateConversationParticipant {
+  count: Int;
 }
 
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
+export interface AggregateConversationParticipantPromise
+  extends Promise<AggregateConversationParticipant>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+export interface AggregateConversationParticipantSubscription
+  extends Promise<AsyncIterator<AggregateConversationParticipant>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface BlockListSubscriptionPayload {
@@ -2989,20 +3052,27 @@ export interface BlockListSubscriptionPayloadSubscription
   previousValues: <T = BlockListPreviousValuesSubscription>() => T;
 }
 
-export interface AggregateConversationParticipant {
-  count: Int;
+export interface ConversationParticipantConnection {
+  pageInfo: PageInfo;
+  edges: ConversationParticipantEdge[];
 }
 
-export interface AggregateConversationParticipantPromise
-  extends Promise<AggregateConversationParticipant>,
+export interface ConversationParticipantConnectionPromise
+  extends Promise<ConversationParticipantConnection>,
     Fragmentable {
-  count: () => Promise<Int>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ConversationParticipantEdge>>() => T;
+  aggregate: <T = AggregateConversationParticipantPromise>() => T;
 }
 
-export interface AggregateConversationParticipantSubscription
-  extends Promise<AsyncIterator<AggregateConversationParticipant>>,
+export interface ConversationParticipantConnectionSubscription
+  extends Promise<AsyncIterator<ConversationParticipantConnection>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <
+    T = Promise<AsyncIterator<ConversationParticipantEdgeSubscription>>
+  >() => T;
+  aggregate: <T = AggregateConversationParticipantSubscription>() => T;
 }
 
 export interface BlockListPreviousValues {
@@ -3027,64 +3097,83 @@ export interface BlockListPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface ConversationParticipantConnection {
-  pageInfo: PageInfo;
-  edges: ConversationParticipantEdge[];
+export interface ConversationParticipant {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  role: ConversationParticipantRole;
 }
 
-export interface ConversationParticipantConnectionPromise
-  extends Promise<ConversationParticipantConnection>,
+export interface ConversationParticipantPromise
+  extends Promise<ConversationParticipant>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ConversationParticipantEdge>>() => T;
-  aggregate: <T = AggregateConversationParticipantPromise>() => T;
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  user: <T = UserPromise>() => T;
+  role: () => Promise<ConversationParticipantRole>;
 }
 
-export interface ConversationParticipantConnectionSubscription
-  extends Promise<AsyncIterator<ConversationParticipantConnection>>,
+export interface ConversationParticipantSubscription
+  extends Promise<AsyncIterator<ConversationParticipant>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <
-    T = Promise<AsyncIterator<ConversationParticipantEdgeSubscription>>
-  >() => T;
-  aggregate: <T = AggregateConversationParticipantSubscription>() => T;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  user: <T = UserSubscription>() => T;
+  role: () => Promise<AsyncIterator<ConversationParticipantRole>>;
 }
 
-export interface AggregateBlockList {
-  count: Int;
-}
-
-export interface AggregateBlockListPromise
-  extends Promise<AggregateBlockList>,
+export interface ConversationParticipantNullablePromise
+  extends Promise<ConversationParticipant | null>,
     Fragmentable {
-  count: () => Promise<Int>;
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  user: <T = UserPromise>() => T;
+  role: () => Promise<ConversationParticipantRole>;
 }
 
-export interface AggregateBlockListSubscription
-  extends Promise<AsyncIterator<AggregateBlockList>>,
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ActivationCodeConnection {
-  pageInfo: PageInfo;
-  edges: ActivationCodeEdge[];
+export interface ConversationEdge {
+  node: Conversation;
+  cursor: String;
 }
 
-export interface ActivationCodeConnectionPromise
-  extends Promise<ActivationCodeConnection>,
+export interface ConversationEdgePromise
+  extends Promise<ConversationEdge>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ActivationCodeEdge>>() => T;
-  aggregate: <T = AggregateActivationCodePromise>() => T;
+  node: <T = ConversationPromise>() => T;
+  cursor: () => Promise<String>;
 }
 
-export interface ActivationCodeConnectionSubscription
-  extends Promise<AsyncIterator<ActivationCodeConnection>>,
+export interface ConversationEdgeSubscription
+  extends Promise<AsyncIterator<ConversationEdge>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ActivationCodeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateActivationCodeSubscription>() => T;
+  node: <T = ConversationSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface CategorySubscriptionPayload {
@@ -3112,18 +3201,18 @@ export interface CategorySubscriptionPayloadSubscription
   previousValues: <T = CategoryPreviousValuesSubscription>() => T;
 }
 
-export interface AggregateConversation {
+export interface AggregateCategory {
   count: Int;
 }
 
-export interface AggregateConversationPromise
-  extends Promise<AggregateConversation>,
+export interface AggregateCategoryPromise
+  extends Promise<AggregateCategory>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateConversationSubscription
-  extends Promise<AsyncIterator<AggregateConversation>>,
+export interface AggregateCategorySubscription
+  extends Promise<AsyncIterator<AggregateCategory>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -3156,63 +3245,113 @@ export interface CategoryPreviousValuesSubscription
   description: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ConversationConnection {
+export interface CategoryConnection {
   pageInfo: PageInfo;
-  edges: ConversationEdge[];
+  edges: CategoryEdge[];
 }
 
-export interface ConversationConnectionPromise
-  extends Promise<ConversationConnection>,
+export interface CategoryConnectionPromise
+  extends Promise<CategoryConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ConversationEdge>>() => T;
-  aggregate: <T = AggregateConversationPromise>() => T;
+  edges: <T = FragmentableArray<CategoryEdge>>() => T;
+  aggregate: <T = AggregateCategoryPromise>() => T;
 }
 
-export interface ConversationConnectionSubscription
-  extends Promise<AsyncIterator<ConversationConnection>>,
+export interface CategoryConnectionSubscription
+  extends Promise<AsyncIterator<CategoryConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ConversationEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateConversationSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CategoryEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCategorySubscription>() => T;
 }
 
-export interface BlockListEdge {
-  node: BlockList;
-  cursor: String;
+export interface Message {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  messageType: MessageType;
+  message: String;
+  attachmentThumbUrl?: String;
+  attachmentUrl?: String;
+  isDeleted: Boolean;
 }
 
-export interface BlockListEdgePromise
-  extends Promise<BlockListEdge>,
+export interface MessagePromise extends Promise<Message>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  conversation: <T = ConversationPromise>() => T;
+  sender: <T = UserPromise>() => T;
+  messageType: () => Promise<MessageType>;
+  message: () => Promise<String>;
+  attachmentThumbUrl: () => Promise<String>;
+  attachmentUrl: () => Promise<String>;
+  isDeleted: () => Promise<Boolean>;
+}
+
+export interface MessageSubscription
+  extends Promise<AsyncIterator<Message>>,
     Fragmentable {
-  node: <T = BlockListPromise>() => T;
-  cursor: () => Promise<String>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  conversation: <T = ConversationSubscription>() => T;
+  sender: <T = UserSubscription>() => T;
+  messageType: () => Promise<AsyncIterator<MessageType>>;
+  message: () => Promise<AsyncIterator<String>>;
+  attachmentThumbUrl: () => Promise<AsyncIterator<String>>;
+  attachmentUrl: () => Promise<AsyncIterator<String>>;
+  isDeleted: () => Promise<AsyncIterator<Boolean>>;
 }
 
-export interface BlockListEdgeSubscription
-  extends Promise<AsyncIterator<BlockListEdge>>,
+export interface MessageNullablePromise
+  extends Promise<Message | null>,
     Fragmentable {
-  node: <T = BlockListSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  conversation: <T = ConversationPromise>() => T;
+  sender: <T = UserPromise>() => T;
+  messageType: () => Promise<MessageType>;
+  message: () => Promise<String>;
+  attachmentThumbUrl: () => Promise<String>;
+  attachmentUrl: () => Promise<String>;
+  isDeleted: () => Promise<Boolean>;
 }
 
-export interface CategoryEdge {
-  node: Category;
-  cursor: String;
+export interface BlockList {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
-export interface CategoryEdgePromise
-  extends Promise<CategoryEdge>,
+export interface BlockListPromise extends Promise<BlockList>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  user: <T = UserPromise>() => T;
+  blockedUser: <T = UserPromise>() => T;
+}
+
+export interface BlockListSubscription
+  extends Promise<AsyncIterator<BlockList>>,
     Fragmentable {
-  node: <T = CategoryPromise>() => T;
-  cursor: () => Promise<String>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  user: <T = UserSubscription>() => T;
+  blockedUser: <T = UserSubscription>() => T;
 }
 
-export interface CategoryEdgeSubscription
-  extends Promise<AsyncIterator<CategoryEdge>>,
+export interface BlockListNullablePromise
+  extends Promise<BlockList | null>,
     Fragmentable {
-  node: <T = CategorySubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  user: <T = UserPromise>() => T;
+  blockedUser: <T = UserPromise>() => T;
 }
 
 export interface ConversationSubscriptionPayload {
@@ -3240,25 +3379,20 @@ export interface ConversationSubscriptionPayloadSubscription
   previousValues: <T = ConversationPreviousValuesSubscription>() => T;
 }
 
-export interface RestoreCodeConnection {
-  pageInfo: PageInfo;
-  edges: RestoreCodeEdge[];
+export interface AggregateUser {
+  count: Int;
 }
 
-export interface RestoreCodeConnectionPromise
-  extends Promise<RestoreCodeConnection>,
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<RestoreCodeEdge>>() => T;
-  aggregate: <T = AggregateRestoreCodePromise>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface RestoreCodeConnectionSubscription
-  extends Promise<AsyncIterator<RestoreCodeConnection>>,
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<RestoreCodeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateRestoreCodeSubscription>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface ConversationPreviousValues {
@@ -3306,25 +3440,29 @@ export interface ProductEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface BlockListConnection {
-  pageInfo: PageInfo;
-  edges: BlockListEdge[];
+export interface RestoreCodeSubscriptionPayload {
+  mutation: MutationType;
+  node: RestoreCode;
+  updatedFields: String[];
+  previousValues: RestoreCodePreviousValues;
 }
 
-export interface BlockListConnectionPromise
-  extends Promise<BlockListConnection>,
+export interface RestoreCodeSubscriptionPayloadPromise
+  extends Promise<RestoreCodeSubscriptionPayload>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<BlockListEdge>>() => T;
-  aggregate: <T = AggregateBlockListPromise>() => T;
+  mutation: () => Promise<MutationType>;
+  node: <T = RestoreCodePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = RestoreCodePreviousValuesPromise>() => T;
 }
 
-export interface BlockListConnectionSubscription
-  extends Promise<AsyncIterator<BlockListConnection>>,
+export interface RestoreCodeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<RestoreCodeSubscriptionPayload>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<BlockListEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateBlockListSubscription>() => T;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = RestoreCodeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = RestoreCodePreviousValuesSubscription>() => T;
 }
 
 export interface MessageConnection {
@@ -3375,23 +3513,29 @@ export interface ConversationParticipantSubscriptionPayloadSubscription
   >() => T;
 }
 
-export interface ConversationParticipantEdge {
-  node: ConversationParticipant;
-  cursor: String;
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
 }
 
-export interface ConversationParticipantEdgePromise
-  extends Promise<ConversationParticipantEdge>,
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
     Fragmentable {
-  node: <T = ConversationParticipantPromise>() => T;
-  cursor: () => Promise<String>;
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
 }
 
-export interface ConversationParticipantEdgeSubscription
-  extends Promise<AsyncIterator<ConversationParticipantEdge>>,
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
     Fragmentable {
-  node: <T = ConversationParticipantSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
 export interface ConversationParticipantPreviousValues {
@@ -3419,41 +3563,25 @@ export interface ConversationParticipantPreviousValuesSubscription
   role: () => Promise<AsyncIterator<ConversationParticipantRole>>;
 }
 
-export interface ConversationParticipant {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-  role: ConversationParticipantRole;
+export interface ConversationConnection {
+  pageInfo: PageInfo;
+  edges: ConversationEdge[];
 }
 
-export interface ConversationParticipantPromise
-  extends Promise<ConversationParticipant>,
+export interface ConversationConnectionPromise
+  extends Promise<ConversationConnection>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  user: <T = UserPromise>() => T;
-  role: () => Promise<ConversationParticipantRole>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ConversationEdge>>() => T;
+  aggregate: <T = AggregateConversationPromise>() => T;
 }
 
-export interface ConversationParticipantSubscription
-  extends Promise<AsyncIterator<ConversationParticipant>>,
+export interface ConversationConnectionSubscription
+  extends Promise<AsyncIterator<ConversationConnection>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  user: <T = UserSubscription>() => T;
-  role: () => Promise<AsyncIterator<ConversationParticipantRole>>;
-}
-
-export interface ConversationParticipantNullablePromise
-  extends Promise<ConversationParticipant | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  user: <T = UserPromise>() => T;
-  role: () => Promise<ConversationParticipantRole>;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ConversationEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateConversationSubscription>() => T;
 }
 
 export interface ActivationCodeEdge {
@@ -3475,20 +3603,67 @@ export interface ActivationCodeEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateCategory {
-  count: Int;
+export interface Product {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  title: String;
+  description?: String;
 }
 
-export interface AggregateCategoryPromise
-  extends Promise<AggregateCategory>,
-    Fragmentable {
-  count: () => Promise<Int>;
+export interface ProductPromise extends Promise<Product>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  categories: <T = FragmentableArray<Category>>(args?: {
+    where?: CategoryWhereInput;
+    orderBy?: CategoryOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
-export interface AggregateCategorySubscription
-  extends Promise<AsyncIterator<AggregateCategory>>,
+export interface ProductSubscription
+  extends Promise<AsyncIterator<Product>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  categories: <T = Promise<AsyncIterator<CategorySubscription>>>(args?: {
+    where?: CategoryWhereInput;
+    orderBy?: CategoryOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface ProductNullablePromise
+  extends Promise<Product | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  categories: <T = FragmentableArray<Category>>(args?: {
+    where?: CategoryWhereInput;
+    orderBy?: CategoryOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface MessageSubscriptionPayload {
@@ -3556,58 +3731,23 @@ export interface RestoreCodeNullablePromise
   code: () => Promise<String>;
 }
 
-export interface Message {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-  messageType: MessageType;
-  message: String;
-  attachmentThumbUrl?: String;
-  attachmentUrl?: String;
-  isDeleted: Boolean;
+export interface ConversationParticipantEdge {
+  node: ConversationParticipant;
+  cursor: String;
 }
 
-export interface MessagePromise extends Promise<Message>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  conversation: <T = ConversationPromise>() => T;
-  sender: <T = UserPromise>() => T;
-  messageType: () => Promise<MessageType>;
-  message: () => Promise<String>;
-  attachmentThumbUrl: () => Promise<String>;
-  attachmentUrl: () => Promise<String>;
-  isDeleted: () => Promise<Boolean>;
-}
-
-export interface MessageSubscription
-  extends Promise<AsyncIterator<Message>>,
+export interface ConversationParticipantEdgePromise
+  extends Promise<ConversationParticipantEdge>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  conversation: <T = ConversationSubscription>() => T;
-  sender: <T = UserSubscription>() => T;
-  messageType: () => Promise<AsyncIterator<MessageType>>;
-  message: () => Promise<AsyncIterator<String>>;
-  attachmentThumbUrl: () => Promise<AsyncIterator<String>>;
-  attachmentUrl: () => Promise<AsyncIterator<String>>;
-  isDeleted: () => Promise<AsyncIterator<Boolean>>;
+  node: <T = ConversationParticipantPromise>() => T;
+  cursor: () => Promise<String>;
 }
 
-export interface MessageNullablePromise
-  extends Promise<Message | null>,
+export interface ConversationParticipantEdgeSubscription
+  extends Promise<AsyncIterator<ConversationParticipantEdge>>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  conversation: <T = ConversationPromise>() => T;
-  sender: <T = UserPromise>() => T;
-  messageType: () => Promise<MessageType>;
-  message: () => Promise<String>;
-  attachmentThumbUrl: () => Promise<String>;
-  attachmentUrl: () => Promise<String>;
-  isDeleted: () => Promise<Boolean>;
+  node: <T = ConversationParticipantSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ProductPreviousValues {
@@ -3663,20 +3803,99 @@ export interface ProductSubscriptionPayloadSubscription
   previousValues: <T = ProductPreviousValuesSubscription>() => T;
 }
 
-export interface AggregateActivationCode {
-  count: Int;
+export interface Conversation {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  title?: String;
+  conversationType: ConversationType;
 }
 
-export interface AggregateActivationCodePromise
-  extends Promise<AggregateActivationCode>,
+export interface ConversationPromise
+  extends Promise<Conversation>,
     Fragmentable {
-  count: () => Promise<Int>;
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  title: () => Promise<String>;
+  creator: <T = UserPromise>() => T;
+  participants: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  conversationType: () => Promise<ConversationType>;
+  messages: <T = FragmentableArray<Message>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
-export interface AggregateActivationCodeSubscription
-  extends Promise<AsyncIterator<AggregateActivationCode>>,
+export interface ConversationSubscription
+  extends Promise<AsyncIterator<Conversation>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  title: () => Promise<AsyncIterator<String>>;
+  creator: <T = UserSubscription>() => T;
+  participants: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  conversationType: () => Promise<AsyncIterator<ConversationType>>;
+  messages: <T = Promise<AsyncIterator<MessageSubscription>>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface ConversationNullablePromise
+  extends Promise<Conversation | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  title: () => Promise<String>;
+  creator: <T = UserPromise>() => T;
+  participants: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  conversationType: () => Promise<ConversationType>;
+  messages: <T = FragmentableArray<Message>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface MessagePreviousValues {
@@ -3716,38 +3935,20 @@ export interface MessagePreviousValuesSubscription
   isDeleted: () => Promise<AsyncIterator<Boolean>>;
 }
 
-export interface BlockList {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
+export interface AggregateConversation {
+  count: Int;
 }
 
-export interface BlockListPromise extends Promise<BlockList>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  user: <T = UserPromise>() => T;
-  blockedUser: <T = UserPromise>() => T;
-}
-
-export interface BlockListSubscription
-  extends Promise<AsyncIterator<BlockList>>,
+export interface AggregateConversationPromise
+  extends Promise<AggregateConversation>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  user: <T = UserSubscription>() => T;
-  blockedUser: <T = UserSubscription>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface BlockListNullablePromise
-  extends Promise<BlockList | null>,
+export interface AggregateConversationSubscription
+  extends Promise<AsyncIterator<AggregateConversation>>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  user: <T = UserPromise>() => T;
-  blockedUser: <T = UserPromise>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface AggregateMessage {
@@ -3797,29 +3998,29 @@ export interface RestoreCodePreviousValuesSubscription
   code: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ConversationEdge {
-  node: Conversation;
+export interface CategoryEdge {
+  node: Category;
   cursor: String;
 }
 
-export interface ConversationEdgePromise
-  extends Promise<ConversationEdge>,
+export interface CategoryEdgePromise
+  extends Promise<CategoryEdge>,
     Fragmentable {
-  node: <T = ConversationPromise>() => T;
+  node: <T = CategoryPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface ConversationEdgeSubscription
-  extends Promise<AsyncIterator<ConversationEdge>>,
+export interface CategoryEdgeSubscription
+  extends Promise<AsyncIterator<CategoryEdge>>,
     Fragmentable {
-  node: <T = ConversationSubscription>() => T;
+  node: <T = CategorySubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
 /*
-The `Boolean` scalar type represents `true` or `false`.
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
-export type Boolean = boolean;
+export type String = string;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -3845,9 +4046,9 @@ export type Int = number;
 export type Long = string;
 
 /*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+The `Boolean` scalar type represents `true` or `false`.
 */
-export type String = string;
+export type Boolean = boolean;
 
 /**
  * Model Metadata
