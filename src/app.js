@@ -217,6 +217,19 @@ const permissions = shield({
 
         user: isAuthenticated,
         users: isAuthenticated,
+
+        // messenger
+        blockList: allow,
+        blockLists: allow,
+
+        conversation: allow,
+        conversations: allow,
+
+        conversationParticipant: allow,
+        conversationParticipants: allow,
+
+        message: allow,
+        messages: allow,
     },
     Mutation: {
         change_password: isAuthenticated,
@@ -274,6 +287,42 @@ const permissions = shield({
         description: allow,
         subcategories: allow,
         products: allow,
+    },
+    BlockList: {
+        id: allow,
+        createdAt: allow,
+        updatedAt: allow,
+        user: allow,
+        blockedUser: allow,
+    },
+    Conversation: {
+        id: allow,
+        createdAt: allow,
+        updatedAt: allow,
+        title: allow,
+        creator: allow,
+        participants: allow,
+        conversationType: allow,
+        messages: allow,
+    },
+    ConversationParticipant: {
+        id: allow,
+        createdAt: allow,
+        updatedAt: allow,
+        user: allow,
+        role: allow,
+    },
+    Message: {
+        id: allow,
+        createdAt: allow,
+        updatedAt: allow,
+        conversation: allow,
+        sender: allow,
+        messageType: allow,
+        message: allow,
+        attachmentThumbUrl: allow,
+        attachmentUrl: allow,
+        isDeleted: allow,
     }
 }, {
     fallbackRule: allow,
