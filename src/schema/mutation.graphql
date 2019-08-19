@@ -48,6 +48,6 @@ input SendMessageInput {
 
 input CreateConversationInput {
     title: String!
-    participants: [ID!]!
+    participantsIds: [ID!]!
     conversationType: ConversationType!
 }

@@ -13,7 +13,7 @@ type User {
 
     last_login_date: DateTime
 
-    conversations: [Conversation!]! @relation(name: "UserToConversationRel")
+    conversations: [ConversationParticipant!]! @relation(name: "UserToConversationRel")
     contacts: [User!]!
 }
 

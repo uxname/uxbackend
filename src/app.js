@@ -162,6 +162,37 @@ const isAdmin = rule({cache: 'no_cache'})(async (parent, args, ctx, info) => {
     return await roleHelper.userHasRoles(['ADMIN'], ctx.user.id);
 });
 
+const isBlockListMember = rule({cache: 'no_cache'})(async (parent, args, ctx, info) => {
+    const user = await prisma.blockList({id: parent.id}).user();
+    const blockedUser = await prisma.blockList({id: parent.id}).blockedUser();
+    const ctxUser = ctx.user;
+    return ctxUser.id === user.id || ctxUser.id === blockedUser.id;
+});
+
+const isConversationMember = rule({cache: 'no_cache'})(async (parent, args, ctx, info) => {
+    const participants = await prisma.conversation({id: parent.id}).participants().$fragment(
+        `
+        {
+            id
+            role
+            user {
+                id
+            }
+        }
+        `
+    );
+    const creator = await prisma.conversation({id: parent.id}).creator();
+    const ctxUser = ctx.user;
+
+    let isParticipant = false;
+
+    participants.forEach(item => {
+        if (item.user.id === ctxUser.id) isParticipant = true;
+    });
+
+    return ctxUser.id === creator.id || isParticipant;
+});
+
 const isAuthenticated = rule({cache: 'no_cache'})(async (parent, args, ctx, info) => {
     if (!ctx.user || !ctx.user.id) {
         log.error('isAuthenticated false, ctx:', ctx);
@@ -289,21 +320,21 @@ const permissions = shield({
         products: allow,
     },
     BlockList: {
-        id: allow,
-        createdAt: allow,
-        updatedAt: allow,
-        user: allow,
-        blockedUser: allow,
+        id: isBlockListMember,
+        createdAt: isBlockListMember,
+        updatedAt: isBlockListMember,
+        user: isBlockListMember,
+        blockedUser: isBlockListMember,
     },
     Conversation: {
-        id: allow,
-        createdAt: allow,
-        updatedAt: allow,
-        title: allow,
-        creator: allow,
-        participants: allow,
-        conversationType: allow,
-        messages: allow,
+        id: isConversationMember,
+        createdAt: isConversationMember,
+        updatedAt: isConversationMember,
+        title: isConversationMember,
+        creator: isConversationMember,
+        participants: isConversationMember,
+        conversationType: isConversationMember,
+        messages: isConversationMember,
     },
     ConversationParticipant: {
         id: allow,

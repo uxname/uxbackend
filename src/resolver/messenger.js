@@ -6,15 +6,16 @@ async function createConversation(root, {data}, ctx, info) {
     if (!ctx.user || !ctx.user.id) {
         throw new GQLError({message: 'Unauthorized', code: 401});
     }
-    const userId = ctx.user.id;
 
-    const {title, participants, conversationType} = data;
+    const userId = ctx.user.id;
+    const {title, participantsIds, conversationType} = data;
 
     const participantsTmpArr = [];
-    if (participants.length > 0) {
-        participants.forEach(item => {
+    if (participantsIds.length > 0) {
+        participantsIds.forEach(item => {
             participantsTmpArr.push({
-                id: item
+                role: "MEMBER",
+                user: {connect: {id: item}}
             })
         })
     }
@@ -22,7 +23,7 @@ async function createConversation(root, {data}, ctx, info) {
     const usersWhoBlockedMe = await prisma.blockLists({
         where: {
             AND: {
-                user: {id_in: participants},
+                user: {id_in: participantsIds},
                 blockedUser: {id: userId}
             }
         }
@@ -42,7 +43,7 @@ async function createConversation(root, {data}, ctx, info) {
     const existsConversations = await prisma.conversations({
         where: {
             AND: {
-                participants_some: {id: participants[0]},
+                participants_some: {user: {id: participantsIds[0]}},
                 conversationType: "SINGLE"
             }
         }
@@ -56,7 +57,7 @@ async function createConversation(root, {data}, ctx, info) {
             conversationType: conversationType,
             creator: {connect: {id: userId}},
             participants: {
-                connect: participantsTmpArr
+                create: participantsTmpArr
             }
         });
     }

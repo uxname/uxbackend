@@ -5,7 +5,7 @@ type Conversation {
 
     title: String
     creator: User! @relation(name: "ConversationCreatorRel")
-    participants: [User!]! @relation(name: "UserToConversationRel")
+    participants: [ConversationParticipant!]! @relation(name: "ConversationToConvPartRel")
     conversationType: ConversationType!
 
     messages: [Message!]! @relation(name: "ConversationMessagesRel")
@@ -16,7 +16,8 @@ type ConversationParticipant {
     createdAt: DateTime! @createdAt
     updatedAt: DateTime! @updatedAt
 
-    user: User!
+    user: User! @relation(name: "UserToConversationRel")
+    conversation: Conversation! @relation(name: "ConversationToConvPartRel")
     role: ConversationParticipantRole! @default(value: MEMBER)
 }
 
