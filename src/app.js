@@ -200,6 +200,34 @@ const isConversationMemberCp = rule({cache: 'no_cache'})(async (parent, args, ct
     return ctx.user.id === conversationCreator.id || ctx.user.id === conversationParticipantUser.id;
 });
 
+const isMessageDeleted = rule({cache: 'no_cache'})(async (parent, args, ctx, info) => {
+    return parent.isDeleted;
+});
+
+const isConversationMemberMessage = rule({cache: 'no_cache'})(async (parent, args, ctx, info) => {
+    const participants = await prisma.message({id: parent.id}).conversation().participants().$fragment(
+        `
+        {
+            id
+            role
+            user {
+                id
+            }
+        }
+        `
+    );
+    const creator = await prisma.message({id: parent.id}).conversation().creator();
+    const ctxUser = ctx.user;
+
+    let isParticipant = false;
+
+    participants.forEach(item => {
+        if (item.user.id === ctxUser.id) isParticipant = true;
+    });
+
+    return ctxUser.id === creator.id || isParticipant;
+});
+
 const isAuthenticated = rule({cache: 'no_cache'})(async (parent, args, ctx, info) => {
     if (!ctx.user || !ctx.user.id) {
         log.error('isAuthenticated false, ctx:', ctx);
@@ -352,16 +380,16 @@ const permissions = shield({
         role: isConversationMemberCp,
     },
     Message: {
-        id: allow,
-        createdAt: allow,
-        updatedAt: allow,
-        conversation: allow,
-        sender: allow,
-        messageType: allow,
-        message: allow,
-        attachmentThumbUrl: allow,
-        attachmentUrl: allow,
-        isDeleted: allow,
+        id: and(not(isMessageDeleted), isConversationMemberMessage),
+        createdAt: and(not(isMessageDeleted), isConversationMemberMessage),
+        updatedAt: and(not(isMessageDeleted), isConversationMemberMessage),
+        conversation: and(not(isMessageDeleted), isConversationMemberMessage),
+        sender: and(not(isMessageDeleted), isConversationMemberMessage),
+        messageType: and(not(isMessageDeleted), isConversationMemberMessage),
+        message: and(not(isMessageDeleted), isConversationMemberMessage),
+        attachmentThumbUrl: and(not(isMessageDeleted), isConversationMemberMessage),
+        attachmentUrl: and(not(isMessageDeleted), isConversationMemberMessage),
+        isDeleted: and(not(isMessageDeleted), isConversationMemberMessage),
     }
 }, {
     fallbackRule: allow,
