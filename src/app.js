@@ -193,6 +193,13 @@ const isConversationMember = rule({cache: 'no_cache'})(async (parent, args, ctx,
     return ctxUser.id === creator.id || isParticipant;
 });
 
+// rule for ConversationParticipant
+const isConversationMemberCp = rule({cache: 'no_cache'})(async (parent, args, ctx, info) => {
+    const conversationCreator = await prisma.conversationParticipant({id: parent.id}).conversation().creator();
+    const conversationParticipantUser = await prisma.conversationParticipant({id: parent.id}).user();
+    return ctx.user.id === conversationCreator.id || ctx.user.id === conversationParticipantUser.id;
+});
+
 const isAuthenticated = rule({cache: 'no_cache'})(async (parent, args, ctx, info) => {
     if (!ctx.user || !ctx.user.id) {
         log.error('isAuthenticated false, ctx:', ctx);
@@ -337,11 +344,12 @@ const permissions = shield({
         messages: isConversationMember,
     },
     ConversationParticipant: {
-        id: allow,
-        createdAt: allow,
-        updatedAt: allow,
-        user: allow,
-        role: allow,
+        id: isConversationMemberCp,
+        createdAt: isConversationMemberCp,
+        updatedAt: isConversationMemberCp,
+        user: isConversationMemberCp,
+        conversation: isConversationMemberCp,
+        role: isConversationMemberCp,
     },
     Message: {
         id: allow,
