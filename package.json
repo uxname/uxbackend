@@ -51,7 +51,7 @@
     "helmet": "^3.20.0",
     "jsonwebtoken": "^8.5.1",
     "likelogserver": "^0.0.4",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "log4js": "^5.0.0",
     "mocha": "^6.2.0",
     "moment": "^2.24.0",
