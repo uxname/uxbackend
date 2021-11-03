@@ -67,7 +67,7 @@
     "request": "^2.88.0",
     "serve-index": "^1.9.1",
     "terminal-kit": "^1.31.1",
-    "validator": "^11.1.0"
+    "validator": "^13.7.0"
   },
   "resolutions": {
     "graphql": "^14.0.2"
