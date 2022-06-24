@@ -56,7 +56,7 @@
     "mocha": "^6.2.0",
     "moment": "^2.24.0",
     "multer": "^1.4.2",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "nodemailer": "^6.3.0",
     "pg": "^7.12.1",
     "prisma": "^1.34.5",
